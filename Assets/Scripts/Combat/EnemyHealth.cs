@@ -1,5 +1,10 @@
 using UnityEngine;
 
+public interface IDamageGate
+{
+    bool CanReceiveDamage { get; }
+}
+
 public sealed class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private PetEquipmentTestDriver driver;
@@ -32,9 +37,15 @@ public sealed class EnemyHealth : MonoBehaviour
         if (selectionMarker != null) selectionMarker.SetActive(IsSelected);
     }
 
+    public void ResetHealth()
+    {
+        if (IsAlive) Health = maxHealth;
+    }
+
     public bool TakeDamage(long damage, PetRarity? sourceRarity = null)
     {
-        if (!IsAlive || damage <= 0) return false;
+        IDamageGate gate = GetComponent<IDamageGate>();
+        if (!IsAlive || damage <= 0 || (gate != null && !gate.CanReceiveDamage)) return false;
         int previousHealth = Health;
         bool rewardGranted = false;
         Health = (int)System.Math.Max(0L, Health - damage);

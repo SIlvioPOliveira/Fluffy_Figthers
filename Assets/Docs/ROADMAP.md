@@ -85,6 +85,11 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 6. Bosses e sobrevivência
 
+- [x] Criar `BossTest` com Guardião provisório de 350 HP, recompensa de 200 moedas, respawn de 30 s e arena circular de 30 m, ampliada após feedback.
+- [x] Implementar protótipo de ataque sinalizado (1,5 s, raio 2,5 m, intervalo 2 s), vida de três pontos e retorno à entrada após morte; arena e intervalo alterados a pedido do usuário em relação aos valores iniciais do GDD.
+- [x] Verificar pelo MCP esquiva, acerto, fim de combate ao sair, reinício após morte, recompensa única, respawn e seleção através do trigger da arena.
+- [ ] Validar manualmente a luta, a legibilidade da área de ataque e o ritmo do protótipo em `BossTest`.
+- [ ] Avaliar a dificuldade com a arena ampliada e ataques mais frequentes; considerar uma sequência especial de áreas apenas se a luta ainda estiver muito fácil.
 - [ ] Criar controlador reutilizável de Boss e arena com detecção de entrada e saída.
 - [ ] Sinalizar área circular fixa sob o jogador por 1,5 s; aplicar dano de um coração no impacto e aguardar três segundos antes da próxima preparação.
 - [ ] Configurar raio inicial de 2,5 m e demais valores pelo Inspector.

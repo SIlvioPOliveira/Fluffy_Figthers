@@ -28,7 +28,11 @@ O usuário aprovou o ritmo da animação provisória. `CombatTest` também possu
 
 O usuário aprovou o brilho e os números de dano. Uma notificação provisória de moedas foi adicionada à derrota dos inimigos de `CombatTest`; o MCP verificou que ela aparece uma vez por recompensa recebida, inclusive para inimigos diferentes.
 
-O usuário aprovou a notificação de moedas. Uma barra de vida provisória com nome e valores foi adicionada aos inimigos selecionados em `CombatTest`; seleção, derrota e retorno da vida no respawn foram verificados pelo MCP. Sua aparência e redução suave aguardam teste manual; a barra de Boss é uma etapa futura.
+O usuário aprovou a notificação de moedas e a barra de vida provisória. Em `CombatTest`, seleção, derrota e retorno da vida no respawn foram verificados pelo MCP.
+
+Fase 6 iniciada: `Assets/Scenes/BossTest.unity` contém Guardião das Marés provisório, arena, ataque circular, três pontos de vida, retorno à entrada e barra maior de Boss. Os valores e regras iniciais seguem os GDDs de combate e mapa; o MCP verificou esquiva, dano, reset, recompensa e respawn. O combate e a legibilidade ainda aguardam teste manual e integração ao mapa definitivo.
+
+Após feedback, a arena de teste foi ampliada de 18 para 30 m de diâmetro e o intervalo após cada ataque reduzido de 3 para 2 s. O aviso de 1,5 s e o raio de 2,5 m foram mantidos. São alterações de balanceamento solicitadas pelo usuário, diferentes da proposta inicial dos GDDs; avaliar em novo teste antes de decidir se será necessária uma sequência especial de áreas.
 
 ## Dependências e decisões a confirmar
 

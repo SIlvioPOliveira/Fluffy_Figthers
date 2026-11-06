@@ -15,7 +15,7 @@ public sealed class CombatTargetTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) ClearTarget();
         if (!Input.GetMouseButtonDown(0) || Camera.main == null) return;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (enemy != null) TrySelect(enemy);
