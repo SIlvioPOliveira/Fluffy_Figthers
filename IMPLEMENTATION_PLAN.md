@@ -24,7 +24,9 @@ Fase 5 iniciada: `Assets/Scenes/CombatTest.unity` acrescenta dois inimigos provi
 
 Animação genérica provisória de ataque adicionada ao modelo dos Pets: recuo, investida, pequeno pulo e retorno em 0,4 s, com dano no impacto e intervalo individual de 1 s. O MCP verificou impacto único, temporizadores e cancelamento ao trocar de alvo; a compatibilidade com modelos definitivos aguarda validação.
 
-O usuário aprovou o ritmo da animação provisória. `CombatTest` também possui brilho breve no inimigo e números de dano flutuantes, com cor por raridade; o valor exibido considera a vida restante no golpe final. Os eventos foram verificados pelo MCP, e a aparência ainda precisa de validação manual. Feedback de recompensa e modelos definitivos permanecem pendentes.
+O usuário aprovou o ritmo da animação provisória. `CombatTest` também possui brilho breve no inimigo e números de dano flutuantes, com cor por raridade; o valor exibido considera a vida restante no golpe final. Os eventos foram verificados pelo MCP. Os modelos definitivos permanecem pendentes.
+
+O usuário aprovou o brilho e os números de dano. Uma notificação provisória de moedas foi adicionada à derrota dos inimigos de `CombatTest`; o MCP verificou que ela aparece uma vez por recompensa recebida, inclusive para inimigos diferentes. A legibilidade e o ritmo da notificação aguardam teste manual.
 
 ## Dependências e decisões a confirmar
 
