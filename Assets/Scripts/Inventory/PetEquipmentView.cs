@@ -10,10 +10,22 @@ public sealed class PetEquipmentView : MonoBehaviour
     [SerializeField] private Color placeholderColor = new Color(1f, 0.55f, 0.08f);
     [SerializeField] private CombatTargetTest combat;
     [SerializeField, Min(0.1f)] private float attackDistance = 1.5f;
+    [SerializeField, Min(0f)] private float attackRecoil = 0.18f;
+    [SerializeField, Min(0f)] private float attackLunge = 0.45f;
+    [SerializeField, Min(0f)] private float attackHop = 0.18f;
+
+    private const float WindupDuration = 0.12f;
+    private const float ImpactTime = 0.22f;
+    private const float AttackDuration = 0.4f;
 
     private readonly GameObject[] views = new GameObject[PlayerInventory.MaxEquipment];
     private readonly PetStackKey?[] displayed = new PetStackKey?[PlayerInventory.MaxEquipment];
     private readonly float[] nextAttack = new float[PlayerInventory.MaxEquipment];
+    private readonly Transform[] models = new Transform[PlayerInventory.MaxEquipment];
+    private readonly Vector3[] modelOrigins = new Vector3[PlayerInventory.MaxEquipment];
+    private readonly EnemyHealth[] attackTargets = new EnemyHealth[PlayerInventory.MaxEquipment];
+    private readonly float[] attackStarted = new float[PlayerInventory.MaxEquipment];
+    private readonly bool[] impactApplied = new bool[PlayerInventory.MaxEquipment];
     private PlayerInventory inventory;
     private GameCatalog catalog;
 
@@ -45,6 +57,8 @@ public sealed class PetEquipmentView : MonoBehaviour
             views[i] = null;
             displayed[i] = null;
             nextAttack[i] = 0f;
+            models[i] = null;
+            attackTargets[i] = null;
         }
     }
 
@@ -58,20 +72,25 @@ public sealed class PetEquipmentView : MonoBehaviour
             views[i] = null;
             displayed[i] = null;
             nextAttack[i] = 0f;
+            models[i] = null;
+            attackTargets[i] = null;
             if (!key.HasValue || !catalog.TryGetPet(key.Value.PetId, out PetData pet)) continue;
-            GameObject view;
-            if (pet.Prefab != null) view = Instantiate(pet.Prefab);
+            var view = new GameObject("Pet " + pet.PetName + " (slot " + (i + 1) + ")");
+            GameObject model;
+            if (pet.Prefab != null) model = Instantiate(pet.Prefab, view.transform, false);
             else
             {
-                view = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                view.transform.localScale = Vector3.one * 0.6f;
+                model = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                model.transform.SetParent(view.transform, false);
+                model.transform.localScale = Vector3.one * 0.6f;
                 var block = new MaterialPropertyBlock();
                 block.SetColor("_Color", placeholderColor);
                 block.SetColor("_BaseColor", placeholderColor);
-                view.GetComponent<Renderer>().SetPropertyBlock(block);
+                model.GetComponent<Renderer>().SetPropertyBlock(block);
             }
             foreach (Collider collider in view.GetComponentsInChildren<Collider>()) collider.enabled = false;
-            view.name = "Pet " + pet.PetName + " (slot " + (i + 1) + ")";
+            models[i] = model.transform;
+            modelOrigins[i] = model.transform.localPosition;
             view.transform.position = player.position - player.forward * followDistance;
             views[i] = view;
             displayed[i] = key;
@@ -106,11 +125,61 @@ public sealed class PetEquipmentView : MonoBehaviour
             Transform pet = views[i].transform;
             if (target == null && Vector3.Distance(pet.position, goal) > teleportDistance) pet.position = goal;
             else pet.position = Vector3.MoveTowards(pet.position, goal, followSpeed * Time.deltaTime);
-            if (target != null && target.IsAlive && Vector3.Distance(pet.position, goal) <= 0.05f && Time.time >= nextAttack[i] && displayed[i].HasValue && catalog.TryGetPet(displayed[i].Value.PetId, out PetData data))
+            if (target != null)
             {
-                nextAttack[i] = Time.time + 1f;
-                target.TakeDamage(PetDamage.Calculate(data.BaseDamage, displayed[i].Value.FusionLevel));
+                Vector3 facing = Vector3.ProjectOnPlane(target.transform.position - pet.position, Vector3.up);
+                if (facing.sqrMagnitude > 0.001f) pet.rotation = Quaternion.LookRotation(facing);
             }
+            UpdateAttack(i, target, goal);
         }
+    }
+
+    private void UpdateAttack(int slot, EnemyHealth target, Vector3 goal)
+    {
+        Transform model = models[slot];
+        if (model == null) return;
+        Transform pet = views[slot].transform;
+        bool withinReach = target != null && target.IsAlive &&
+            Vector3.ProjectOnPlane(target.transform.position - pet.position, Vector3.up).magnitude <= attackDistance + 0.15f;
+
+        if (attackTargets[slot] != null && (attackTargets[slot] != target || !withinReach))
+            attackTargets[slot] = null;
+
+        if (attackTargets[slot] == null && withinReach && Vector3.Distance(pet.position, goal) <= 0.05f && Time.time >= nextAttack[slot])
+        {
+            attackTargets[slot] = target;
+            attackStarted[slot] = Time.time;
+            impactApplied[slot] = false;
+            // Preserve this cooldown even if the player switches targets during the windup.
+            nextAttack[slot] = Time.time + 1f;
+        }
+
+        if (attackTargets[slot] == null)
+        {
+            model.localPosition = modelOrigins[slot];
+            return;
+        }
+
+        float elapsed = Time.time - attackStarted[slot];
+        if (!impactApplied[slot] && elapsed >= ImpactTime)
+        {
+            impactApplied[slot] = true;
+            if (withinReach && attackTargets[slot] == target && displayed[slot].HasValue && catalog.TryGetPet(displayed[slot].Value.PetId, out PetData data))
+                target.TakeDamage(PetDamage.Calculate(data.BaseDamage, displayed[slot].Value.FusionLevel));
+        }
+
+        if (elapsed >= AttackDuration)
+        {
+            attackTargets[slot] = null;
+            model.localPosition = modelOrigins[slot];
+            return;
+        }
+        float forward = elapsed < WindupDuration
+            ? Mathf.Lerp(0f, -attackRecoil, elapsed / WindupDuration)
+            : elapsed < ImpactTime
+                ? Mathf.Lerp(-attackRecoil, attackLunge, (elapsed - WindupDuration) / (ImpactTime - WindupDuration))
+                : Mathf.Lerp(attackLunge, 0f, (elapsed - ImpactTime) / (AttackDuration - ImpactTime));
+        float hop = Mathf.Sin(Mathf.Clamp01(elapsed / AttackDuration) * Mathf.PI) * attackHop;
+        model.localPosition = modelOrigins[slot] + Vector3.forward * forward + Vector3.up * hop;
     }
 }

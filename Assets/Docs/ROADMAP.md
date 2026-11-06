@@ -66,6 +66,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [ ] Implementar formação de até três Pets, acompanhamento suave e reposicionamento emergencial.
 - [ ] Implementar estados FOLLOW, CHASE e ATTACK e posições de ataque ao redor do alvo.
 - [ ] Aplicar golpes independentes a cada segundo, no impacto da animação; manter intervalo ao trocar de alvo.
+- [x] Implementar animação genérica provisória de recuo, investida, pulo e retorno para o modelo do Pet; aplicar dano no impacto e manter intervalos individuais, inclusive ao trocar de alvo.
+- [x] Validar manualmente ritmo e aparência da animação provisória (usuário aprovou).
+- [ ] Testar a animação com os modelos definitivos.
 - [ ] Implementar vida, dano limitado a zero, morte, recompensa única e retorno dos Pets ao acompanhamento.
 - [ ] Implementar inimigos comuns imóveis, dois tipos por região e respawn após cinco segundos.
 - [x] Criar dois inimigos provisórios fracos com 50 HP, recompensa de 20 moedas e respawn; testar pelo MCP dano, intervalo, troca de alvo e recompensa única.

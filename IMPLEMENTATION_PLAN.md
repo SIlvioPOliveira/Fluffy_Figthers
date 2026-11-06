@@ -22,6 +22,8 @@ A máquina provisória agora apresenta uma roleta de 4,5 segundos com desacelera
 
 Fase 5 iniciada: `Assets/Scenes/CombatTest.unity` acrescenta dois inimigos provisórios fracos ao teste de Gacha, seleção por clique/Q e ataques dos Pets. O MCP verificou troca de alvo, dano, intervalo, recompensa única e respawn com atualização forçada. Seleção por mouse e o ciclo completo ainda precisam de teste manual; animações e feedback visual completo permanecem pendentes.
 
+Animação genérica provisória de ataque adicionada ao modelo dos Pets: recuo, investida, pequeno pulo e retorno em 0,4 s, com dano no impacto e intervalo individual de 1 s. O MCP verificou impacto único, temporizadores e cancelamento ao trocar de alvo. Ritmo, aparência e compatibilidade com modelos definitivos aguardam validação manual; efeitos de impacto, números e moedas permanecem pendentes.
+
 ## Dependências e decisões a confirmar
 
 - O GDD geral apresenta probabilidades que somam 101,1%. O usuário confirmou a distribuição dos GDDs v0.4 e v0.5: 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%.
