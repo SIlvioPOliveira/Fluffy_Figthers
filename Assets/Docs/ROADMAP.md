@@ -32,7 +32,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 - [x] Armazenar Pets por ID e nível de fusão, agrupando quantidades e distinguindo cópias equipadas em memória.
 - [x] Implementar três espaços de equipe; permitir cópias repetidas sem equipar mais cópias do que as possuídas.
-- [ ] Criar e remover representações dos Pets equipados e reorganizar a formação.
+- [x] Criar e remover representações provisórias dos Pets equipados e calcular formação para um a três Pets; verificar pelo MCP criação, colisores e posições com atualização forçada.
+- [ ] Validar manualmente acompanhamento suave, reposicionamento e controles na cena `PetEquipmentTest`; integrar a representação ao jogo e testar os prefabs definitivos.
 - [x] Calcular dano dos níveis 1–3 com multiplicadores 1,00 / 1,50 / 2,25 e arredondamento de 0,5 para cima; calcular DPS da equipe.
 - [x] Fundir atomicamente três cópias disponíveis do mesmo ID e nível; impedir consumo de equipados e fusão acima do nível 3.
 - [ ] Criar interface de equipe, grade e detalhes, ordenada por dano, raridade, nome e nível conforme GDD.
