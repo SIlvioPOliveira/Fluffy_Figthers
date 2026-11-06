@@ -48,10 +48,10 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 - [ ] Criar interação por E com máquina, interface modal e pools configuráveis por região.
 - [ ] Apresentar saldo, custo, cinco Pets, raridades e probabilidades da máquina.
-- [ ] Validar saldo e pesos; selecionar um único Pet e registrar a compra e a recompensa como operação consistente.
+- [x] Implementar e testar em memória a validação de saldo e pesos, seleção de um Pet e compra com entrega consistente; pools das quatro regiões configurados.
 - [ ] Impedir Rolls simultâneos; implementar roleta, resultado e feedback sem depender do fim da animação para conceder o Pet.
 - [ ] Integrar entrega ao inventário e persistência; testar saldo insuficiente, duplicatas, interrupção e repetição.
-- [ ] Confirmar a distribuição de probabilidades indicada na seção de decisões pendentes.
+- [x] Confirmar com o usuário a distribuição 68,9% / 25% / 5% / 1% / 0,1% dos GDDs mais recentes.
 
 ## 5. Seleção, Pets e combate
 
@@ -114,7 +114,7 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## Decisões de design pendentes
 
-- **Probabilidades:** o GDD geral soma 101,1%; os GDDs v0.4/v0.5 propõem 68,9% / 25% / 5% / 1% / 0,1%, total de 100%. Confirmar antes de implementar o sorteio.
+- **Probabilidades:** o usuário confirmou 68,9% / 25% / 5% / 1% / 0,1%, conforme os GDDs v0.4/v0.5. O GDD geral anterior soma 101,1% e deve ser corrigido ao revisar os documentos.
 - **Boss e barreiras:** o resumo geral sugere derrotar Bosses para avançar; o GDD de mapa permite comprar barreiras sem derrotá-los. O tutorial pede o Boss antes da primeira barreira. Confirmar a regra global e como o tutorial reage a compras antecipadas.
 - **Objetivos antecipados:** o tutorial é sequencial e permite exploração livre; definir como reconhecer eventos ocorridos antes da etapa correspondente para evitar bloqueios.
 

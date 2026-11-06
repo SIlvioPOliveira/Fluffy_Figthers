@@ -18,7 +18,7 @@ O usuário testou o acompanhamento e relatou que funciona bem. A cena de teste a
 
 ## Dependências e decisões a confirmar
 
-- O GDD geral apresenta probabilidades de 70%, 25%, 5%, 1% e 0,1%, que somam 101,1%. Os GDDs específicos v0.4 e v0.5 definem 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%; esta é a distribuição proposta para implementação posterior, sujeita a confirmação.
+- O GDD geral apresenta probabilidades que somam 101,1%. O usuário confirmou a distribuição dos GDDs v0.4 e v0.5: 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%.
 - O resumo do loop sugere derrotar Bosses para desbloquear regiões, mas o GDD de mapa v0.7 diz explicitamente que a compra da barreira não exige vitória. O tutorial pede vencer o primeiro Boss antes da barreira; tratar a sequência do tutorial separadamente da condição de compra e confirmar a intenção.
 - O tutorial diz permitir exploração livre, mas é sequencial; ações realizadas antes da etapa correspondente precisam de uma regra de reconhecimento retroativo para evitar bloqueio. Definir isso antes do tutorial.
 - Arredondamento de metades para cima é explícito no inventário v0.6; usar uma única regra compartilhada para dano, em vez de depender de arredondamentos padrão divergentes.

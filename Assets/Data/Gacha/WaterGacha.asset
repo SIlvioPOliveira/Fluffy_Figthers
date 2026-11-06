@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5477cbff99bfbd419c43ef2ff6d1a4d, type: 3}
+  m_Name: WaterGacha
+  m_EditorClassIdentifier: Assembly-CSharp::GachaPool
+  region: {fileID: 11400000, guid: 8a5ad34bda4be1b4a91dc8e270ace6bb, type: 2}
+  entries:
+  - pet: {fileID: 11400000, guid: e09d225f2b4678d49b2679c1ef295863, type: 2}
+    weight: 6890
+  - pet: {fileID: 11400000, guid: b461f95a674d498408d22fdb8435b837, type: 2}
+    weight: 2500
+  - pet: {fileID: 11400000, guid: 578338cc1bf568841a3c68ab269d203b, type: 2}
+    weight: 500
+  - pet: {fileID: 11400000, guid: 8e5e603742a654746a1b9184434a5b9f, type: 2}
+    weight: 100
+  - pet: {fileID: 11400000, guid: fd035a07e33838040ae347ead162ef51, type: 2}
+    weight: 10

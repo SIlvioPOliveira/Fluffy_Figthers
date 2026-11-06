@@ -53,14 +53,29 @@ public sealed class PlayerInventory
 
     public bool TryAdd(string petId, int level = 1, int amount = 1)
     {
+        if (!TryAddSilently(petId, level, amount)) return false;
+        NotifyChanged();
+        return true;
+    }
+
+    internal bool CanAdd(string petId, int level, int amount)
+    {
         if (amount <= 0 || !IsValid(petId, level)) return false;
         var key = new PetStackKey(petId, level);
         quantities.TryGetValue(key, out int total);
-        if (amount > int.MaxValue - total) return false;
+        return amount <= int.MaxValue - total;
+    }
+
+    internal bool TryAddSilently(string petId, int level, int amount)
+    {
+        if (!CanAdd(petId, level, amount)) return false;
+        var key = new PetStackKey(petId, level);
+        quantities.TryGetValue(key, out int total);
         quantities[key] = total + amount;
-        Changed?.Invoke();
         return true;
     }
+
+    internal void NotifyChanged() => Changed?.Invoke();
 
     public bool TryEquip(string petId, int level, int slot)
     {

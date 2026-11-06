@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5477cbff99bfbd419c43ef2ff6d1a4d, type: 3}
+  m_Name: IceGacha
+  m_EditorClassIdentifier: Assembly-CSharp::GachaPool
+  region: {fileID: 11400000, guid: e6b9a50cfc17f4b43b34d97c237fb434, type: 2}
+  entries:
+  - pet: {fileID: 11400000, guid: 233dcfd6dbca43d40931af0af2c810ea, type: 2}
+    weight: 6890
+  - pet: {fileID: 11400000, guid: 967d92cd98567a6459a783041f146846, type: 2}
+    weight: 2500
+  - pet: {fileID: 11400000, guid: afb99ad372deefc4f93b7cf4ecbe4fad, type: 2}
+    weight: 500
+  - pet: {fileID: 11400000, guid: 01e435557684d9446aa00c1959eca43d, type: 2}
+    weight: 100
+  - pet: {fileID: 11400000, guid: 0c8771b5400b2e24589aaac92c876aa8, type: 2}
+    weight: 10

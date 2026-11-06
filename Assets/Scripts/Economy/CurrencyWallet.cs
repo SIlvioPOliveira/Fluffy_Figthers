@@ -23,9 +23,17 @@ public sealed class CurrencyWallet
 
     public bool TrySpend(int amount)
     {
-        if (amount <= 0 || amount > Balance) return false;
-        Balance -= amount;
-        BalanceChanged?.Invoke(Balance);
+        if (!TrySpendSilently(amount)) return false;
+        NotifyChanged();
         return true;
     }
+
+    internal bool TrySpendSilently(int amount)
+    {
+        if (amount <= 0 || amount > Balance) return false;
+        Balance -= amount;
+        return true;
+    }
+
+    internal void NotifyChanged() => BalanceChanged?.Invoke(Balance);
 }
