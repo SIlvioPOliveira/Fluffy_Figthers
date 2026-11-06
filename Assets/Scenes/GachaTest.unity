@@ -476,6 +476,7 @@ MonoBehaviour:
   driver: {fileID: 1688303123}
   pool: {fileID: 11400000, guid: c75d9ee7ea65ac542b73dcb92a3bee4f, type: 2}
   interactionDistance: 3
+  spinDuration: 4.5
 --- !u!23 &1013853181
 MeshRenderer:
   m_ObjectHideFlags: 0

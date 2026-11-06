@@ -16,7 +16,9 @@ Representação provisória de Pets adicionada na cena separada `Assets/Scenes/P
 
 O usuário testou o acompanhamento e relatou que funciona bem. A cena de teste agora inclui inventário provisório aberto com I, dados de teste, confirmação de fusão, personagem azul, Pets laranja e chão quadriculado. Falta validação manual da interface; a versão final em Canvas e a persistência continuam pendentes.
 
-Fase 4 iniciada: pools e lógica de compra em memória criados; `Assets/Scenes/GachaTest.unity` contém máquina provisória da Água, interface simples, 100 moedas e inventário vazio. O MCP verificou abertura modal, compra, recebimento e saldo insuficiente; a interação real e a aparência aguardam teste manual. Roleta animada, interface final e persistência permanecem pendentes.
+Fase 4 iniciada: pools e lógica de compra em memória criados; `Assets/Scenes/GachaTest.unity` contém máquina provisória da Água, interface simples, 100 moedas e inventário vazio. O MCP verificou abertura modal, compra, recebimento e saldo insuficiente; o usuário relatou resultado satisfatório no teste da máquina inicial.
+
+A máquina provisória agora apresenta uma roleta de 4,5 segundos com desaceleração e cartões de outros Pets em ambos os lados do prêmio, conforme feedback. O prêmio é entregue antes da animação e permanece no inventário ao fechar a janela; a lógica foi verificada pelo MCP. O ritmo e o enquadramento ainda precisam de teste manual. Ícones, áudio, interface final e persistência continuam pendentes.
 
 ## Dependências e decisões a confirmar
 

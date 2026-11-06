@@ -52,6 +52,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [ ] Apresentar saldo, custo, cinco Pets, raridades e probabilidades da máquina.
 - [x] Implementar e testar em memória a validação de saldo e pesos, seleção de um Pet e compra com entrega consistente; pools das quatro regiões configurados.
 - [ ] Impedir Rolls simultâneos; implementar roleta, resultado e feedback sem depender do fim da animação para conceder o Pet.
+- [x] Criar roleta provisória de 4,5 s, com desaceleração e cartões em ambos os lados do prêmio; preservar prêmio ao fechar a janela e bloquear novo Roll até confirmar o resultado. Regras verificadas pelo MCP.
+- [ ] Validar manualmente fluidez, enquadramento e resultado da roleta provisória; adicionar ícones, áudio e apresentação final quando disponíveis.
 - [ ] Integrar entrega ao inventário e persistência; testar saldo insuficiente, duplicatas, interrupção e repetição.
 - [x] Confirmar com o usuário a distribuição 68,9% / 25% / 5% / 1% / 0,1% dos GDDs mais recentes.
 
