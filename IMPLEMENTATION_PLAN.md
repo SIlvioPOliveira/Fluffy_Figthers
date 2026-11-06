@@ -2,7 +2,9 @@
 
 ## Referências e estado inicial
 
-Analisados `Assets/Docs/AGENTS.md`, `EstruturaPastas.md` e os GDDs Geral v0.3, Gacha v0.4, Progressão v0.5, Inventário v0.6, Mapa v0.7 e Tutorial v0.8. As referências a `Docs/GDD.md` e `Docs/ROADMAP.md` no AGENTS não correspondem a arquivos existentes. O projeto Unity conectado é `C:/Users/sotav/Documents/Fluffy_Figthers`, Unity 6000.3.11f1; contém apenas documentação própria em Assets, sem scripts ou cenas salvas identificados. O editor tem uma cena sem nome com alterações não salvas: preservá-la antes de trocá-la.
+Analisados `Assets/Docs/AGENTS.md`, `EstruturaPastas.md` e os GDDs Geral v0.3, Gacha v0.4, Progressão v0.5, Inventário v0.6, Mapa v0.7 e Tutorial v0.8. As referências a `Docs/GDD.md` e `Docs/ROADMAP.md` no AGENTS não correspondem a arquivos existentes. O projeto Unity conectado está em `C:/Users/sotav/Documents/ChatGPT/Fluffy Figthers`, Unity 6000.3.11f1.
+
+Fase 1: cena `Assets/Scenes/Phase1Test.unity` criada e aberta; objetos e referências verificados pelo MCP. O Play Mode iniciou sem erros no Console e o personagem ficou apoiado no chão. Teste manual de WASD, diagonais e rotação da câmera permanece pendente.
 
 ## Dependências e decisões a confirmar
 
