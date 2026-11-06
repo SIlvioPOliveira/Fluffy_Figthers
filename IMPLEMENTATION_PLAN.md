@@ -22,7 +22,9 @@ A máquina provisória agora apresenta uma roleta de 4,5 segundos com desacelera
 
 Fase 5 iniciada: `Assets/Scenes/CombatTest.unity` acrescenta dois inimigos provisórios fracos ao teste de Gacha, seleção por clique/Q e ataques dos Pets. O MCP verificou troca de alvo, dano, intervalo, recompensa única e respawn com atualização forçada. Seleção por mouse e o ciclo completo ainda precisam de teste manual; animações e feedback visual completo permanecem pendentes.
 
-Animação genérica provisória de ataque adicionada ao modelo dos Pets: recuo, investida, pequeno pulo e retorno em 0,4 s, com dano no impacto e intervalo individual de 1 s. O MCP verificou impacto único, temporizadores e cancelamento ao trocar de alvo. Ritmo, aparência e compatibilidade com modelos definitivos aguardam validação manual; efeitos de impacto, números e moedas permanecem pendentes.
+Animação genérica provisória de ataque adicionada ao modelo dos Pets: recuo, investida, pequeno pulo e retorno em 0,4 s, com dano no impacto e intervalo individual de 1 s. O MCP verificou impacto único, temporizadores e cancelamento ao trocar de alvo; a compatibilidade com modelos definitivos aguarda validação.
+
+O usuário aprovou o ritmo da animação provisória. `CombatTest` também possui brilho breve no inimigo e números de dano flutuantes, com cor por raridade; o valor exibido considera a vida restante no golpe final. Os eventos foram verificados pelo MCP, e a aparência ainda precisa de validação manual. Feedback de recompensa e modelos definitivos permanecem pendentes.
 
 ## Dependências e decisões a confirmar
 

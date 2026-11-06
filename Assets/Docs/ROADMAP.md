@@ -74,6 +74,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Criar dois inimigos provisórios fracos com 50 HP, recompensa de 20 moedas e respawn; testar pelo MCP dano, intervalo, troca de alvo e recompensa única.
 - [x] Testar manualmente o protótipo de combate na cena `CombatTest` (usuário relatou resultado satisfatório).
 - [ ] Adicionar números de dano, impacto, barra de vida, feedback de derrota e recompensa de moedas.
+- [x] Adicionar brilho provisório no inimigo e números flutuantes coloridos por raridade, mostrando o dano efetivamente aplicado; verificar golpes sucessivos e golpe final pelo MCP.
+- [x] Validar manualmente o brilho e os números durante o combate (usuário aprovou).
 - [ ] Testar troca e perda de alvo, temporizadores independentes, golpes simultâneos e recompensa única.
 
 ## 6. Bosses e sobrevivência

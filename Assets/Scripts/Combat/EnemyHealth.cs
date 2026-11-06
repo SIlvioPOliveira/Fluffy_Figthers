@@ -14,6 +14,7 @@ public sealed class EnemyHealth : MonoBehaviour
     public int MaxHealth => maxHealth;
     public bool IsAlive { get; private set; }
     public bool IsSelected { get; private set; }
+    public event System.Action<int, PetRarity?> Damaged;
 
     private void Awake()
     {
@@ -30,17 +31,23 @@ public sealed class EnemyHealth : MonoBehaviour
         if (selectionMarker != null) selectionMarker.SetActive(IsSelected);
     }
 
-    public bool TakeDamage(long damage)
+    public bool TakeDamage(long damage, PetRarity? sourceRarity = null)
     {
         if (!IsAlive || damage <= 0) return false;
+        int previousHealth = Health;
         Health = (int)System.Math.Max(0L, Health - damage);
-        if (Health != 0) return true;
-        IsAlive = false;
-        SetSelected(false);
-        foreach (Renderer visual in visuals) visual.enabled = false;
-        foreach (Collider hitbox in hitboxes) hitbox.enabled = false;
-        if (driver != null && driver.Wallet != null && !driver.Wallet.TryAdd(reward)) Debug.LogWarning("Não foi possível adicionar a recompensa.", this);
-        respawnAt = Time.time + respawnDelay;
+        if (Health == 0)
+        {
+            IsAlive = false;
+            SetSelected(false);
+            foreach (Renderer visual in visuals) visual.enabled = false;
+            foreach (Collider hitbox in hitboxes) hitbox.enabled = false;
+            if (driver != null && driver.Wallet != null && !driver.Wallet.TryAdd(reward)) Debug.LogWarning("Não foi possível adicionar a recompensa.", this);
+            respawnAt = Time.time + respawnDelay;
+        }
+        // Feedback is optional and cannot cancel an already-applied hit or defeat.
+        try { Damaged?.Invoke(previousHealth - Health, sourceRarity); }
+        catch (System.Exception exception) { Debug.LogException(exception, this); }
         return true;
     }
 

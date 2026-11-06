@@ -165,7 +165,7 @@ public sealed class PetEquipmentView : MonoBehaviour
         {
             impactApplied[slot] = true;
             if (withinReach && attackTargets[slot] == target && displayed[slot].HasValue && catalog.TryGetPet(displayed[slot].Value.PetId, out PetData data))
-                target.TakeDamage(PetDamage.Calculate(data.BaseDamage, displayed[slot].Value.FusionLevel));
+                target.TakeDamage(PetDamage.Calculate(data.BaseDamage, displayed[slot].Value.FusionLevel), data.Rarity);
         }
 
         if (elapsed >= AttackDuration)
