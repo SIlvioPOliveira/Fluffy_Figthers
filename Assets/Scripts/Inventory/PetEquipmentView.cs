@@ -8,9 +8,12 @@ public sealed class PetEquipmentView : MonoBehaviour
     [SerializeField, Min(0.1f)] private float followSpeed = 6f;
     [SerializeField, Min(0.1f)] private float teleportDistance = 15f;
     [SerializeField] private Color placeholderColor = new Color(1f, 0.55f, 0.08f);
+    [SerializeField] private CombatTargetTest combat;
+    [SerializeField, Min(0.1f)] private float attackDistance = 1.5f;
 
     private readonly GameObject[] views = new GameObject[PlayerInventory.MaxEquipment];
     private readonly PetStackKey?[] displayed = new PetStackKey?[PlayerInventory.MaxEquipment];
+    private readonly float[] nextAttack = new float[PlayerInventory.MaxEquipment];
     private PlayerInventory inventory;
     private GameCatalog catalog;
 
@@ -41,6 +44,7 @@ public sealed class PetEquipmentView : MonoBehaviour
             if (views[i] != null) Destroy(views[i]);
             views[i] = null;
             displayed[i] = null;
+            nextAttack[i] = 0f;
         }
     }
 
@@ -53,6 +57,7 @@ public sealed class PetEquipmentView : MonoBehaviour
             if (views[i] != null) Destroy(views[i]);
             views[i] = null;
             displayed[i] = null;
+            nextAttack[i] = 0f;
             if (!key.HasValue || !catalog.TryGetPet(key.Value.PetId, out PetData pet)) continue;
             GameObject view;
             if (pet.Prefab != null) view = Instantiate(pet.Prefab);
@@ -79,6 +84,8 @@ public sealed class PetEquipmentView : MonoBehaviour
     private void LateUpdate()
     {
         if (player == null) return;
+        EnemyHealth target = combat != null ? combat.Target : null;
+        if (target != null && !target.IsAlive) target = null;
         int count = 0;
         for (int i = 0; i < views.Length; i++) if (views[i] != null) count++;
         int index = 0;
@@ -87,10 +94,23 @@ public sealed class PetEquipmentView : MonoBehaviour
             if (views[i] == null) continue;
             float lateral = (index++ - (count - 1) * 0.5f) * spacing;
             Vector3 goal = player.position - player.forward * followDistance + player.right * lateral;
+            if (target != null)
+            {
+                Vector3 towardPlayer = Vector3.ProjectOnPlane(player.position - target.transform.position, Vector3.up).normalized;
+                if (towardPlayer.sqrMagnitude < 0.01f) towardPlayer = -player.forward;
+                float angle = (index - 1 - (count - 1) * 0.5f) * 45f;
+                goal = target.transform.position + Quaternion.Euler(0, angle, 0) * towardPlayer * attackDistance;
+            }
+            else nextAttack[i] = 0f;
             goal.y = player.position.y - 0.7f;
             Transform pet = views[i].transform;
-            if (Vector3.Distance(pet.position, goal) > teleportDistance) pet.position = goal;
+            if (target == null && Vector3.Distance(pet.position, goal) > teleportDistance) pet.position = goal;
             else pet.position = Vector3.MoveTowards(pet.position, goal, followSpeed * Time.deltaTime);
+            if (target != null && target.IsAlive && Vector3.Distance(pet.position, goal) <= 0.05f && Time.time >= nextAttack[i] && displayed[i].HasValue && catalog.TryGetPet(displayed[i].Value.PetId, out PetData data))
+            {
+                nextAttack[i] = Time.time + 1f;
+                target.TakeDamage(PetDamage.Calculate(data.BaseDamage, displayed[i].Value.FusionLevel));
+            }
         }
     }
 }

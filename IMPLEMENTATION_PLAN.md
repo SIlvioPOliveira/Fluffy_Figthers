@@ -20,6 +20,8 @@ Fase 4 iniciada: pools e lógica de compra em memória criados; `Assets/Scenes/G
 
 A máquina provisória agora apresenta uma roleta de 4,5 segundos com desaceleração e cartões de outros Pets em ambos os lados do prêmio, conforme feedback. O prêmio é entregue antes da animação e permanece no inventário ao fechar a janela; a lógica foi verificada pelo MCP. O ritmo e o enquadramento ainda precisam de teste manual. Ícones, áudio, interface final e persistência continuam pendentes.
 
+Fase 5 iniciada: `Assets/Scenes/CombatTest.unity` acrescenta dois inimigos provisórios fracos ao teste de Gacha, seleção por clique/Q e ataques dos Pets. O MCP verificou troca de alvo, dano, intervalo, recompensa única e respawn com atualização forçada. Seleção por mouse e o ciclo completo ainda precisam de teste manual; animações e feedback visual completo permanecem pendentes.
+
 ## Dependências e decisões a confirmar
 
 - O GDD geral apresenta probabilidades que somam 101,1%. O usuário confirmou a distribuição dos GDDs v0.4 e v0.5: 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%.

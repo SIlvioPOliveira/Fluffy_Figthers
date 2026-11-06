@@ -757,6 +757,8 @@ MonoBehaviour:
   followSpeed: 6
   teleportDistance: 15
   placeholderColor: {r: 1, g: 0.55, b: 0.08, a: 1}
+  combat: {fileID: 0}
+  attackDistance: 1.5
 --- !u!4 &1688303125
 Transform:
   m_ObjectHideFlags: 0

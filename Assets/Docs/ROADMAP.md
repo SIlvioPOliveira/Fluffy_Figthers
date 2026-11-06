@@ -60,6 +60,7 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 ## 5. Seleção, Pets e combate
 
 - [ ] Selecionar um inimigo vivo por clique esquerdo, ignorando cliques na interface; manter apenas um alvo.
+- [x] Criar protótipo de seleção em `CombatTest`: clique, Q, limite de 20 m, alvo único e bloqueio enquanto os modais de teste estão abertos.
 - [ ] Aplicar limite de 20 m, aviso fora de alcance, troca de alvo, cancelamento com Q e invalidação ao morrer, desaparecer ou afastar-se.
 - [ ] Mostrar marcador de alvo e barra de vida; remover indicador anterior ao trocar ou cancelar.
 - [ ] Implementar formação de até três Pets, acompanhamento suave e reposicionamento emergencial.
@@ -67,6 +68,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [ ] Aplicar golpes independentes a cada segundo, no impacto da animação; manter intervalo ao trocar de alvo.
 - [ ] Implementar vida, dano limitado a zero, morte, recompensa única e retorno dos Pets ao acompanhamento.
 - [ ] Implementar inimigos comuns imóveis, dois tipos por região e respawn após cinco segundos.
+- [x] Criar dois inimigos provisórios fracos com 50 HP, recompensa de 20 moedas e respawn; testar pelo MCP dano, intervalo, troca de alvo e recompensa única.
+- [x] Testar manualmente o protótipo de combate na cena `CombatTest` (usuário relatou resultado satisfatório).
 - [ ] Adicionar números de dano, impacto, barra de vida, feedback de derrota e recompensa de moedas.
 - [ ] Testar troca e perda de alvo, temporizadores independentes, golpes simultâneos e recompensa única.
 
