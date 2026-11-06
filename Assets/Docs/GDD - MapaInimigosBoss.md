@@ -53,7 +53,7 @@ As seguintes dimensões são valores iniciais, sujeitos a testes na Unity:
 | Elemento | Dimensão |
 |---|---|
 | Área principal de cada região | Aproximadamente 55 × 55 metros |
-| Arena de Boss | 18 metros de diâmetro |
+| Arena de Boss | Aproximadamente 30 metros de diâmetro (protótipo) |
 | Caminho entre regiões | 8 metros de largura |
 | Zona segura | Aproximadamente 12 × 12 metros |
 | Espaçamento entre inimigos | 4 a 6 metros |
@@ -229,7 +229,7 @@ Os inimigos devem utilizar Prefabs reutilizáveis, com atributos ajustáveis pel
 
 ## 9. Arenas de Boss
 
-Cada região possui uma arena circular de aproximadamente 18 metros de diâmetro.
+Cada região possui uma arena circular de aproximadamente 30 metros de diâmetro no protótipo, sujeita a ajuste no mapa final.
 
 O Boss fica próximo ao centro.
 
@@ -245,18 +245,18 @@ O Boss não se movimenta pelo cenário durante o MVP.
 
 ### Ataque do Boss
 
-O Boss utiliza um ataque circular de área:
+O ataque básico marca a posição atual do jogador com um círculo vermelho fixo. Após 1,5 segundo, causa um ponto de dano ao jogador que estiver dentro do raio inicial de 2,5 metros. O intervalo é medido do impacto até a próxima preparação.
 
-1. Escolhe a posição atual do jogador.
-2. Exibe um círculo vermelho no chão.
-3. Aguarda 1,5 segundo.
-4. Executa o ataque na área marcada.
-5. Se o jogador estiver na área no momento do impacto, perde um ponto de vida.
-6. Aguarda três segundos após o impacto e prepara outro ataque.
+| Região / Boss | Padrão inicial para playtest |
+|---|---|
+| Água / Guardião das Marés | Apenas ataque básico; intervalo de 3 s. |
+| Fogo / Guardião das Chamas | Ataque básico mais frequente; intervalo de 2 s. |
+| Lava / Colosso Vulcânico | Intervalo de 2 s; a cada três ataques, o terceiro marca também a posição prevista a partir da velocidade do jogador. |
+| Gelo / Guardião Glacial | Padrão de Lava e uma sequência especial periódica de quatro áreas, marcadas em intervalos de 0,55 s. |
 
-O raio inicial da área de ataque será de 2,5 metros.
+No golpe duplo, a previsão inicial usa 1,2 segundo da velocidade observada quando o golpe começa, limitada à arena; os círculos não perseguem o jogador depois de aparecer. Se ambos atingirem o jogador simultaneamente, o golpe causa no máximo um ponto de dano. Na sequência especial, cada área é marcada na posição atual ao ser criada, permanece fixa e espera 1,5 segundo; a sequência substitui os ataques normais enquanto estiver ativa. A primeira sequência fica disponível após 20 segundos de combate e a próxima 20 segundos após o fim da sequência anterior. Cada impacto separado pode causar um ponto.
 
-Todos esses parâmetros devem ser configuráveis pelo Inspector.
+Os tempos, raio, frequência do golpe duplo e da sequência especial são parâmetros iniciais configuráveis no Inspector e devem ser ajustados por playtest. A arena deve manter rotas de fuga visíveis e possíveis.
 
 ### Vida do jogador
 

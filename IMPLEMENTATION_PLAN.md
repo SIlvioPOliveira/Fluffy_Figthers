@@ -32,7 +32,9 @@ O usuário aprovou a notificação de moedas e a barra de vida provisória. Em `
 
 Fase 6 iniciada: `Assets/Scenes/BossTest.unity` contém Guardião das Marés provisório, arena, ataque circular, três pontos de vida, retorno à entrada e barra maior de Boss. Os valores e regras iniciais seguem os GDDs de combate e mapa; o MCP verificou esquiva, dano, reset, recompensa e respawn. O combate e a legibilidade ainda aguardam teste manual e integração ao mapa definitivo.
 
-Após feedback, a arena de teste foi ampliada de 18 para 30 m de diâmetro e o intervalo após cada ataque reduzido de 3 para 2 s. O aviso de 1,5 s e o raio de 2,5 m foram mantidos. São alterações de balanceamento solicitadas pelo usuário, diferentes da proposta inicial dos GDDs; avaliar em novo teste antes de decidir se será necessária uma sequência especial de áreas.
+Após feedback, a arena de teste foi ampliada de 18 para 30 m de diâmetro. O aviso de 1,5 s e o raio de 2,5 m foram mantidos; os intervalos agora variam conforme a progressão dos Bosses descrita abaixo.
+
+Progressão dos Bosses aprovada e aplicada: Água usa ataque básico com intervalo de 3 s; Fogo usa 2 s; Lava acrescenta golpe duplo a cada três ataques; Gelo combina esse padrão com sequência periódica. `BossTest`, `BossFireTest`, `BossLavaTest` e `BossIceTest` são cenas provisórias; as três últimas recebem equipes regionais apenas para teste. Parâmetros iniciais constam nos GDDs atualizados e dependem de playtest. O MCP verificou os padrões, previsão fixa, aviso, intervalo, cancelamento e recompensa no protótipo.
 
 ## Dependências e decisões a confirmar
 

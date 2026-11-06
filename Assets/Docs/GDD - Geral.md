@@ -393,15 +393,14 @@ Após morrer, desaparecem e reaparecem depois de 5 segundos.
 
 Os Bosses podem receber golpes normalmente dos Pets.
 
-Durante o combate, executam um ataque de área contra o jogador.
+Durante o combate, os Bosses executam ataques de área com dificuldade progressiva:
 
-### Padrão
+- **Água:** círculo na posição atual do jogador, com 3 segundos entre o impacto e a próxima preparação.
+- **Fogo:** mesmo ataque, com intervalo de 2 segundos.
+- **Lava:** intervalo de 2 segundos; a cada três ataques, o terceiro cria dois círculos simultâneos, um na posição atual e outro à frente do movimento observado ao iniciar a preparação.
+- **Gelo:** utiliza os padrões de Lava e, periodicamente, uma sequência especial de áreas sinalizadas uma após a outra.
 
-1. Uma área circular vermelha aparece sob a posição atual do jogador.
-2. A área permanece fixa.
-3. Após 1,5 segundo, o ataque é executado.
-4. Se o personagem estiver na área no momento do impacto, perde 1 ponto de vida.
-5. O Boss aguarda 3 segundos antes de iniciar outra preparação.
+Cada área fica fixa e visível por 1,5 segundo antes do impacto; o raio inicial é de 2,5 metros. Estar em uma área no impacto causa um ponto de dano. Círculos simultâneos do mesmo golpe causam no máximo um ponto. A previsão não acompanha o jogador depois de ser marcada. Valores da sequência especial e demais parâmetros são ajustáveis e sujeitos a playtest; o GDD de mapa detalha a proposta inicial.
 
 O jogador possui três pontos de vida.
 

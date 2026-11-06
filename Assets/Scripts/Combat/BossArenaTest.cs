@@ -17,6 +17,16 @@ public sealed class BossArenaTest : MonoBehaviour
         return offset.sqrMagnitude <= radius * radius;
     }
 
+    public Vector3 ClampInside(Vector3 position)
+    {
+        SphereCollider sphere = GetComponent<SphereCollider>();
+        Vector3 center = transform.TransformPoint(sphere.center);
+        float radius = sphere.radius * Mathf.Max(Mathf.Abs(transform.lossyScale.x), Mathf.Abs(transform.lossyScale.z));
+        Vector3 offset = Vector3.ProjectOnPlane(position - center, Vector3.up);
+        if (offset.magnitude > radius) offset = offset.normalized * radius;
+        return new Vector3(center.x + offset.x, position.y, center.z + offset.z);
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (player != null && boss != null && other.GetComponentInParent<PlayerHealthTest>() == player && !ContainsPlayer())

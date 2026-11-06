@@ -8,6 +8,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private ThirdPersonCamera cameraController;
     [SerializeField] private bool seedTestPets = true;
+    [SerializeField] private string quickEquipPetId = "water_peixinho";
     public PlayerInventory Inventory { get; private set; }
     public CurrencyWallet Wallet { get; private set; }
     public GameCatalog Catalog => catalog;
@@ -41,12 +42,12 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         {
             if (!Input.GetKeyDown(KeyCode.Alpha1 + i)) continue;
             if (Inventory.GetSlot(i).HasValue) Inventory.TryUnequip(i);
-            else Inventory.TryEquip("water_peixinho", 1, i);
+            else Inventory.TryEquip(quickEquipPetId, 1, i);
         }
     }
 
     private void OnGUI()
     {
-        if (!InventoryOpen && !GachaOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Peixinhos; WASD movimenta.");
+        if (!InventoryOpen && !GachaOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Pets; WASD movimenta.");
     }
 }
