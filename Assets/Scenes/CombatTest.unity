@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 197990353}
   - component: {fileID: 197990352}
   - component: {fileID: 197990357}
+  - component: {fileID: 197990358}
   m_Layer: 0
   m_Name: Inimigo 2
   m_TagString: Untagged
@@ -357,7 +358,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
+  rewardDuration: 1.5
   flashRenderer: {fileID: 0}
+--- !u!114 &197990358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197990351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
+  displayName: Inimigo
+  heightOffset: 1.7
+  fillSpeed: 2
 --- !u!1 &512711928
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +801,7 @@ GameObject:
   - component: {fileID: 968890062}
   - component: {fileID: 968890061}
   - component: {fileID: 968890066}
+  - component: {fileID: 968890067}
   m_Layer: 0
   m_Name: Inimigo 1
   m_TagString: Untagged
@@ -918,7 +936,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
+  rewardDuration: 1.5
   flashRenderer: {fileID: 0}
+--- !u!114 &968890067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968890060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
+  displayName: Inimigo
+  heightOffset: 1.7
+  fillSpeed: 2
 --- !u!1 &1013853179
 GameObject:
   m_ObjectHideFlags: 0

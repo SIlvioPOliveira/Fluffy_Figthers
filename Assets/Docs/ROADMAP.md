@@ -63,6 +63,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Criar protótipo de seleção em `CombatTest`: clique, Q, limite de 20 m, alvo único e bloqueio enquanto os modais de teste estão abertos.
 - [ ] Aplicar limite de 20 m, aviso fora de alcance, troca de alvo, cancelamento com Q e invalidação ao morrer, desaparecer ou afastar-se.
 - [ ] Mostrar marcador de alvo e barra de vida; remover indicador anterior ao trocar ou cancelar.
+- [x] Criar barra provisória sobre o inimigo selecionado, com nome, vida atual/máxima e preenchimento proporcional; verificar seleção, derrota e respawn pelo MCP.
+- [x] Validar manualmente a barra provisória de vida (usuário aprovou).
+- [ ] Integrar a apresentação final e a barra maior de Boss.
 - [ ] Implementar formação de até três Pets, acompanhamento suave e reposicionamento emergencial.
 - [ ] Implementar estados FOLLOW, CHASE e ATTACK e posições de ataque ao redor do alvo.
 - [ ] Aplicar golpes independentes a cada segundo, no impacto da animação; manter intervalo ao trocar de alvo.

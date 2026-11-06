@@ -26,7 +26,9 @@ Animação genérica provisória de ataque adicionada ao modelo dos Pets: recuo,
 
 O usuário aprovou o ritmo da animação provisória. `CombatTest` também possui brilho breve no inimigo e números de dano flutuantes, com cor por raridade; o valor exibido considera a vida restante no golpe final. Os eventos foram verificados pelo MCP. Os modelos definitivos permanecem pendentes.
 
-O usuário aprovou o brilho e os números de dano. Uma notificação provisória de moedas foi adicionada à derrota dos inimigos de `CombatTest`; o MCP verificou que ela aparece uma vez por recompensa recebida, inclusive para inimigos diferentes. A legibilidade e o ritmo da notificação aguardam teste manual.
+O usuário aprovou o brilho e os números de dano. Uma notificação provisória de moedas foi adicionada à derrota dos inimigos de `CombatTest`; o MCP verificou que ela aparece uma vez por recompensa recebida, inclusive para inimigos diferentes.
+
+O usuário aprovou a notificação de moedas. Uma barra de vida provisória com nome e valores foi adicionada aos inimigos selecionados em `CombatTest`; seleção, derrota e retorno da vida no respawn foram verificados pelo MCP. Sua aparência e redução suave aguardam teste manual; a barra de Boss é uma etapa futura.
 
 ## Dependências e decisões a confirmar
 

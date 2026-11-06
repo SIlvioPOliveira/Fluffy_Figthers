@@ -72,12 +72,4 @@ public sealed class EnemyHealth : MonoBehaviour
         SetSelected(false);
     }
 
-    private void OnGUI()
-    {
-        if (!IsAlive || !IsSelected || Camera.main == null) return;
-        Vector3 point = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1.5f);
-        if (point.z <= 0) return;
-        float x = point.x - 65, y = Screen.height - point.y - 30;
-        GUI.Box(new Rect(x, y, 130, 25), "Inimigo  " + Health + " / " + maxHealth);
-    }
 }
