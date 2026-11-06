@@ -163,7 +163,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c4d0f27cc8a092d4b808f862d06dc02e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -542,7 +542,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a99061ef3f9571f49877fa9a61f0cbbe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -585,6 +585,7 @@ GameObject:
   - component: {fileID: 1688303125}
   - component: {fileID: 1688303124}
   - component: {fileID: 1688303123}
+  - component: {fileID: 1688303126}
   m_Layer: 0
   m_Name: Pet Equipment Test
   m_TagString: Untagged
@@ -607,6 +608,7 @@ MonoBehaviour:
   catalog: {fileID: 11400000, guid: d6470c317c766834eb5ea2ae1a740558, type: 2}
   equipmentView: {fileID: 1688303124}
   player: {fileID: 1141616163}
+  cameraController: {fileID: 619931342}
 --- !u!114 &1688303124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,6 +626,7 @@ MonoBehaviour:
   spacing: 1.2
   followSpeed: 6
   teleportDistance: 15
+  placeholderColor: {r: 1, g: 0.55, b: 0.08, a: 1}
 --- !u!4 &1688303125
 Transform:
   m_ObjectHideFlags: 0
@@ -639,6 +642,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1688303126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688303122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d282e99f2e883284d9f487e557f09363, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryTestUI
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

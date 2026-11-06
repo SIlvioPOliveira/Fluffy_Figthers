@@ -10,13 +10,14 @@ public sealed class ThirdPersonCamera : MonoBehaviour
     [SerializeField] private float minPitch = -20f;
     [SerializeField] private float maxPitch = 70f;
     private float yaw;
+    public bool ControlsEnabled { get; set; } = true;
 
     private void Start() => yaw = transform.eulerAngles.y;
 
     private void LateUpdate()
     {
         if (target == null) return;
-        if (Input.GetMouseButton(1))
+        if (ControlsEnabled && Input.GetMouseButton(1))
         {
             yaw += Input.GetAxis("Mouse X") * sensitivity;
             pitch = Mathf.Clamp(pitch - Input.GetAxis("Mouse Y") * sensitivity, minPitch, maxPitch);

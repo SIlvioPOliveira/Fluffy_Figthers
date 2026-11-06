@@ -7,6 +7,7 @@ public sealed class PetEquipmentView : MonoBehaviour
     [SerializeField, Min(0.1f)] private float spacing = 1.2f;
     [SerializeField, Min(0.1f)] private float followSpeed = 6f;
     [SerializeField, Min(0.1f)] private float teleportDistance = 15f;
+    [SerializeField] private Color placeholderColor = new Color(1f, 0.55f, 0.08f);
 
     private readonly GameObject[] views = new GameObject[PlayerInventory.MaxEquipment];
     private readonly PetStackKey?[] displayed = new PetStackKey?[PlayerInventory.MaxEquipment];
@@ -59,6 +60,10 @@ public sealed class PetEquipmentView : MonoBehaviour
             {
                 view = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 view.transform.localScale = Vector3.one * 0.6f;
+                var block = new MaterialPropertyBlock();
+                block.SetColor("_Color", placeholderColor);
+                block.SetColor("_BaseColor", placeholderColor);
+                view.GetComponent<Renderer>().SetPropertyBlock(block);
             }
             foreach (Collider collider in view.GetComponentsInChildren<Collider>()) collider.enabled = false;
             view.name = "Pet " + pet.PetName + " (slot " + (i + 1) + ")";

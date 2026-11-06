@@ -9,12 +9,13 @@ public sealed class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity = -20f;
     private CharacterController controller;
     private float verticalVelocity;
+    public bool ControlsEnabled { get; set; } = true;
 
     private void Awake() => controller = GetComponent<CharacterController>();
 
     private void Update()
     {
-        Vector2 input = Vector2.ClampMagnitude(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")), 1f);
+        Vector2 input = ControlsEnabled ? Vector2.ClampMagnitude(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")), 1f) : Vector2.zero;
         Transform basis = cameraTransform != null ? cameraTransform : transform;
         Vector3 forward = Vector3.ProjectOnPlane(basis.forward, Vector3.up).normalized;
         Vector3 right = Vector3.ProjectOnPlane(basis.right, Vector3.up).normalized;

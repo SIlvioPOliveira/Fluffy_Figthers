@@ -14,6 +14,8 @@ Fase 3 iniciada: lógica em memória de inventário, três slots, dano e fusão 
 
 Representação provisória de Pets adicionada na cena separada `Assets/Scenes/PetEquipmentTest.unity`: teclas 1–3 alternam os slots. Verificação pelo MCP incluiu criação e formação por atualização forçada; o acompanhamento em movimento requer teste manual. A interface final e integração ao jogo continuam pendentes.
 
+O usuário testou o acompanhamento e relatou que funciona bem. A cena de teste agora inclui inventário provisório aberto com I, dados de teste, confirmação de fusão, personagem azul, Pets laranja e chão quadriculado. Falta validação manual da interface; a versão final em Canvas e a persistência continuam pendentes.
+
 ## Dependências e decisões a confirmar
 
 - O GDD geral apresenta probabilidades de 70%, 25%, 5%, 1% e 0,1%, que somam 101,1%. Os GDDs específicos v0.4 e v0.5 definem 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%; esta é a distribuição proposta para implementação posterior, sujeita a confirmação.

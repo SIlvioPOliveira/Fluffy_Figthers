@@ -6,7 +6,12 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     [SerializeField] private GameCatalog catalog;
     [SerializeField] private PetEquipmentView equipmentView;
     [SerializeField] private Transform player;
+    [SerializeField] private ThirdPersonCamera cameraController;
     public PlayerInventory Inventory { get; private set; }
+    public GameCatalog Catalog => catalog;
+    public Transform Player => player;
+    public ThirdPersonCamera CameraController => cameraController;
+    public bool InventoryOpen { get; set; }
 
     private void Start()
     {
@@ -18,11 +23,13 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         }
         Inventory = new PlayerInventory(catalog);
         equipmentView.Initialize(Inventory, catalog, player);
-        Inventory.TryAdd("water_peixinho", 1, 3);
+        Inventory.TryAdd("water_peixinho", 1, 8);
+        Inventory.TryAdd("water_tartaruga", 1, 3);
     }
 
     private void Update()
     {
+        if (InventoryOpen) return;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
             if (!Input.GetKeyDown(KeyCode.Alpha1 + i)) continue;
@@ -33,6 +40,6 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(15, 15, 800, 30), "Teste provisório: teclas 1, 2 e 3 equipam/desequipam Pets. WASD movimenta.");
+        if (!InventoryOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Peixinhos; WASD movimenta.");
     }
 }
