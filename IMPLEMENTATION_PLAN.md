@@ -10,6 +10,8 @@ Fase 1: cena `Assets/Scenes/Phase1Test.unity` criada; objetos e referências ver
 
 Fase 2: catálogo inicial de 20 Pets e quatro regiões, validação e carteira de moedas implementados. Dados são editáveis em `Assets/Data`; IDs de Pets devem permanecer estáveis após a criação de salvamentos. Ícones e prefabs estão sem referências até a produção dos assets visuais. A carteira ainda não está ligada a uma cena nem possui persistência; essas integrações pertencem às fases seguintes.
 
+Fase 3 iniciada: lógica em memória de inventário, três slots, dano e fusão implementada e verificada pelo MCP. Interface, Pets visíveis, integração à cena e persistência permanecem pendentes.
+
 ## Dependências e decisões a confirmar
 
 - O GDD geral apresenta probabilidades de 70%, 25%, 5%, 1% e 0,1%, que somam 101,1%. Os GDDs específicos v0.4 e v0.5 definem 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%; esta é a distribuição proposta para implementação posterior, sujeita a confirmação.

@@ -30,14 +30,15 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 3. Inventário, equipamentos e fusão — próxima etapa
 
-- [ ] Armazenar Pets por ID e nível de fusão, agrupando quantidades e distinguindo cópias equipadas.
-- [ ] Implementar três espaços de equipe; permitir cópias repetidas sem equipar mais cópias do que as possuídas.
+- [x] Armazenar Pets por ID e nível de fusão, agrupando quantidades e distinguindo cópias equipadas em memória.
+- [x] Implementar três espaços de equipe; permitir cópias repetidas sem equipar mais cópias do que as possuídas.
 - [ ] Criar e remover representações dos Pets equipados e reorganizar a formação.
-- [ ] Calcular dano dos níveis 1–3 com multiplicadores 1,00 / 1,50 / 2,25 e arredondamento de 0,5 para cima; calcular DPS da equipe.
-- [ ] Fundir atomicamente três cópias disponíveis do mesmo ID e nível; impedir consumo de equipados e fusão acima do nível 3.
+- [x] Calcular dano dos níveis 1–3 com multiplicadores 1,00 / 1,50 / 2,25 e arredondamento de 0,5 para cima; calcular DPS da equipe.
+- [x] Fundir atomicamente três cópias disponíveis do mesmo ID e nível; impedir consumo de equipados e fusão acima do nível 3.
 - [ ] Criar interface de equipe, grade e detalhes, ordenada por dano, raridade, nome e nível conforme GDD.
 - [ ] Exibir confirmação e resultado da fusão; atualizar interface e eventos de alteração.
-- [ ] Testar limites, duplicatas, níveis, cálculo de dano, quantidades e ausência de perda ou duplicação.
+- [x] Verificar pelo MCP regras de slots, duplicatas, fusão, arredondamento, eventos e limites numéricos na lógica em memória.
+- [ ] Testar a integração da interface, Pets visíveis e salvamento sem perda ou duplicação.
 
 ## 4. Gacha e interação
 
