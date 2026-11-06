@@ -1,10 +1,14 @@
 # Fluffy Fighters — plano de implementação
 
+Acompanhe o progresso detalhado em [Assets/Docs/ROADMAP.md](Assets/Docs/ROADMAP.md).
+
 ## Referências e estado inicial
 
 Analisados `Assets/Docs/AGENTS.md`, `EstruturaPastas.md` e os GDDs Geral v0.3, Gacha v0.4, Progressão v0.5, Inventário v0.6, Mapa v0.7 e Tutorial v0.8. As referências a `Docs/GDD.md` e `Docs/ROADMAP.md` no AGENTS não correspondem a arquivos existentes. O projeto Unity conectado está em `C:/Users/sotav/Documents/ChatGPT/Fluffy Figthers`, Unity 6000.3.11f1.
 
-Fase 1: cena `Assets/Scenes/Phase1Test.unity` criada e aberta; objetos e referências verificados pelo MCP. O Play Mode iniciou sem erros no Console e o personagem ficou apoiado no chão. Teste manual de WASD, diagonais e rotação da câmera permanece pendente.
+Fase 1: cena `Assets/Scenes/Phase1Test.unity` criada; objetos e referências verificados pelo MCP. O Play Mode iniciou sem erros no Console e o personagem ficou apoiado no chão. O usuário informou que testou e realizou o commit.
+
+Fase 2: catálogo inicial de 20 Pets e quatro regiões, validação e carteira de moedas implementados. Dados são editáveis em `Assets/Data`; IDs de Pets devem permanecer estáveis após a criação de salvamentos. Ícones e prefabs estão sem referências até a produção dos assets visuais. A carteira ainda não está ligada a uma cena nem possui persistência; essas integrações pertencem às fases seguintes.
 
 ## Dependências e decisões a confirmar
 
@@ -29,4 +33,4 @@ Fase 1: cena `Assets/Scenes/Phase1Test.unity` criada e aberta; objetos e referê
 9. **Persistência e integração:** JSON versionado com substituição segura e backup, inicialização e salvamentos nos eventos definidos. Aceite: reiniciar restaura saldo, Pets, slots, regiões, tutorial e conclusão; corrupção e operações incompletas não geram perda ou duplicação silenciosa.
 10. **Polimento e validação:** arte e áudio provisórios substituídos gradualmente, testes de progressão, UX e desempenho em Windows. Aceite: ciclo completo do primeiro roll à vitória final, progressão com Pets comuns e erros de Console resolvidos.
 
-Somente a Fase 1 está autorizada para implementação nesta tarefa. As fases seguintes são planejamento, não trabalho concluído.
+As fases 1 e 2 são a base atual. As fases seguintes permanecem como planejamento.

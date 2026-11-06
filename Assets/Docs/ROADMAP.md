@@ -1,0 +1,118 @@
+# Fluffy Fighters — checklist do MVP
+
+Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do projeto na branch `fase-2-dados-economia`. O [plano de implementação](../../IMPLEMENTATION_PLAN.md) contém a ordem técnica e os critérios gerais de cada fase.
+
+**Legenda:** `[x]` concluído no escopo descrito; `[ ]` pendente. Quando algo estiver parcial, as partes prontas e pendentes aparecem em itens separados. Marcar um item somente após implementar e verificar o comportamento indicado. Os GDDs continuam sendo a referência de detalhes e regras.
+
+## 1. Base do projeto e personagem
+
+- [x] Criar estrutura básica de pastas e cena independente de teste.
+- [x] Adicionar personagem provisório com `CharacterController`, chão e iluminação.
+- [x] Implementar movimento WASD relativo à câmera e câmera de terceira pessoa girada com botão direito.
+- [x] Verificar cena e componentes pelo MCP; iniciar Play Mode sem erros e confirmar apoio no chão.
+- [x] Receber confirmação do usuário de que testou a Fase 1 e fez commit. O resultado detalhado de cada controle não foi registrado.
+- [ ] Confirmar e registrar em teste manual específico WASD, diagonais, colisões e câmera em diferentes ângulos.
+- [ ] Bloquear movimento e câmera enquanto interfaces modais estiverem abertas.
+- [ ] Implementar três pontos de vida, dano e reaparecimento na entrada da região atual.
+- [ ] Substituir o personagem provisório por visual e animações adequados.
+
+## 2. Dados e economia
+
+- [x] Criar dados editáveis de Pet com ID, nome, raridade, região, dano, ícone e prefab.
+- [x] Cadastrar os 20 tipos de Pets e as quatro regiões, com danos, custos de Roll e barreiras iniciais dos GDDs.
+- [x] Criar catálogo com busca e validação de referências, IDs duplicados e valores inválidos.
+- [x] Criar carteira em memória com 100 moedas iniciais, notificação de alterações e proteção contra saldo negativo e overflow.
+- [x] Validar pelo MCP as 20 combinações de região/raridade, busca, duplicidade e operações da carteira; Console sem erros após compilação.
+- [ ] Associar ícones e prefabs aos 20 Pets quando disponíveis.
+- [ ] Integrar carteira ao estado de jogo, recompensas, Gacha, barreiras, HUD e salvamento.
+- [ ] Configurar e validar demais valores de balanceamento no Inspector, inclusive vida e recompensa de inimigos e Bosses, probabilidades e multiplicadores de fusão.
+- [ ] Proteger a estabilidade dos IDs usados em salvamentos e tratar IDs ausentes no carregamento.
+
+## 3. Inventário, equipamentos e fusão — próxima etapa
+
+- [ ] Armazenar Pets por ID e nível de fusão, agrupando quantidades e distinguindo cópias equipadas.
+- [ ] Implementar três espaços de equipe; permitir cópias repetidas sem equipar mais cópias do que as possuídas.
+- [ ] Criar e remover representações dos Pets equipados e reorganizar a formação.
+- [ ] Calcular dano dos níveis 1–3 com multiplicadores 1,00 / 1,50 / 2,25 e arredondamento de 0,5 para cima; calcular DPS da equipe.
+- [ ] Fundir atomicamente três cópias disponíveis do mesmo ID e nível; impedir consumo de equipados e fusão acima do nível 3.
+- [ ] Criar interface de equipe, grade e detalhes, ordenada por dano, raridade, nome e nível conforme GDD.
+- [ ] Exibir confirmação e resultado da fusão; atualizar interface e eventos de alteração.
+- [ ] Testar limites, duplicatas, níveis, cálculo de dano, quantidades e ausência de perda ou duplicação.
+
+## 4. Gacha e interação
+
+- [ ] Criar interação por E com máquina, interface modal e pools configuráveis por região.
+- [ ] Apresentar saldo, custo, cinco Pets, raridades e probabilidades da máquina.
+- [ ] Validar saldo e pesos; selecionar um único Pet e registrar a compra e a recompensa como operação consistente.
+- [ ] Impedir Rolls simultâneos; implementar roleta, resultado e feedback sem depender do fim da animação para conceder o Pet.
+- [ ] Integrar entrega ao inventário e persistência; testar saldo insuficiente, duplicatas, interrupção e repetição.
+- [ ] Confirmar a distribuição de probabilidades indicada na seção de decisões pendentes.
+
+## 5. Seleção, Pets e combate
+
+- [ ] Selecionar um inimigo vivo por clique esquerdo, ignorando cliques na interface; manter apenas um alvo.
+- [ ] Aplicar limite de 20 m, aviso fora de alcance, troca de alvo, cancelamento com Q e invalidação ao morrer, desaparecer ou afastar-se.
+- [ ] Mostrar marcador de alvo e barra de vida; remover indicador anterior ao trocar ou cancelar.
+- [ ] Implementar formação de até três Pets, acompanhamento suave e reposicionamento emergencial.
+- [ ] Implementar estados FOLLOW, CHASE e ATTACK e posições de ataque ao redor do alvo.
+- [ ] Aplicar golpes independentes a cada segundo, no impacto da animação; manter intervalo ao trocar de alvo.
+- [ ] Implementar vida, dano limitado a zero, morte, recompensa única e retorno dos Pets ao acompanhamento.
+- [ ] Implementar inimigos comuns imóveis, dois tipos por região e respawn após cinco segundos.
+- [ ] Adicionar números de dano, impacto, barra de vida, feedback de derrota e recompensa de moedas.
+- [ ] Testar troca e perda de alvo, temporizadores independentes, golpes simultâneos e recompensa única.
+
+## 6. Bosses e sobrevivência
+
+- [ ] Criar controlador reutilizável de Boss e arena com detecção de entrada e saída.
+- [ ] Sinalizar área circular fixa sob o jogador por 1,5 s; aplicar dano de um coração no impacto e aguardar três segundos antes da próxima preparação.
+- [ ] Configurar raio inicial de 2,5 m e demais valores pelo Inspector.
+- [ ] Reiniciar vida do Boss quando o jogador morrer ou sair da arena; respawn do Boss em 30 s após derrota.
+- [ ] Conceder recompensa uma vez por derrota e exibir barra de vida maior na HUD.
+- [ ] Testar esquiva, dano, morte, retorno à entrada, abandono da arena e derrota simultânea.
+
+## 7. Mundo e progressão
+
+- [ ] Construir uma cena principal contínua com Água, Fogo, Lava e Gelo, áreas abertas, pontos de entrada e arenas.
+- [ ] Em cada região, colocar Gacha, quatro inimigos fracos, dois fortes e um Boss com valores configuráveis.
+- [ ] Criar três barreiras com interação, confirmação, saldo suficiente e abertura permanente.
+- [ ] Permitir retorno às regiões desbloqueadas e restaurar barreiras a partir do salvamento.
+- [ ] Criar identidade visual e navegação legível para cada região, usando objetos provisórios até a arte final.
+- [ ] Definir e validar a relação entre derrotar Bosses, tutorial e compra de barreiras.
+
+## 8. HUD, menus e tutorial
+
+- [ ] Criar menu inicial com Jogar e Sair e inicialização de uma nova partida.
+- [ ] Criar HUD de moedas, região, três corações, objetivo, equipe/DPS e acesso ao inventário.
+- [ ] Criar sistema de modal único: bloquear movimento, câmera e seleção; inventário e Gacha mantêm mundo ativo.
+- [ ] Criar menu de pausa em Esc com retomada, retorno ao menu e saída; pausar o tempo.
+- [ ] Implementar oito objetivos sequenciais: máquina, primeiro Roll, inventário, equipar, inimigo, segundo Pet, Boss e barreira.
+- [ ] Adicionar marcadores e tutorial contextual opcional de fusão; resolver ações concluídas antes da etapa correspondente.
+- [ ] Exibir conclusão na primeira vitória contra o Boss final e permitir continuar jogando.
+
+## 9. Salvamento
+
+- [ ] Criar um slot local JSON versionado em `Application.persistentDataPath`.
+- [ ] Persistir moedas, IDs e quantidades de Pets por nível, três slots, regiões, tutorial e vitória final.
+- [ ] Restaurar estado com validação de IDs, quantidades e equipamentos; iniciar com vida cheia na última região desbloqueada.
+- [ ] Salvar após Gacha, equipamento, fusão, barreira, etapas do tutorial e vitória final; também periodicamente e ao sair normalmente.
+- [ ] Evitar salvar operações incompletas; usar arquivo temporário, substituição segura e backup quando possível.
+- [ ] Testar reinício, recuperação de backup, dados inválidos e ausência de duplicação ou perda.
+
+## 10. Arte, áudio, balanceamento e entrega
+
+- [ ] Criar ou integrar modelos, ícones, prefabs e animações simples de idle, acompanhamento e ataque dos Pets.
+- [ ] Criar visuais e animações de inimigos e Bosses, efeitos de combate, Gacha e fusão, interfaces e áudio.
+- [ ] Validar acessibilidade visual e legibilidade de alvo, ataques, objetivos e interfaces.
+- [ ] Ajustar economia, dano, HP e recompensas por playtest; verificar progressão com Pets comuns e tempos dos Bosses.
+- [ ] Testar o ciclo completo: primeira partida → Roll → equipar → combate → Boss → quatro regiões → Boss final → continuar jogando.
+- [ ] Fazer testes de regressão, compilação, Console, desempenho e build Windows; registrar problemas e limitações.
+
+## Decisões de design pendentes
+
+- **Probabilidades:** o GDD geral soma 101,1%; os GDDs v0.4/v0.5 propõem 68,9% / 25% / 5% / 1% / 0,1%, total de 100%. Confirmar antes de implementar o sorteio.
+- **Boss e barreiras:** o resumo geral sugere derrotar Bosses para avançar; o GDD de mapa permite comprar barreiras sem derrotá-los. O tutorial pede o Boss antes da primeira barreira. Confirmar a regra global e como o tutorial reage a compras antecipadas.
+- **Objetivos antecipados:** o tutorial é sequencial e permite exploração livre; definir como reconhecer eventos ocorridos antes da etapa correspondente para evitar bloqueios.
+
+## Fora do escopo definido para o MVP
+
+Multiplayer, contas, nuvem, múltiplos slots, pity, auto-roll, Roll ×10, moedas premium, compras com dinheiro real, troca/venda de Pets, fusão automática ou em massa, filtros avançados, missões secundárias, conquistas, localização e cinemáticas não integram esta checklist de entrega.
