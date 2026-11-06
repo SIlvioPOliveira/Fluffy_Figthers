@@ -47,6 +47,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 ## 4. Gacha e interação
 
 - [ ] Criar interação por E com máquina, interface modal e pools configuráveis por região.
+- [x] Montar máquina provisória da Água em `GachaTest`, com interação por E, interface modal, saldo, custo e distribuição; usa inventário inicialmente vazio e 100 moedas.
+- [x] Validar manualmente a máquina provisória da Água (usuário relatou resultado satisfatório).
 - [ ] Apresentar saldo, custo, cinco Pets, raridades e probabilidades da máquina.
 - [x] Implementar e testar em memória a validação de saldo e pesos, seleção de um Pet e compra com entrega consistente; pools das quatro regiões configurados.
 - [ ] Impedir Rolls simultâneos; implementar roleta, resultado e feedback sem depender do fim da animação para conceder o Pet.

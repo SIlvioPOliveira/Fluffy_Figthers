@@ -16,6 +16,8 @@ Representação provisória de Pets adicionada na cena separada `Assets/Scenes/P
 
 O usuário testou o acompanhamento e relatou que funciona bem. A cena de teste agora inclui inventário provisório aberto com I, dados de teste, confirmação de fusão, personagem azul, Pets laranja e chão quadriculado. Falta validação manual da interface; a versão final em Canvas e a persistência continuam pendentes.
 
+Fase 4 iniciada: pools e lógica de compra em memória criados; `Assets/Scenes/GachaTest.unity` contém máquina provisória da Água, interface simples, 100 moedas e inventário vazio. O MCP verificou abertura modal, compra, recebimento e saldo insuficiente; a interação real e a aparência aguardam teste manual. Roleta animada, interface final e persistência permanecem pendentes.
+
 ## Dependências e decisões a confirmar
 
 - O GDD geral apresenta probabilidades que somam 101,1%. O usuário confirmou a distribuição dos GDDs v0.4 e v0.5: 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%.

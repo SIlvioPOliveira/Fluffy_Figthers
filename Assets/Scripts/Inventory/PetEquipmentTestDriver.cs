@@ -7,13 +7,16 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     [SerializeField] private PetEquipmentView equipmentView;
     [SerializeField] private Transform player;
     [SerializeField] private ThirdPersonCamera cameraController;
+    [SerializeField] private bool seedTestPets = true;
     public PlayerInventory Inventory { get; private set; }
+    public CurrencyWallet Wallet { get; private set; }
     public GameCatalog Catalog => catalog;
     public Transform Player => player;
     public ThirdPersonCamera CameraController => cameraController;
     public bool InventoryOpen { get; set; }
+    public bool GachaOpen { get; set; }
 
-    private void Start()
+    private void Awake()
     {
         if (catalog == null || equipmentView == null || player == null)
         {
@@ -22,14 +25,18 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
             return;
         }
         Inventory = new PlayerInventory(catalog);
+        Wallet = new CurrencyWallet();
         equipmentView.Initialize(Inventory, catalog, player);
-        Inventory.TryAdd("water_peixinho", 1, 8);
-        Inventory.TryAdd("water_tartaruga", 1, 3);
+        if (seedTestPets)
+        {
+            Inventory.TryAdd("water_peixinho", 1, 8);
+            Inventory.TryAdd("water_tartaruga", 1, 3);
+        }
     }
 
     private void Update()
     {
-        if (InventoryOpen) return;
+        if (InventoryOpen || GachaOpen) return;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
             if (!Input.GetKeyDown(KeyCode.Alpha1 + i)) continue;
@@ -40,6 +47,6 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!InventoryOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Peixinhos; WASD movimenta.");
+        if (!InventoryOpen && !GachaOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Peixinhos; WASD movimenta.");
     }
 }
