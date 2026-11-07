@@ -117,7 +117,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Remover a identificação fixa da região da HUD para liberar espaço à barra do Boss, conforme pedido do usuário.
 - [x] Criar pausa provisória na região Água com Esc, tempo congelado, bloqueio dos controles, retomada e salvamento antes de sair; verificar pelo MCP.
 - [x] Usuário aprovou o menu de pausa em teste manual.
-- [ ] Integrar retorno ao menu inicial quando ele existir; completar a validação de saída e retomada em diferentes situações.
+- [x] Criar menu inicial provisório com Jogar e Sair, e integrar o retorno pela pausa com salvamento; verificar navegação e preservação do progresso pelo MCP.
+- [x] Usuário confirmou funcionamento do menu inicial.
+- [ ] Validar manualmente os botões do menu inicial, saída e retorno em diferentes situações; aplicar a identidade visual definitiva futuramente.
 - [x] Criar HUD provisória na região Água com moedas, região, vida, equipe, DPS e botão de inventário; verificar integração em Play Mode pelo MCP.
 - [x] Receber aprovação visual da HUD provisória pelo usuário.
 - [ ] Validar manualmente o botão da HUD provisória; substituir por Canvas responsivo e ícones finais.

@@ -4,6 +4,12 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MenuInicial.unity
+    guid: bd4ea412ca8f42a4bb9d1ad6030ffa6e
+  - enabled: 1
+    path: Assets/Scenes/RegiaoAguaPrototipo.unity
+    guid: 1988ec7eced05984ab76a0fe805971a9
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

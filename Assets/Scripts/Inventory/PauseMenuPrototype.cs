@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-// Temporary pause menu for the Water prototype. The main menu is a later milestone.
+// Temporary pause menu for the Water prototype.
 [DefaultExecutionOrder(-100)]
 [RequireComponent(typeof(PetEquipmentTestDriver))]
 public sealed class PauseMenuPrototype : MonoBehaviour
@@ -73,6 +74,24 @@ public sealed class PauseMenuPrototype : MonoBehaviour
 #endif
     }
 
+    public bool ReturnToMainMenu()
+    {
+        if (driver == null || !driver.PauseOpen) return false;
+        if (!Application.CanStreamedLevelBeLoaded("MenuInicial"))
+        {
+            message = "Menu inicial indisponível.";
+            return false;
+        }
+        if (!driver.TrySaveProgress())
+        {
+            message = "Não foi possível salvar. Continue no jogo e tente novamente.";
+            return false;
+        }
+        Resume();
+        SceneManager.LoadScene("MenuInicial");
+        return true;
+    }
+
     private void OnGUI()
     {
         if (driver == null || !driver.PauseOpen) return;
@@ -86,10 +105,7 @@ public sealed class PauseMenuPrototype : MonoBehaviour
         GUILayout.BeginArea(new Rect((Screen.width - width) / 2, (Screen.height - 260) / 2, width, 260), GUI.skin.box);
         GUILayout.Label("JOGO PAUSADO");
         if (GUILayout.Button("Continuar (Esc)", GUILayout.Height(42))) Resume();
-        bool wasEnabled = GUI.enabled;
-        GUI.enabled = false;
-        GUILayout.Button("Menu inicial (em desenvolvimento)", GUILayout.Height(42));
-        GUI.enabled = wasEnabled;
+        if (GUILayout.Button("Salvar e voltar ao menu inicial", GUILayout.Height(42))) ReturnToMainMenu();
         if (GUILayout.Button("Salvar e sair", GUILayout.Height(42))) ExitGame();
         GUILayout.Label(message);
         GUILayout.EndArea();
