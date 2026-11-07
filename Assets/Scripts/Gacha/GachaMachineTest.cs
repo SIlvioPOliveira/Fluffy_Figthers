@@ -118,7 +118,10 @@ public sealed class GachaMachineTest : MonoBehaviour
         if (driver == null || driver.Inventory == null || pool == null || system == null) return;
         if (!open)
         {
-            GUI.Label(new Rect(15, 45, 600, 25), "Moedas: " + driver.Wallet.Balance + (InRange && !driver.InventoryOpen ? "     [E] Abrir Gacha de Água" : ""));
+            if (driver.GetComponent<PlayerHudPrototype>() == null)
+                GUI.Label(new Rect(15, 45, 600, 25), "Moedas: " + driver.Wallet.Balance + (InRange && !driver.InventoryOpen ? "     [E] Abrir Gacha de Água" : ""));
+            else if (InRange && !driver.InventoryOpen && !driver.BarrierOpen)
+                GUI.Label(new Rect(15, 75, 350, 25), "[E] Abrir Gacha de Água");
             return;
         }
         float width = Mathf.Min(580, Screen.width - 30);

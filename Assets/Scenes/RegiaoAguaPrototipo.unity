@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1bfaab7b0b125489faf127c10999fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
   maxHealth: 50
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8884b731d63ac374d849f5ef5997b572, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
   displayName: Inimigo fraco
   heightOffset: 1.7
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
   displayName: Inimigo fraco
   heightOffset: 1.7
@@ -964,7 +964,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8884b731d63ac374d849f5ef5997b572, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
@@ -980,7 +980,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1bfaab7b0b125489faf127c10999fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
   maxHealth: 50
@@ -1115,7 +1115,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
   displayName: Inimigo forte
   heightOffset: 1.7
@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8884b731d63ac374d849f5ef5997b572, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
@@ -1146,7 +1146,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1bfaab7b0b125489faf127c10999fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
   maxHealth: 120
@@ -1465,7 +1465,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f6c35e4d5246ee49928865d07877da0, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonCamera
   target: {fileID: 1141616163}
   distance: 5
@@ -1718,7 +1718,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
   displayName: Inimigo forte
   heightOffset: 1.7
@@ -1733,7 +1733,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8884b731d63ac374d849f5ef5997b572, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1bfaab7b0b125489faf127c10999fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
   maxHealth: 120
@@ -2167,7 +2167,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1bfaab7b0b125489faf127c10999fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
   maxHealth: 50
@@ -2280,7 +2280,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8884b731d63ac374d849f5ef5997b572, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
@@ -2296,7 +2296,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
   displayName: Inimigo fraco
   heightOffset: 1.7
@@ -2331,7 +2331,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 934f6fad7cc152848a8fca9f499b42fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::GachaMachineTest
   driver: {fileID: 1688303123}
   pool: {fileID: 11400000, guid: c75d9ee7ea65ac542b73dcb92a3bee4f, type: 2}
@@ -2509,7 +2509,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 675e6a41e0245cb428d981cf1f31720e, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   cameraTransform: {fileID: 619931345}
   speed: 5
@@ -2607,7 +2607,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce701b730a47e3c4c8e2c5f00d7a4513, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthTest
   maxHealth: 3
   respawnPoint: {fileID: 1446456283}
@@ -2965,7 +2965,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5172df50b72629443932c073876bb5c7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::BossArenaTest
   player: {fileID: 1141616168}
   boss: {fileID: 2034767146}
@@ -3490,7 +3490,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d78f65b09eff09d4aaa8cd72c5c2f9e7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthBar
   displayName: Inimigo fraco
   heightOffset: 1.7
@@ -3505,7 +3505,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8884b731d63ac374d849f5ef5997b572, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
@@ -3521,7 +3521,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1bfaab7b0b125489faf127c10999fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
   maxHealth: 50
@@ -3778,7 +3778,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d1e55dd3a84303479326baca5ad9fd0, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ZoneBarrierTest
   driver: {fileID: 1688303123}
   region: {fileID: 11400000, guid: 8a5ad34bda4be1b4a91dc8e270ace6bb, type: 2}
@@ -4019,6 +4019,7 @@ GameObject:
   - component: {fileID: 1688303123}
   - component: {fileID: 1688303126}
   - component: {fileID: 1688303127}
+  - component: {fileID: 1688303128}
   m_Layer: 0
   m_Name: Pet Equipment Test
   m_TagString: Untagged
@@ -4036,7 +4037,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 278c5419bd8bbaf4f973ec0f68e3f77e, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PetEquipmentTestDriver
   catalog: {fileID: 11400000, guid: d6470c317c766834eb5ea2ae1a740558, type: 2}
   equipmentView: {fileID: 1688303124}
@@ -4056,7 +4057,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa76f9368ae9724438fec9b0b53c33fe, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PetEquipmentView
   player: {fileID: 0}
   followDistance: 2
@@ -4094,7 +4095,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d282e99f2e883284d9f487e557f09363, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryTestUI
 --- !u!114 &1688303127
 MonoBehaviour:
@@ -4106,10 +4107,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30214afa81436f84582dce7e6ecb5bc9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatTargetTest
   driver: {fileID: 1688303123}
   maxDistance: 20
+--- !u!114 &1688303128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688303122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aad1121c6ac94840b674e5236ae4d9e, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHudPrototype
 --- !u!1 &1776412262
 GameObject:
   m_ObjectHideFlags: 0
@@ -4322,7 +4335,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 235b150bb8d1ef84fa4b800325780a24, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::BossControllerTest
   player: {fileID: 1141616168}
   targetManager: {fileID: 1688303127}
@@ -4347,7 +4360,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8884b731d63ac374d849f5ef5997b572, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedback
   numberDuration: 0.7
   flashDuration: 0.12
@@ -4363,7 +4376,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1bfaab7b0b125489faf127c10999fc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
   maxHealth: 350

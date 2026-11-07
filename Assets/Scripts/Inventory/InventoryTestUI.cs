@@ -28,6 +28,12 @@ public sealed class InventoryTestUI : MonoBehaviour
 
     private void OnDisable() { if (driver != null) SetOpen(false); }
 
+    public void ToggleFromHud()
+    {
+        if (driver == null || driver.GachaOpen || driver.BarrierOpen) return;
+        SetOpen(!open);
+    }
+
     private void SetOpen(bool value)
     {
         open = value;

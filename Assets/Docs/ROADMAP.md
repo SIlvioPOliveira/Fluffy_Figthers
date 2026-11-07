@@ -114,6 +114,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 8. HUD, menus e tutorial
 
+- [x] Criar HUD provisória na região Água com moedas, região, vida, equipe, DPS e botão de inventário; verificar integração em Play Mode pelo MCP.
+- [x] Receber aprovação visual da HUD provisória pelo usuário.
+- [ ] Validar manualmente o botão da HUD provisória; substituir por Canvas responsivo e ícones finais.
 - [ ] Criar menu inicial com Jogar e Sair e inicialização de uma nova partida.
 - [ ] Criar HUD de moedas, região, três corações, objetivo, equipe/DPS e acesso ao inventário.
 - [ ] Criar sistema de modal único: bloquear movimento, câmera e seleção; inventário e Gacha mantêm mundo ativo.

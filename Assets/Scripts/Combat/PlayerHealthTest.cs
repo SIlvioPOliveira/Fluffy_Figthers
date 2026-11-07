@@ -9,6 +9,7 @@ public sealed class PlayerHealthTest : MonoBehaviour
     [SerializeField] private Transform respawnPoint;
     [SerializeField] private CombatTargetTest targetManager;
     public int Health { get; private set; }
+    public int MaxHealth => maxHealth;
     public event Action Died;
 
     private void Awake() => Health = maxHealth;
@@ -28,5 +29,9 @@ public sealed class PlayerHealthTest : MonoBehaviour
         return true;
     }
 
-    private void OnGUI() => GUI.Box(new Rect(Screen.width - 175, 15, 160, 30), "Vida: " + Health + " / " + maxHealth);
+    private void OnGUI()
+    {
+        if (GetComponentInParent<PlayerHudPrototype>() == null && FindFirstObjectByType<PlayerHudPrototype>() == null)
+            GUI.Box(new Rect(Screen.width - 175, 15, 160, 30), "Vida: " + Health + " / " + maxHealth);
+    }
 }

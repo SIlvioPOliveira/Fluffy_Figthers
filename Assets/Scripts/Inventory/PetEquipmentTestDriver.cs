@@ -125,7 +125,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!InventoryOpen && !GachaOpen && !BarrierOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Pets; WASD movimenta.");
+        if (GetComponent<PlayerHudPrototype>() == null && !InventoryOpen && !GachaOpen && !BarrierOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Pets; WASD movimenta.");
         if (!string.IsNullOrEmpty(saveMessage)) GUI.Box(new Rect(15, 105, 650, 35), saveMessage);
     }
 }
