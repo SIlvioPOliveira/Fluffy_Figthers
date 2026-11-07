@@ -7,6 +7,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
     private PetEquipmentTestDriver driver;
     private InventoryTestUI inventoryUI;
     private PlayerHealthTest health;
+    private GachaMachineTest machine;
     private GUIStyle panelStyle;
     private GUIStyle textStyle;
     private GUIStyle buttonStyle;
@@ -16,6 +17,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
         driver = GetComponent<PetEquipmentTestDriver>();
         inventoryUI = GetComponent<InventoryTestUI>();
         health = driver.Player != null ? driver.Player.GetComponent<PlayerHealthTest>() : null;
+        machine = FindFirstObjectByType<GachaMachineTest>();
     }
 
     private static Rect InventoryRect => new Rect(Screen.width - 165, Screen.height - 60, 150, 45);
@@ -39,6 +41,21 @@ public sealed class PlayerHudPrototype : MonoBehaviour
         }
         GUI.Box(new Rect(15, 15, 180, 48), "MOEDAS\n" + driver.Wallet.Balance, panelStyle);
         GUI.Box(new Rect(Screen.width * 0.5f - 95, 15, 190, 48), "REGIÃO\nÁGUA", panelStyle);
+        string objective = driver.TutorialStage == 0 ? "Vá até a máquina de Gacha e pressione E" :
+            driver.TutorialStage == 1 ? "Realize seu primeiro Roll" :
+            driver.TutorialStage == 2 ? "Abra o inventário [I]" :
+            driver.TutorialStage == 3 ? "Equipe seu primeiro Pet" : null;
+        if (objective != null)
+        {
+            float objectiveWidth = Mathf.Min(420, Screen.width - 30);
+            GUI.Box(new Rect((Screen.width - objectiveWidth) / 2, 70, objectiveWidth, 35), objective, panelStyle);
+            if (driver.TutorialStage == 0 && machine != null && Camera.main != null && !driver.GachaOpen && !driver.InventoryOpen && !driver.BarrierOpen)
+            {
+                Vector3 point = Camera.main.WorldToScreenPoint(machine.transform.position + Vector3.up * 3);
+                if (point.z > 0 && point.x >= 0 && point.x <= Screen.width && point.y >= 0 && point.y <= Screen.height)
+                    GUI.Box(new Rect(Mathf.Clamp(point.x - 55, 0, Screen.width - 110), Mathf.Clamp(Screen.height - point.y - 30, 110, Screen.height - 55), 110, 28), "GACHA ↓", panelStyle);
+            }
+        }
         if (health != null)
         {
             GUI.Box(new Rect(Screen.width - 175, 15, 160, 48), "VIDA  " + health.Health + " / " + health.MaxHealth, panelStyle);

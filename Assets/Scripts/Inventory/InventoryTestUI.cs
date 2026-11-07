@@ -39,6 +39,7 @@ public sealed class InventoryTestUI : MonoBehaviour
         open = value;
         confirmFusion = false;
         driver.InventoryOpen = value;
+        if (value) driver.TutorialInventoryOpened();
         if (movement != null) movement.ControlsEnabled = !value;
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = !value;
     }

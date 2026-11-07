@@ -45,6 +45,7 @@ public sealed class GachaMachineTest : MonoBehaviour
     {
         open = value;
         driver.GachaOpen = value;
+        if (value) driver.TutorialMachineOpened();
         var movement = driver.Player.GetComponent<PlayerMovement>();
         if (movement != null) movement.ControlsEnabled = !value;
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = !value;

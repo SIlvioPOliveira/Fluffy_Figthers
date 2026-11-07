@@ -9,6 +9,7 @@ public sealed class PlayerSaveData
     public List<PetStackSave> pets;
     public PetSlotSave[] slots;
     public bool fireUnlocked;
+    public int tutorialStage;
 }
 
 [Serializable]
@@ -28,11 +29,11 @@ public sealed class PetSlotSave
 
 public static class PlayerSaveCodec
 {
-    public const int CurrentVersion = 1;
+    public const int CurrentVersion = 2;
 
-    public static PlayerSaveData Capture(CurrencyWallet wallet, PlayerInventory inventory, bool fireUnlocked)
+    public static PlayerSaveData Capture(CurrencyWallet wallet, PlayerInventory inventory, bool fireUnlocked, int tutorialStage = 0)
     {
-        var data = new PlayerSaveData { version = CurrentVersion, coins = wallet.Balance, fireUnlocked = fireUnlocked, pets = new List<PetStackSave>(), slots = new PetSlotSave[PlayerInventory.MaxEquipment] };
+        var data = new PlayerSaveData { version = CurrentVersion, coins = wallet.Balance, fireUnlocked = fireUnlocked, tutorialStage = tutorialStage, pets = new List<PetStackSave>(), slots = new PetSlotSave[PlayerInventory.MaxEquipment] };
         foreach (InventoryEntry entry in inventory.GetEntries())
             data.pets.Add(new PetStackSave { petId = entry.Key.PetId, level = entry.Key.FusionLevel, quantity = entry.Total });
         for (int i = 0; i < data.slots.Length; i++)
@@ -48,7 +49,7 @@ public static class PlayerSaveCodec
     {
         wallet = null;
         inventory = null;
-        if (data == null || catalog == null || data.version != CurrentVersion || data.coins < 0 || data.pets == null || data.slots == null || data.slots.Length != PlayerInventory.MaxEquipment) return false;
+        if (data == null || catalog == null || (data.version != 1 && data.version != CurrentVersion) || data.coins < 0 || (data.version == CurrentVersion && (data.tutorialStage < 0 || data.tutorialStage > 4)) || data.pets == null || data.slots == null || data.slots.Length != PlayerInventory.MaxEquipment) return false;
         var restored = new PlayerInventory(catalog);
         var keys = new HashSet<PetStackKey>();
         foreach (PetStackSave stack in data.pets)

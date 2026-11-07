@@ -26,11 +26,39 @@ public static class SaveSmokeTests
         Require(inventory.TryAdd("water_peixinho", 1, 5), "Adicionar falhou.");
         Require(inventory.TryEquip("water_peixinho", 1, 0) && inventory.TryEquip("water_peixinho", 1, 2), "Equipar duplicatas falhou.");
         Require(inventory.TryFuse("water_peixinho", 1), "Fusão falhou.");
-        var first = PlayerSaveCodec.Capture(wallet, inventory, true);
+        var first = PlayerSaveCodec.Capture(wallet, inventory, true, 3);
         Require(store.Save(first, out string error), "Primeira gravação falhou: " + error);
         Require(store.Load(out var loaded) == SaveLoadStatus.Loaded, "Leitura falhou.");
         Require(PlayerSaveCodec.TryRestore(loaded, catalog, out var restoredWallet, out var restored), "Restauração falhou.");
-        Require(restoredWallet.Balance == 250 && loaded.fireUnlocked && restored.GetEntry(new PetStackKey("water_peixinho", 1)).Total == 2 && restored.GetEntry(new PetStackKey("water_peixinho", 1)).Equipped == 2 && restored.GetEntry(new PetStackKey("water_peixinho", 2)).Total == 1 && !restored.GetSlot(1).HasValue, "Conteúdo restaurado incorreto.");
+        Require(restoredWallet.Balance == 250 && loaded.fireUnlocked && loaded.tutorialStage == 3 && restored.GetEntry(new PetStackKey("water_peixinho", 1)).Total == 2 && restored.GetEntry(new PetStackKey("water_peixinho", 1)).Equipped == 2 && restored.GetEntry(new PetStackKey("water_peixinho", 2)).Total == 1 && !restored.GetSlot(1).HasValue, "Conteúdo restaurado incorreto.");
+        var legacy = PlayerSaveCodec.Capture(wallet, inventory, true);
+        legacy.version = 1;
+        Require(PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Salvamento anterior não foi aceito.");
+        legacy.version = PlayerSaveCodec.CurrentVersion;
+        legacy.tutorialStage = 5;
+        Require(!PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Etapa inválida foi aceita.");
+
+        // Exercise the tutorial without opening or modifying the player's actual save.
+        var testObject = new GameObject("TutorialSmokeTest");
+        try
+        {
+            var tutorial = testObject.AddComponent<PetEquipmentTestDriver>();
+            var testInventory = new PlayerInventory(catalog);
+            typeof(PetEquipmentTestDriver).GetProperty("Inventory").GetSetMethod(true).Invoke(tutorial, new object[] { testInventory });
+            var changed = typeof(PetEquipmentTestDriver).GetMethod("OnInventoryChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            Require(tutorial.TutorialStage == 0, "Tutorial não começou na máquina.");
+            tutorial.TutorialMachineOpened();
+            Require(tutorial.TutorialStage == 1, "Abrir máquina não avançou.");
+            Require(testInventory.TryAdd("water_peixinho"), "Pet do tutorial não foi adicionado.");
+            changed.Invoke(tutorial, null);
+            Require(tutorial.TutorialStage == 2, "Primeiro Pet não avançou.");
+            tutorial.TutorialInventoryOpened();
+            Require(tutorial.TutorialStage == 3, "Abrir inventário não avançou.");
+            Require(testInventory.TryEquip("water_peixinho", 1, 0), "Pet do tutorial não foi equipado.");
+            changed.Invoke(tutorial, null);
+            Require(tutorial.TutorialStage == 4, "Equipar não avançou.");
+        }
+        finally { UnityEngine.Object.DestroyImmediate(testObject); }
 
         wallet.TryAdd(20);
         Require(store.Save(PlayerSaveCodec.Capture(wallet, inventory, true), out error), "Segunda gravação falhou: " + error);

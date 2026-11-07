@@ -10,6 +10,8 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     [SerializeField] private bool seedTestPets = true;
     [SerializeField] private string quickEquipPetId = "water_peixinho";
     [SerializeField] private bool persistProgress;
+    [SerializeField, Tooltip("Somente no Editor: usa um salvamento separado para testar o começo do tutorial.")]
+    private bool editorTutorialTestSave;
     [SerializeField, Min(1f)] private float autosaveInterval = 30f;
     private LocalSaveStore saveStore;
     private ZoneBarrierTest barrier;
@@ -19,6 +21,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     private string lastSavedJson;
     private string saveMessage;
     private float nextSave;
+    public int TutorialStage { get; private set; }
     public PlayerInventory Inventory { get; private set; }
     public CurrencyWallet Wallet { get; private set; }
     public GameCatalog Catalog => catalog;
@@ -38,13 +41,21 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         }
         if (persistProgress)
         {
-            saveStore = new LocalSaveStore(System.IO.Path.Combine(Application.persistentDataPath, "fluffy_fighters_save.json"), catalog);
+            // A separate test file lets tutorial playtests start fresh without touching real progress.
+            bool tutorialTest = System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "--tutorial-teste") >= 0;
+            string saveName = tutorialTest ? "fluffy_fighters_tutorial_test.json" : "fluffy_fighters_save.json";
+#if UNITY_EDITOR
+            if (editorTutorialTestSave) saveName = "fluffy_fighters_editor_tutorial_test.json";
+#endif
+            saveStore = new LocalSaveStore(System.IO.Path.Combine(Application.persistentDataPath, saveName), catalog);
             SaveLoadStatus status = saveStore.Load(out PlayerSaveData data);
             if ((status == SaveLoadStatus.Loaded || status == SaveLoadStatus.Recovered) && PlayerSaveCodec.TryRestore(data, catalog, out CurrencyWallet restoredWallet, out PlayerInventory restoredInventory))
             {
                 Wallet = restoredWallet;
                 Inventory = restoredInventory;
                 savedFireUnlocked = data.fireUnlocked;
+                TutorialStage = data.version == 1 ? 0 : data.tutorialStage;
+                ReconcileTutorial();
                 lastSavedJson = JsonUtility.ToJson(data);
                 if (status == SaveLoadStatus.Recovered) Debug.LogWarning("Progresso recuperado do backup.", this);
             }
@@ -65,7 +76,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         }
         if (persistProgress)
         {
-            Inventory.Changed += SaveProgress;
+            Inventory.Changed += OnInventoryChanged;
             Wallet.BalanceChanged += OnBalanceChanged;
             nextSave = Time.unscaledTime + Mathf.Max(1f, autosaveInterval);
         }
@@ -82,11 +93,39 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
 
     private void OnBalanceChanged(int ignored) => SaveProgress();
 
+    private void OnInventoryChanged()
+    {
+        ReconcileTutorial();
+        SaveProgress();
+    }
+
+    private void ReconcileTutorial()
+    {
+        if (Inventory == null) return;
+        if (TutorialStage < 2 && Inventory.GetEntries().Count > 0) TutorialStage = 2;
+        for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
+            if (Inventory.GetSlot(i).HasValue) { TutorialStage = Mathf.Max(TutorialStage, 4); break; }
+    }
+
+    public void TutorialMachineOpened()
+    {
+        if (TutorialStage != 0) return;
+        TutorialStage = 1;
+        SaveProgress();
+    }
+
+    public void TutorialInventoryOpened()
+    {
+        if (TutorialStage != 2) return;
+        TutorialStage = 3;
+        SaveProgress();
+    }
+
     private void SaveProgress()
     {
         if (!persistProgress || saveBlocked || !barrierRegistered || Inventory == null || Wallet == null) return;
         if (barrier != null) savedFireUnlocked = barrier.IsUnlocked;
-        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked);
+        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage);
         string json = JsonUtility.ToJson(data);
         if (json == lastSavedJson) return;
         if (saveStore.Save(data, out string error)) { lastSavedJson = json; saveMessage = null; }
@@ -98,7 +137,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     private void OnDestroy()
     {
         SaveProgress();
-        if (Inventory != null) Inventory.Changed -= SaveProgress;
+        if (Inventory != null) Inventory.Changed -= OnInventoryChanged;
         if (Wallet != null) Wallet.BalanceChanged -= OnBalanceChanged;
     }
 
