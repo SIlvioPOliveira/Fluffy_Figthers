@@ -36,6 +36,8 @@ Após feedback, a arena de teste foi ampliada de 18 para 30 m de diâmetro. O av
 
 Progressão dos Bosses aprovada e aplicada: Água usa ataque básico com intervalo de 3 s; Fogo usa 2 s; Lava acrescenta golpe duplo a cada três ataques; Gelo combina esse padrão com sequência periódica. `BossTest`, `BossFireTest`, `BossLavaTest` e `BossIceTest` são cenas provisórias; as três últimas recebem equipes regionais apenas para teste. Parâmetros iniciais constam nos GDDs atualizados e dependem de playtest. O MCP verificou os padrões, previsão fixa, aviso, intervalo, cancelamento e recompensa no protótipo.
 
+Fase 7 iniciada: `Assets/Scenes/RegiaoAguaPrototipo.unity` reúne entrada segura, Gacha, quatro inimigos fracos, dois fortes, arena do Boss e barreira para Fogo. O MCP verificou primeiro Roll, equipamento, recompensas, saldo insuficiente e compra por 400 moedas. A passagem leva apenas a um trecho provisório; região Fogo e persistência da barreira permanecem pendentes. O layout e o ciclo completo aguardam playtest manual.
+
 ## Dependências e decisões a confirmar
 
 - O GDD geral apresenta probabilidades que somam 101,1%. O usuário confirmou a distribuição dos GDDs v0.4 e v0.5: 68,9%, 25%, 5%, 1% e 0,1%, totalizando 100%.

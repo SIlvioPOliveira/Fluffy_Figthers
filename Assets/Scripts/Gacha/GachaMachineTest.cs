@@ -36,7 +36,7 @@ public sealed class GachaMachineTest : MonoBehaviour
     {
         if (spinning && Time.unscaledTime - spinStarted >= Mathf.Max(0.1f, spinDuration)) spinning = false;
         if (open && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
-        else if (!open && !driver.InventoryOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
+        else if (!open && !driver.InventoryOpen && !driver.BarrierOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
     }
 
     private void OnDisable() { if (driver != null && open) SetOpen(false); }

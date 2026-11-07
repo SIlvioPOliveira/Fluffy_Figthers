@@ -16,6 +16,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     public ThirdPersonCamera CameraController => cameraController;
     public bool InventoryOpen { get; set; }
     public bool GachaOpen { get; set; }
+    public bool BarrierOpen { get; set; }
 
     private void Awake()
     {
@@ -37,17 +38,22 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
 
     private void Update()
     {
-        if (InventoryOpen || GachaOpen) return;
+        if (InventoryOpen || GachaOpen || BarrierOpen) return;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
             if (!Input.GetKeyDown(KeyCode.Alpha1 + i)) continue;
             if (Inventory.GetSlot(i).HasValue) Inventory.TryUnequip(i);
-            else Inventory.TryEquip(quickEquipPetId, 1, i);
+            else if (!Inventory.TryEquip(quickEquipPetId, 1, i))
+            {
+                // In empty-start scenes, the first Gacha reward can be any rarity.
+                foreach (InventoryEntry entry in Inventory.GetEntries())
+                    if (entry.Available > 0 && Inventory.TryEquip(entry.Key.PetId, entry.Key.FusionLevel, i)) break;
+            }
         }
     }
 
     private void OnGUI()
     {
-        if (!InventoryOpen && !GachaOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Pets; WASD movimenta.");
+        if (!InventoryOpen && !GachaOpen && !BarrierOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Pets; WASD movimenta.");
     }
 }

@@ -22,7 +22,7 @@ public sealed class InventoryTestUI : MonoBehaviour
 
     private void Update()
     {
-        if (driver.GachaOpen) return;
+        if (driver.GachaOpen || driver.BarrierOpen) return;
         if (Input.GetKeyDown(KeyCode.I) || (open && Input.GetKeyDown(KeyCode.Escape))) SetOpen(!open);
     }
 

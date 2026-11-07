@@ -101,6 +101,10 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 7. Mundo e progressão
 
+- [x] Montar `RegiaoAguaPrototipo` com entrada, Gacha, quatro inimigos fracos, dois fortes, arena de 30 m, Guardião das Marés e saída provisória para Fogo, agrupados na Hierarchy.
+- [x] Implementar barreira provisória da Água por 400 moedas, com confirmação e validação de saldo; verificar pelo MCP o ciclo de recompensas e compra.
+- [ ] Validar manualmente navegação, legibilidade dos elementos, combate e compra da barreira na região provisória.
+- [ ] Persistir o estado da barreira e conectar o caminho à região Fogo quando essas etapas forem implementadas.
 - [ ] Construir uma cena principal contínua com Água, Fogo, Lava e Gelo, áreas abertas, pontos de entrada e arenas.
 - [ ] Em cada região, colocar Gacha, quatro inimigos fracos, dois fortes e um Boss com valores configuráveis.
 - [ ] Criar três barreiras com interação, confirmação, saldo suficiente e abertura permanente.
