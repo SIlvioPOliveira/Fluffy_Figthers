@@ -34,7 +34,8 @@ public sealed class GachaMachineTest : MonoBehaviour
 
     private void Update()
     {
-        if (spinning && Time.unscaledTime - spinStarted >= Mathf.Max(0.1f, spinDuration)) spinning = false;
+        if (driver.PauseOpen) return;
+        if (spinning && Time.time - spinStarted >= Mathf.Max(0.1f, spinDuration)) spinning = false;
         if (open && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
         else if (!open && !driver.InventoryOpen && !driver.BarrierOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
     }
@@ -64,7 +65,7 @@ public sealed class GachaMachineTest : MonoBehaviour
         // The cards on either side are visual only; neither influences the selected reward.
         reel[WinningIndex - 1] = OtherPet(reward);
         reel[WinningIndex + 1] = OtherPet(reward);
-        spinStarted = Time.unscaledTime;
+        spinStarted = Time.time;
         spinning = true;
         return status;
     }
@@ -96,7 +97,7 @@ public sealed class GachaMachineTest : MonoBehaviour
     {
         Rect area = GUILayoutUtility.GetRect(10, 90, GUILayout.ExpandWidth(true));
         GUI.Box(area, GUIContent.none);
-        float progress = Mathf.Clamp01((Time.unscaledTime - spinStarted) / Mathf.Max(0.1f, spinDuration));
+        float progress = Mathf.Clamp01((Time.time - spinStarted) / Mathf.Max(0.1f, spinDuration));
         float ease = 1f - Mathf.Pow(1f - progress, 3f);
         const float cardWidth = 120f;
         float position = Mathf.Lerp(ReelStart, WinningIndex, ease);

@@ -54,7 +54,6 @@ public sealed class PlayerHudPrototype : MonoBehaviour
             buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 14 };
         }
         GUI.Box(new Rect(15, 15, 180, 48), "MOEDAS\n" + driver.Wallet.Balance, panelStyle);
-        GUI.Box(new Rect(Screen.width * 0.5f - 95, 15, 190, 48), "REGIÃO\nÁGUA", panelStyle);
         string objective = driver.TutorialStage == 0 ? "Vá até a máquina de Gacha e pressione E" :
             driver.TutorialStage == 1 ? "Realize seu primeiro Roll" :
             driver.TutorialStage == 2 ? "Abra o inventário [I]" :
@@ -103,7 +102,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
                 label = pet.PetName + "  Nv." + slot.Value.FusionLevel;
             GUI.Label(new Rect(28, Screen.height - 96 + i * 23, 225, 22), (i + 1) + ". " + label, textStyle);
         }
-        if (!driver.GachaOpen && !driver.BarrierOpen && GUI.Button(InventoryRect, driver.InventoryOpen ? "FECHAR [I]" : "INVENTÁRIO [I]", buttonStyle))
+        if (!driver.PauseOpen && !driver.GachaOpen && !driver.BarrierOpen && GUI.Button(InventoryRect, driver.InventoryOpen ? "FECHAR [I]" : "INVENTÁRIO [I]", buttonStyle))
             inventoryUI.ToggleFromHud();
     }
 }

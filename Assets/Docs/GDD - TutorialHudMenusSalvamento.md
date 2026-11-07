@@ -135,7 +135,7 @@ Contador de moedas com ícone e valor atual.
 
 ### Parte superior central
 
-Identificação da região atual.
+Área reservada para informações de combate, incluindo a barra de vida do Boss. A identificação permanente da região foi removida da HUD a pedido do usuário para evitar sobreposição.
 
 ### Canto superior direito
 

@@ -33,6 +33,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     public bool InventoryOpen { get; set; }
     public bool GachaOpen { get; set; }
     public bool BarrierOpen { get; set; }
+    public bool PauseOpen { get; set; }
 
     private void Awake()
     {
@@ -158,15 +159,18 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         SaveProgress();
     }
 
-    private void SaveProgress()
+    private void SaveProgress() => TrySaveProgress();
+
+    public bool TrySaveProgress()
     {
-        if (!persistProgress || saveBlocked || !barrierRegistered || Inventory == null || Wallet == null) return;
+        if (!persistProgress) return true;
+        if (saveBlocked || !barrierRegistered || Inventory == null || Wallet == null || saveStore == null) return false;
         if (barrier != null) savedFireUnlocked = barrier.IsUnlocked;
         PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage, tutorialEnemyDefeated, tutorialRollCount, tutorialWaterBossDefeated);
         string json = JsonUtility.ToJson(data);
-        if (json == lastSavedJson) return;
-        if (saveStore.Save(data, out string error)) { lastSavedJson = json; saveMessage = null; }
-        else { saveMessage = "Não foi possível salvar o progresso."; Debug.LogError(saveMessage + " " + error, this); }
+        if (json == lastSavedJson) return true;
+        if (saveStore.Save(data, out string error)) { lastSavedJson = json; saveMessage = null; return true; }
+        saveMessage = "Não foi possível salvar o progresso."; Debug.LogError(saveMessage + " " + error, this); return false;
     }
 
     private void OnApplicationQuit() => SaveProgress();
@@ -185,7 +189,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
             SaveProgress();
             nextSave = Time.unscaledTime + Mathf.Max(1f, autosaveInterval);
         }
-        if (InventoryOpen || GachaOpen || BarrierOpen) return;
+        if (InventoryOpen || GachaOpen || BarrierOpen || PauseOpen) return;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
             if (!Input.GetKeyDown(KeyCode.Alpha1 + i)) continue;

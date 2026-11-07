@@ -78,6 +78,7 @@ public sealed class EnemyHealth : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f) return;
         if (IsAlive || Time.time < respawnAt) return;
         Health = maxHealth;
         IsAlive = true;

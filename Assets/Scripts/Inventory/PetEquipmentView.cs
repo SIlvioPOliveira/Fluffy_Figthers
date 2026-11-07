@@ -102,6 +102,7 @@ public sealed class PetEquipmentView : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (Time.timeScale == 0f) return;
         if (player == null) return;
         EnemyHealth target = combat != null ? combat.Target : null;
         if (target != null && !target.IsAlive) target = null;

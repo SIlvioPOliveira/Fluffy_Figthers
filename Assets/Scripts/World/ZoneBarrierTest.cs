@@ -52,6 +52,7 @@ public sealed class ZoneBarrierTest : MonoBehaviour
 
     private void Update()
     {
+        if (driver.PauseOpen) return;
         if (modalOpen && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
         else if (!modalOpen && !unlocked && !driver.InventoryOpen && !driver.GachaOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
     }

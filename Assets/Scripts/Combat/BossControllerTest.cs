@@ -65,6 +65,7 @@ public sealed class BossControllerTest : MonoBehaviour, IDamageGate
 
     private void Update()
     {
+        if (Time.timeScale == 0f) return;
         if (!InCombat) return;
         if (!health.IsAlive || player == null || arena == null) { InCombat = false; ClearWarnings(); return; }
         if (!arena.ContainsPlayer()) { ResetEncounter(); return; }

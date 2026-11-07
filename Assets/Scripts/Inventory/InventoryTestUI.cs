@@ -22,7 +22,7 @@ public sealed class InventoryTestUI : MonoBehaviour
 
     private void Update()
     {
-        if (driver.GachaOpen || driver.BarrierOpen) return;
+        if (driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen) return;
         if (Input.GetKeyDown(KeyCode.I) || (open && Input.GetKeyDown(KeyCode.Escape))) SetOpen(!open);
     }
 
@@ -30,7 +30,7 @@ public sealed class InventoryTestUI : MonoBehaviour
 
     public void ToggleFromHud()
     {
-        if (driver == null || driver.GachaOpen || driver.BarrierOpen) return;
+        if (driver == null || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen) return;
         SetOpen(!open);
     }
 
