@@ -1668,9 +1668,9 @@ MonoBehaviour:
   warningMaterial: {fileID: 2100000, guid: bd64b919a38157b428dcb12806b6695c, type: 2}
   pattern: 3
   warningSeconds: 1
-  cooldownSeconds: 1.5
+  cooldownSeconds: 1
   attackRadius: 2.5
-  doubleEvery: 3
+  doubleEvery: 1
   predictionSeconds: 1.2
   ultimateAreas: 4
   ultimateSpawnInterval: 0.55
@@ -1704,7 +1704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   driver: {fileID: 1688303123}
-  maxHealth: 11000
+  maxHealth: 21000
   reward: 4500
   respawnDelay: 30
   selectionMarker: {fileID: 1292011016}
