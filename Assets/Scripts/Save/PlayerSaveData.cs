@@ -10,6 +10,8 @@ public sealed class PlayerSaveData
     public PetSlotSave[] slots;
     public bool fireUnlocked;
     public int tutorialStage;
+    public bool tutorialEnemyDefeated;
+    public int tutorialRollCount;
 }
 
 [Serializable]
@@ -29,11 +31,11 @@ public sealed class PetSlotSave
 
 public static class PlayerSaveCodec
 {
-    public const int CurrentVersion = 2;
+    public const int CurrentVersion = 3;
 
-    public static PlayerSaveData Capture(CurrencyWallet wallet, PlayerInventory inventory, bool fireUnlocked, int tutorialStage = 0)
+    public static PlayerSaveData Capture(CurrencyWallet wallet, PlayerInventory inventory, bool fireUnlocked, int tutorialStage = 0, bool tutorialEnemyDefeated = false, int tutorialRollCount = 0)
     {
-        var data = new PlayerSaveData { version = CurrentVersion, coins = wallet.Balance, fireUnlocked = fireUnlocked, tutorialStage = tutorialStage, pets = new List<PetStackSave>(), slots = new PetSlotSave[PlayerInventory.MaxEquipment] };
+        var data = new PlayerSaveData { version = CurrentVersion, coins = wallet.Balance, fireUnlocked = fireUnlocked, tutorialStage = tutorialStage, tutorialEnemyDefeated = tutorialEnemyDefeated, tutorialRollCount = tutorialRollCount, pets = new List<PetStackSave>(), slots = new PetSlotSave[PlayerInventory.MaxEquipment] };
         foreach (InventoryEntry entry in inventory.GetEntries())
             data.pets.Add(new PetStackSave { petId = entry.Key.PetId, level = entry.Key.FusionLevel, quantity = entry.Total });
         for (int i = 0; i < data.slots.Length; i++)
@@ -49,7 +51,7 @@ public static class PlayerSaveCodec
     {
         wallet = null;
         inventory = null;
-        if (data == null || catalog == null || (data.version != 1 && data.version != CurrentVersion) || data.coins < 0 || (data.version == CurrentVersion && (data.tutorialStage < 0 || data.tutorialStage > 4)) || data.pets == null || data.slots == null || data.slots.Length != PlayerInventory.MaxEquipment) return false;
+        if (data == null || catalog == null || data.version < 1 || data.version > CurrentVersion || data.coins < 0 || (data.version >= 2 && (data.tutorialStage < 0 || data.tutorialStage > (data.version == 2 ? 4 : 6))) || (data.version >= 3 && (data.tutorialRollCount < 0 || data.tutorialRollCount > 2)) || data.pets == null || data.slots == null || data.slots.Length != PlayerInventory.MaxEquipment) return false;
         var restored = new PlayerInventory(catalog);
         var keys = new HashSet<PetStackKey>();
         foreach (PetStackSave stack in data.pets)

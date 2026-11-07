@@ -67,6 +67,7 @@ public sealed class EnemyHealth : MonoBehaviour
         catch (System.Exception exception) { Debug.LogException(exception, this); }
         if (rewardGranted)
         {
+            driver.TutorialEnemyRewardGranted();
             try { RewardGranted?.Invoke(reward); }
             catch (System.Exception exception) { Debug.LogException(exception, this); }
         }

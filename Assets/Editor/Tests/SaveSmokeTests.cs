@@ -34,8 +34,11 @@ public static class SaveSmokeTests
         var legacy = PlayerSaveCodec.Capture(wallet, inventory, true);
         legacy.version = 1;
         Require(PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Salvamento anterior não foi aceito.");
+        legacy.version = 2;
+        legacy.tutorialStage = 4;
+        Require(PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Salvamento do tutorial anterior não foi aceito.");
         legacy.version = PlayerSaveCodec.CurrentVersion;
-        legacy.tutorialStage = 5;
+        legacy.tutorialStage = 7;
         Require(!PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Etapa inválida foi aceita.");
 
         // Exercise the tutorial without opening or modifying the player's actual save.
@@ -45,6 +48,7 @@ public static class SaveSmokeTests
             var tutorial = testObject.AddComponent<PetEquipmentTestDriver>();
             var testInventory = new PlayerInventory(catalog);
             typeof(PetEquipmentTestDriver).GetProperty("Inventory").GetSetMethod(true).Invoke(tutorial, new object[] { testInventory });
+            typeof(PetEquipmentTestDriver).GetProperty("Wallet").GetSetMethod(true).Invoke(tutorial, new object[] { new CurrencyWallet(0) });
             var changed = typeof(PetEquipmentTestDriver).GetMethod("OnInventoryChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             Require(tutorial.TutorialStage == 0, "Tutorial não começou na máquina.");
             tutorial.TutorialMachineOpened();
@@ -57,8 +61,41 @@ public static class SaveSmokeTests
             Require(testInventory.TryEquip("water_peixinho", 1, 0), "Pet do tutorial não foi equipado.");
             changed.Invoke(tutorial, null);
             Require(tutorial.TutorialStage == 4, "Equipar não avançou.");
+            var enemyObject = new GameObject("TutorialEnemySmokeTest");
+            try
+            {
+                var enemy = enemyObject.AddComponent<EnemyHealth>();
+                typeof(EnemyHealth).GetField("driver", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(enemy, tutorial);
+                typeof(EnemyHealth).GetMethod("Awake", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(enemy, null);
+                Require(enemy.TakeDamage(1000) && tutorial.Wallet.Balance == 20, "Derrota não concedeu recompensa.");
+                Require(!enemy.TakeDamage(1000) && tutorial.Wallet.Balance == 20, "Recompensa repetida após derrota.");
+            }
+            finally { UnityEngine.Object.DestroyImmediate(enemyObject); }
+            Require(tutorial.TutorialStage == 5, "Recompensa do inimigo não avançou.");
+            Require(testInventory.TryAdd("water_peixinho"), "Segundo Pet não foi adicionado.");
+            changed.Invoke(tutorial, null);
+            Require(tutorial.TutorialStage == 6, "Segundo Pet não avançou.");
+            var savedTutorial = PlayerSaveCodec.Capture(wallet, testInventory, false, 6, true, 2);
+            Require(store.Save(savedTutorial, out error) && store.Load(out var savedTutorialRead) == SaveLoadStatus.Loaded && savedTutorialRead.tutorialStage == 6 && savedTutorialRead.tutorialEnemyDefeated && savedTutorialRead.tutorialRollCount == 2, "Progresso do combate não foi salvo.");
         }
         finally { UnityEngine.Object.DestroyImmediate(testObject); }
+
+        var earlyObject = new GameObject("EarlyTutorialSmokeTest");
+        try
+        {
+            var early = earlyObject.AddComponent<PetEquipmentTestDriver>();
+            var earlyInventory = new PlayerInventory(catalog);
+            typeof(PetEquipmentTestDriver).GetProperty("Inventory").GetSetMethod(true).Invoke(early, new object[] { earlyInventory });
+            var changed = typeof(PetEquipmentTestDriver).GetMethod("OnInventoryChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            early.TutorialEnemyRewardGranted();
+            Require(earlyInventory.TryAdd("water_peixinho", 1, 2), "Pets antecipados não foram adicionados.");
+            changed.Invoke(early, null);
+            early.TutorialInventoryOpened();
+            Require(earlyInventory.TryEquip("water_peixinho", 1, 0), "Pet antecipado não foi equipado.");
+            changed.Invoke(early, null);
+            Require(early.TutorialStage == 6, "Ações antecipadas não foram reconhecidas.");
+        }
+        finally { UnityEngine.Object.DestroyImmediate(earlyObject); }
 
         wallet.TryAdd(20);
         Require(store.Save(PlayerSaveCodec.Capture(wallet, inventory, true), out error), "Segunda gravação falhou: " + error);

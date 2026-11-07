@@ -22,6 +22,8 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     private string saveMessage;
     private float nextSave;
     public int TutorialStage { get; private set; }
+    private bool tutorialEnemyDefeated;
+    private int tutorialRollCount;
     public PlayerInventory Inventory { get; private set; }
     public CurrencyWallet Wallet { get; private set; }
     public GameCatalog Catalog => catalog;
@@ -55,6 +57,8 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
                 Inventory = restoredInventory;
                 savedFireUnlocked = data.fireUnlocked;
                 TutorialStage = data.version == 1 ? 0 : data.tutorialStage;
+                tutorialEnemyDefeated = data.version >= 3 && data.tutorialEnemyDefeated;
+                tutorialRollCount = data.version >= 3 ? data.tutorialRollCount : 0;
                 ReconcileTutorial();
                 lastSavedJson = JsonUtility.ToJson(data);
                 if (status == SaveLoadStatus.Recovered) Debug.LogWarning("Progresso recuperado do backup.", this);
@@ -102,9 +106,25 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     private void ReconcileTutorial()
     {
         if (Inventory == null) return;
-        if (TutorialStage < 2 && Inventory.GetEntries().Count > 0) TutorialStage = 2;
+        int minimumPets = 0;
+        foreach (InventoryEntry entry in Inventory.GetEntries())
+        {
+            // A fused pet represents at least three earlier pets; only 0, 1 or 2 matters here.
+            minimumPets = Mathf.Min(2, minimumPets + (entry.Key.FusionLevel > 1 ? 2 : Mathf.Min(2, entry.Total)));
+        }
+        tutorialRollCount = Mathf.Max(tutorialRollCount, minimumPets);
+        if (TutorialStage < 2 && tutorialRollCount > 0) TutorialStage = 2;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
             if (Inventory.GetSlot(i).HasValue) { TutorialStage = Mathf.Max(TutorialStage, 4); break; }
+        if (TutorialStage == 4 && tutorialEnemyDefeated) TutorialStage = 5;
+        if (TutorialStage == 5 && tutorialRollCount >= 2) TutorialStage = 6;
+    }
+
+    public void TutorialEnemyRewardGranted()
+    {
+        tutorialEnemyDefeated = true;
+        ReconcileTutorial();
+        SaveProgress();
     }
 
     public void TutorialMachineOpened()
@@ -125,7 +145,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     {
         if (!persistProgress || saveBlocked || !barrierRegistered || Inventory == null || Wallet == null) return;
         if (barrier != null) savedFireUnlocked = barrier.IsUnlocked;
-        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage);
+        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage, tutorialEnemyDefeated, tutorialRollCount);
         string json = JsonUtility.ToJson(data);
         if (json == lastSavedJson) return;
         if (saveStore.Save(data, out string error)) { lastSavedJson = json; saveMessage = null; }

@@ -119,7 +119,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [ ] Validar manualmente o botão da HUD provisória; substituir por Canvas responsivo e ícones finais.
 - [x] Implementar primeiras quatro etapas do tutorial na região Água: máquina, Roll, inventário e equipamento, com progresso salvo e compatibilidade com dados anteriores.
 - [x] Usuário aprovou a primeira parte do tutorial em partida de teste separada.
-- [ ] Validar retomada manual das primeiras etapas; criar os objetivos de combate, segundo Pet, Boss e barreira.
+- [x] Implementar objetivos provisórios de primeiro inimigo e segundo Pet, reconhecendo ações antecipadas e salvando o progresso.
+- [x] Validar manualmente as etapas de primeiro inimigo e segundo Pet (usuário confirmou).
+- [ ] Validar manualmente a retomada do tutorial; criar os objetivos de Boss e barreira.
 - [ ] Criar menu inicial com Jogar e Sair e inicialização de uma nova partida.
 - [ ] Criar HUD de moedas, região, três corações, objetivo, equipe/DPS e acesso ao inventário.
 - [ ] Criar sistema de modal único: bloquear movimento, câmera e seleção; inventário e Gacha mantêm mundo ativo.

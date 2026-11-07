@@ -44,7 +44,9 @@ public sealed class PlayerHudPrototype : MonoBehaviour
         string objective = driver.TutorialStage == 0 ? "Vá até a máquina de Gacha e pressione E" :
             driver.TutorialStage == 1 ? "Realize seu primeiro Roll" :
             driver.TutorialStage == 2 ? "Abra o inventário [I]" :
-            driver.TutorialStage == 3 ? "Equipe seu primeiro Pet" : null;
+            driver.TutorialStage == 3 ? "Equipe seu primeiro Pet" :
+            driver.TutorialStage == 4 ? "Clique em um inimigo e derrote-o" :
+            driver.TutorialStage == 5 ? "Consiga moedas e obtenha outro Pet" : null;
         if (objective != null)
         {
             float objectiveWidth = Mathf.Min(420, Screen.width - 30);
