@@ -30,6 +30,14 @@ public sealed class ZoneBarrierTest : MonoBehaviour
         }
         playerHealth = driver.Player.GetComponent<PlayerHealthTest>();
         if (playerHealth != null) playerHealth.Died += CloseOnDeath;
+        driver.RegisterBarrier(this);
+    }
+
+    public void RestoreUnlocked(bool value)
+    {
+        unlocked = value;
+        if (barrierCollider != null) barrierCollider.enabled = !value;
+        if (barrierRenderer != null) barrierRenderer.enabled = !value;
     }
 
     private void OnDestroy()

@@ -4044,6 +4044,8 @@ MonoBehaviour:
   cameraController: {fileID: 619931342}
   seedTestPets: 0
   quickEquipPetId: water_peixinho
+  persistProgress: 1
+  autosaveInterval: 30
 --- !u!114 &1688303124
 MonoBehaviour:
   m_ObjectHideFlags: 0

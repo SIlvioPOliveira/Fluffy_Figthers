@@ -124,6 +124,10 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 9. Salvamento
 
+- [x] Implementar a primeira versão do slot local na cena `RegiaoAguaPrototipo`: moedas, Pets, três slots e abertura da barreira para Fogo, com validação, gravação automática e backup.
+- [x] Executar `SaveSmokeTests` no Unity: gravação, restauração, backup, dados inválidos e configuração da cena.
+- [x] Validar manualmente moedas e barreira após reiniciar o jogo (usuário confirmou).
+- [ ] Validar manualmente após reiniciar: Pets, fusão e equipamentos; verificar a experiência de recuperação de backup.
 - [ ] Criar um slot local JSON versionado em `Application.persistentDataPath`.
 - [ ] Persistir moedas, IDs e quantidades de Pets por nível, três slots, regiões, tutorial e vitória final.
 - [ ] Restaurar estado com validação de IDs, quantidades e equipamentos; iniciar com vida cheia na última região desbloqueada.
