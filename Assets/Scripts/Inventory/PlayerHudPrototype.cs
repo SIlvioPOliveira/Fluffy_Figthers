@@ -8,9 +8,13 @@ public sealed class PlayerHudPrototype : MonoBehaviour
     private InventoryTestUI inventoryUI;
     private PlayerHealthTest health;
     private GachaMachineTest machine;
+    private BossControllerTest waterBoss;
+    private ZoneBarrierTest gate;
     private GUIStyle panelStyle;
     private GUIStyle textStyle;
     private GUIStyle buttonStyle;
+    private int lastTutorialStage;
+    private float completedUntil;
 
     private void Start()
     {
@@ -18,6 +22,16 @@ public sealed class PlayerHudPrototype : MonoBehaviour
         inventoryUI = GetComponent<InventoryTestUI>();
         health = driver.Player != null ? driver.Player.GetComponent<PlayerHealthTest>() : null;
         machine = FindFirstObjectByType<GachaMachineTest>();
+        foreach (var boss in FindObjectsByType<BossControllerTest>(FindObjectsSortMode.None))
+            if (boss.IsWaterBoss) { waterBoss = boss; break; }
+        gate = FindFirstObjectByType<ZoneBarrierTest>();
+        lastTutorialStage = driver.TutorialStage;
+    }
+
+    private void Update()
+    {
+        if (driver != null && lastTutorialStage < 8 && driver.TutorialStage == 8) completedUntil = Time.unscaledTime + 5f;
+        if (driver != null) lastTutorialStage = driver.TutorialStage;
     }
 
     private static Rect InventoryRect => new Rect(Screen.width - 165, Screen.height - 60, 150, 45);
@@ -46,7 +60,9 @@ public sealed class PlayerHudPrototype : MonoBehaviour
             driver.TutorialStage == 2 ? "Abra o inventário [I]" :
             driver.TutorialStage == 3 ? "Equipe seu primeiro Pet" :
             driver.TutorialStage == 4 ? "Clique em um inimigo e derrote-o" :
-            driver.TutorialStage == 5 ? "Consiga moedas e obtenha outro Pet" : null;
+            driver.TutorialStage == 5 ? "Consiga moedas e obtenha outro Pet" :
+            driver.TutorialStage == 6 ? "Derrote o Guardião das Marés" :
+            driver.TutorialStage == 7 ? "Desbloqueie a região Fogo" + (gate != null ? " (" + gate.UnlockCost + " moedas)" : "") : null;
         if (objective != null)
         {
             float objectiveWidth = Mathf.Min(420, Screen.width - 30);
@@ -57,7 +73,16 @@ public sealed class PlayerHudPrototype : MonoBehaviour
                 if (point.z > 0 && point.x >= 0 && point.x <= Screen.width && point.y >= 0 && point.y <= Screen.height)
                     GUI.Box(new Rect(Mathf.Clamp(point.x - 55, 0, Screen.width - 110), Mathf.Clamp(Screen.height - point.y - 30, 110, Screen.height - 55), 110, 28), "GACHA ↓", panelStyle);
             }
+            Transform destination = driver.TutorialStage == 6 && waterBoss != null ? waterBoss.transform : driver.TutorialStage == 7 && gate != null ? gate.transform : null;
+            if (destination != null && Camera.main != null && !driver.GachaOpen && !driver.InventoryOpen && !driver.BarrierOpen)
+            {
+                Vector3 point = Camera.main.WorldToScreenPoint(destination.position + Vector3.up * 3);
+                if (point.z > 0 && point.x >= 0 && point.x <= Screen.width && point.y >= 0 && point.y <= Screen.height)
+                    GUI.Box(new Rect(Mathf.Clamp(point.x - 70, 0, Screen.width - 140), Mathf.Clamp(Screen.height - point.y - 30, 110, Screen.height - 55), 140, 28), driver.TutorialStage == 6 ? "BOSS ↓" : "BARREIRA ↓", panelStyle);
+            }
         }
+        else if (Time.unscaledTime < completedUntil)
+            GUI.Box(new Rect(Screen.width * 0.5f - 170, 70, 340, 35), "Tutorial concluído!", panelStyle);
         if (health != null)
         {
             GUI.Box(new Rect(Screen.width - 175, 15, 160, 48), "VIDA  " + health.Health + " / " + health.MaxHealth, panelStyle);

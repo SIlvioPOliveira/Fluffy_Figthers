@@ -37,8 +37,11 @@ public static class SaveSmokeTests
         legacy.version = 2;
         legacy.tutorialStage = 4;
         Require(PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Salvamento do tutorial anterior não foi aceito.");
+        legacy.version = 3;
+        legacy.tutorialStage = 6;
+        Require(PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Salvamento do combate anterior não foi aceito.");
         legacy.version = PlayerSaveCodec.CurrentVersion;
-        legacy.tutorialStage = 7;
+        legacy.tutorialStage = 9;
         Require(!PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Etapa inválida foi aceita.");
 
         // Exercise the tutorial without opening or modifying the player's actual save.
@@ -75,8 +78,51 @@ public static class SaveSmokeTests
             Require(testInventory.TryAdd("water_peixinho"), "Segundo Pet não foi adicionado.");
             changed.Invoke(tutorial, null);
             Require(tutorial.TutorialStage == 6, "Segundo Pet não avançou.");
-            var savedTutorial = PlayerSaveCodec.Capture(wallet, testInventory, false, 6, true, 2);
-            Require(store.Save(savedTutorial, out error) && store.Load(out var savedTutorialRead) == SaveLoadStatus.Loaded && savedTutorialRead.tutorialStage == 6 && savedTutorialRead.tutorialEnemyDefeated && savedTutorialRead.tutorialRollCount == 2, "Progresso do combate não foi salvo.");
+            var playerObject = new GameObject("BossTutorialPlayer");
+            var arenaObject = new GameObject("BossTutorialArena");
+            var bossObject = new GameObject("BossTutorialEnemy");
+            try
+            {
+                var player = playerObject.AddComponent<PlayerHealthTest>();
+                var arena = arenaObject.AddComponent<BossArenaTest>();
+                typeof(BossArenaTest).GetField("player", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(arena, player);
+                var bossHealth = bossObject.AddComponent<EnemyHealth>();
+                typeof(EnemyHealth).GetField("driver", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(bossHealth, tutorial);
+                typeof(EnemyHealth).GetMethod("Awake", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(bossHealth, null);
+                var boss = bossObject.AddComponent<BossControllerTest>();
+                typeof(BossControllerTest).GetField("player", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(boss, player);
+                typeof(BossControllerTest).GetField("arena", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(boss, arena);
+                Require(boss.IsWaterBoss && bossHealth.TakeDamage(1000), "Derrota do Guardião não foi registrada.");
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(bossObject);
+                UnityEngine.Object.DestroyImmediate(arenaObject);
+                UnityEngine.Object.DestroyImmediate(playerObject);
+            }
+            Require(tutorial.TutorialStage == 7, "Boss não avançou.");
+            var gatePlayer = new GameObject("TutorialGatePlayer");
+            var gateObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            try
+            {
+                var testGate = gateObject.AddComponent<ZoneBarrierTest>();
+                typeof(ZoneBarrierTest).GetField("driver", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(testGate, tutorial);
+                typeof(ZoneBarrierTest).GetField("region", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(testGate, AssetDatabase.LoadAssetAtPath<RegionData>("Assets/Data/Regions/Water.asset"));
+                typeof(ZoneBarrierTest).GetMethod("Awake", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(testGate, null);
+                typeof(ZoneBarrierTest).GetField("modalOpen", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(testGate, true);
+                typeof(PetEquipmentTestDriver).GetField("player", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(tutorial, gatePlayer.transform);
+                typeof(PetEquipmentTestDriver).GetField("barrier", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(tutorial, testGate);
+                var onBalance = typeof(PetEquipmentTestDriver).GetMethod("OnBalanceChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                tutorial.Wallet.BalanceChanged += (Action<int>)Delegate.CreateDelegate(typeof(Action<int>), tutorial, onBalance);
+                int previousBalance = tutorial.Wallet.Balance;
+                Require(tutorial.Wallet.TryAdd(500), "Moedas para teste da barreira não foram adicionadas.");
+                bool unlocked = (bool)typeof(ZoneBarrierTest).GetMethod("TryUnlock", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(testGate, null);
+                Require(unlocked && testGate.IsUnlocked && tutorial.Wallet.Balance == previousBalance + 100, "Compra da barreira falhou.");
+            }
+            finally { UnityEngine.Object.DestroyImmediate(gateObject); UnityEngine.Object.DestroyImmediate(gatePlayer); }
+            Require(tutorial.TutorialStage == 8, "Barreira aberta não concluiu o tutorial.");
+            var savedTutorial = PlayerSaveCodec.Capture(wallet, testInventory, true, 8, true, 2, true);
+            Require(store.Save(savedTutorial, out error) && store.Load(out var savedTutorialRead) == SaveLoadStatus.Loaded && savedTutorialRead.tutorialStage == 8 && savedTutorialRead.tutorialEnemyDefeated && savedTutorialRead.tutorialRollCount == 2 && savedTutorialRead.tutorialWaterBossDefeated, "Conclusão do tutorial não foi salva.");
         }
         finally { UnityEngine.Object.DestroyImmediate(testObject); }
 
@@ -88,12 +134,14 @@ public static class SaveSmokeTests
             typeof(PetEquipmentTestDriver).GetProperty("Inventory").GetSetMethod(true).Invoke(early, new object[] { earlyInventory });
             var changed = typeof(PetEquipmentTestDriver).GetMethod("OnInventoryChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             early.TutorialEnemyRewardGranted();
+            early.TutorialWaterBossDefeated();
+            typeof(PetEquipmentTestDriver).GetField("savedFireUnlocked", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(early, true);
             Require(earlyInventory.TryAdd("water_peixinho", 1, 2), "Pets antecipados não foram adicionados.");
             changed.Invoke(early, null);
             early.TutorialInventoryOpened();
             Require(earlyInventory.TryEquip("water_peixinho", 1, 0), "Pet antecipado não foi equipado.");
             changed.Invoke(early, null);
-            Require(early.TutorialStage == 6, "Ações antecipadas não foram reconhecidas.");
+            Require(early.TutorialStage == 8, "Boss e barreira antecipados não foram reconhecidos.");
         }
         finally { UnityEngine.Object.DestroyImmediate(earlyObject); }
 

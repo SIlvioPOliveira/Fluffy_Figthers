@@ -24,6 +24,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     public int TutorialStage { get; private set; }
     private bool tutorialEnemyDefeated;
     private int tutorialRollCount;
+    private bool tutorialWaterBossDefeated;
     public PlayerInventory Inventory { get; private set; }
     public CurrencyWallet Wallet { get; private set; }
     public GameCatalog Catalog => catalog;
@@ -59,6 +60,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
                 TutorialStage = data.version == 1 ? 0 : data.tutorialStage;
                 tutorialEnemyDefeated = data.version >= 3 && data.tutorialEnemyDefeated;
                 tutorialRollCount = data.version >= 3 ? data.tutorialRollCount : 0;
+                tutorialWaterBossDefeated = data.version >= 4 && data.tutorialWaterBossDefeated;
                 ReconcileTutorial();
                 lastSavedJson = JsonUtility.ToJson(data);
                 if (status == SaveLoadStatus.Recovered) Debug.LogWarning("Progresso recuperado do backup.", this);
@@ -92,10 +94,16 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         barrier = value;
         barrierRegistered = true;
         barrier.RestoreUnlocked(savedFireUnlocked);
+        ReconcileTutorial();
         SaveProgress();
     }
 
-    private void OnBalanceChanged(int ignored) => SaveProgress();
+    private void OnBalanceChanged(int ignored)
+    {
+        if (barrier != null) savedFireUnlocked = barrier.IsUnlocked;
+        ReconcileTutorial();
+        SaveProgress();
+    }
 
     private void OnInventoryChanged()
     {
@@ -118,6 +126,15 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
             if (Inventory.GetSlot(i).HasValue) { TutorialStage = Mathf.Max(TutorialStage, 4); break; }
         if (TutorialStage == 4 && tutorialEnemyDefeated) TutorialStage = 5;
         if (TutorialStage == 5 && tutorialRollCount >= 2) TutorialStage = 6;
+        if (TutorialStage == 6 && tutorialWaterBossDefeated) TutorialStage = 7;
+        if (TutorialStage == 7 && savedFireUnlocked) TutorialStage = 8;
+    }
+
+    public void TutorialWaterBossDefeated()
+    {
+        tutorialWaterBossDefeated = true;
+        ReconcileTutorial();
+        SaveProgress();
     }
 
     public void TutorialEnemyRewardGranted()
@@ -145,7 +162,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     {
         if (!persistProgress || saveBlocked || !barrierRegistered || Inventory == null || Wallet == null) return;
         if (barrier != null) savedFireUnlocked = barrier.IsUnlocked;
-        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage, tutorialEnemyDefeated, tutorialRollCount);
+        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage, tutorialEnemyDefeated, tutorialRollCount, tutorialWaterBossDefeated);
         string json = JsonUtility.ToJson(data);
         if (json == lastSavedJson) return;
         if (saveStore.Save(data, out string error)) { lastSavedJson = json; saveMessage = null; }

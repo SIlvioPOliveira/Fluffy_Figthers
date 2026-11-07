@@ -13,6 +13,7 @@ public sealed class ZoneBarrierTest : MonoBehaviour
     private bool unlocked;
     private string message = "";
     public bool IsUnlocked => unlocked;
+    public int UnlockCost => region != null ? region.NextRegionCost : 0;
 
     private void Awake()
     {

@@ -121,7 +121,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Usuário aprovou a primeira parte do tutorial em partida de teste separada.
 - [x] Implementar objetivos provisórios de primeiro inimigo e segundo Pet, reconhecendo ações antecipadas e salvando o progresso.
 - [x] Validar manualmente as etapas de primeiro inimigo e segundo Pet (usuário confirmou).
-- [ ] Validar manualmente a retomada do tutorial; criar os objetivos de Boss e barreira.
+- [x] Implementar os objetivos do Guardião e da barreira, com marcadores provisórios, conclusão salva e reconhecimento de ações antecipadas; verificar Boss, compra e gravação/leitura pelos testes do Unity.
+- [x] Usuário aprovou o tutorial até Boss e barreira.
+- [ ] Validar manualmente a retomada do tutorial concluído após fechar o jogo.
 - [ ] Criar menu inicial com Jogar e Sair e inicialização de uma nova partida.
 - [ ] Criar HUD de moedas, região, três corações, objetivo, equipe/DPS e acesso ao inventário.
 - [ ] Criar sistema de modal único: bloquear movimento, câmera e seleção; inventário e Gacha mantêm mundo ativo.

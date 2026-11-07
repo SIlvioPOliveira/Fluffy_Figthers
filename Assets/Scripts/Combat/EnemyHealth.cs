@@ -60,6 +60,8 @@ public sealed class EnemyHealth : MonoBehaviour
                 rewardGranted = driver.Wallet.TryAdd(reward);
                 if (!rewardGranted) Debug.LogWarning("Não foi possível adicionar a recompensa.", this);
             }
+            BossControllerTest boss = GetComponent<BossControllerTest>();
+            if (driver != null && boss != null && boss.IsWaterBoss) driver.TutorialWaterBossDefeated();
             respawnAt = Time.time + respawnDelay;
         }
         // Feedback is optional and cannot cancel an already-applied hit or defeat.
