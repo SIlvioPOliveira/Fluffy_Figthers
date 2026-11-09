@@ -15,7 +15,14 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     [SerializeField, Min(1f)] private float autosaveInterval = 30f;
     private LocalSaveStore saveStore;
     private ZoneBarrierTest barrier;
+    private ZoneBarrierTest lavaBarrier;
+    private ZoneBarrierTest iceBarrier;
     private bool savedFireUnlocked;
+    private bool savedLavaUnlocked;
+    private bool savedIceUnlocked;
+    public bool FinalBossDefeated { get; private set; }
+    public event System.Action FinalBossFirstDefeated;
+    public int HighestUnlockedRegion => savedIceUnlocked ? 3 : savedLavaUnlocked ? 2 : savedFireUnlocked ? 1 : 0;
     private bool saveBlocked;
     private bool barrierRegistered;
     private string lastSavedJson;
@@ -34,6 +41,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     public bool GachaOpen { get; set; }
     public bool BarrierOpen { get; set; }
     public bool PauseOpen { get; set; }
+    public bool VictoryOpen { get; set; }
 
     private void Awake()
     {
@@ -58,6 +66,9 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
                 Wallet = restoredWallet;
                 Inventory = restoredInventory;
                 savedFireUnlocked = data.fireUnlocked;
+                savedLavaUnlocked = data.version >= 5 && data.lavaUnlocked;
+                savedIceUnlocked = data.version >= 5 && data.iceUnlocked;
+                FinalBossDefeated = data.version >= 5 && data.finalBossDefeated;
                 TutorialStage = data.version == 1 ? 0 : data.tutorialStage;
                 tutorialEnemyDefeated = data.version >= 3 && data.tutorialEnemyDefeated;
                 tutorialRollCount = data.version >= 3 ? data.tutorialRollCount : 0;
@@ -92,9 +103,9 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     public void RegisterBarrier(ZoneBarrierTest value)
     {
         if (!persistProgress || value == null) return;
-        barrier = value;
-        barrierRegistered = true;
-        barrier.RestoreUnlocked(savedFireUnlocked);
+        if (value.SourceRegion == RegionId.Water) { barrier = value; barrierRegistered = true; value.RestoreUnlocked(savedFireUnlocked); }
+        else if (value.SourceRegion == RegionId.Fire) { lavaBarrier = value; value.RestoreUnlocked(savedLavaUnlocked); }
+        else if (value.SourceRegion == RegionId.Lava) { iceBarrier = value; value.RestoreUnlocked(savedIceUnlocked); }
         ReconcileTutorial();
         SaveProgress();
     }
@@ -102,6 +113,8 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     private void OnBalanceChanged(int ignored)
     {
         if (barrier != null) savedFireUnlocked = barrier.IsUnlocked;
+        if (lavaBarrier != null) savedLavaUnlocked = lavaBarrier.IsUnlocked;
+        if (iceBarrier != null) savedIceUnlocked = iceBarrier.IsUnlocked;
         ReconcileTutorial();
         SaveProgress();
     }
@@ -138,6 +151,14 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         SaveProgress();
     }
 
+    public void RecordFinalBossDefeat()
+    {
+        if (FinalBossDefeated) return;
+        FinalBossDefeated = true;
+        SaveProgress();
+        FinalBossFirstDefeated?.Invoke();
+    }
+
     public void TutorialEnemyRewardGranted()
     {
         tutorialEnemyDefeated = true;
@@ -166,7 +187,9 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         if (!persistProgress) return true;
         if (saveBlocked || !barrierRegistered || Inventory == null || Wallet == null || saveStore == null) return false;
         if (barrier != null) savedFireUnlocked = barrier.IsUnlocked;
-        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage, tutorialEnemyDefeated, tutorialRollCount, tutorialWaterBossDefeated);
+        if (lavaBarrier != null) savedLavaUnlocked = lavaBarrier.IsUnlocked;
+        if (iceBarrier != null) savedIceUnlocked = iceBarrier.IsUnlocked;
+        PlayerSaveData data = PlayerSaveCodec.Capture(Wallet, Inventory, savedFireUnlocked, TutorialStage, tutorialEnemyDefeated, tutorialRollCount, tutorialWaterBossDefeated, savedLavaUnlocked, savedIceUnlocked, FinalBossDefeated);
         string json = JsonUtility.ToJson(data);
         if (json == lastSavedJson) return true;
         if (saveStore.Save(data, out string error)) { lastSavedJson = json; saveMessage = null; return true; }
@@ -189,7 +212,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
             SaveProgress();
             nextSave = Time.unscaledTime + Mathf.Max(1f, autosaveInterval);
         }
-        if (InventoryOpen || GachaOpen || BarrierOpen || PauseOpen) return;
+        if (InventoryOpen || GachaOpen || BarrierOpen || PauseOpen || VictoryOpen) return;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
             if (!Input.GetKeyDown(KeyCode.Alpha1 + i)) continue;

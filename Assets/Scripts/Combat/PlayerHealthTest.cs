@@ -13,6 +13,7 @@ public sealed class PlayerHealthTest : MonoBehaviour
     public event Action Died;
 
     private void Awake() => Health = maxHealth;
+    public void SetRespawnPoint(Transform point) { if (point != null) respawnPoint = point; }
 
     public bool TakeDamage(int amount)
     {

@@ -101,6 +101,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 7. Mundo e progressão
 
+- [x] Montar Fogo, Lava e Gelo com chão, Gacha, seis inimigos e Boss por região, conectados à Água na mesma cena; usar materiais provisórios e números editáveis.
+- [x] Implementar e verificar as três barreiras e seu salvamento, retomada em Fogo e registro da primeira vitória final; implementar retomada nas demais regiões.
+- [ ] Validar manualmente os caminhos, colisões, Gachas, combate, Bosses, recompensas, barreiras, reaparecimento, vitória final e reinício nas três novas regiões.
 - [x] Montar `RegiaoAguaPrototipo` com entrada, Gacha, quatro inimigos fracos, dois fortes, arena de 30 m, Guardião das Marés e saída provisória para Fogo, agrupados na Hierarchy.
 - [x] Implementar barreira provisória da Água por 400 moedas, com confirmação e validação de saldo; verificar pelo MCP o ciclo de recompensas e compra.
 - [ ] Validar manualmente navegação, legibilidade dos elementos, combate e compra da barreira na região provisória.

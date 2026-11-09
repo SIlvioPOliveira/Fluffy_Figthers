@@ -11,7 +11,7 @@ public sealed class CombatTargetTest : MonoBehaviour
     private void Update()
     {
         if (Target != null && (!Target.IsAlive || !Target.gameObject.activeInHierarchy || Vector3.Distance(driver.Player.position, Target.transform.position) > maxDistance)) ClearTarget();
-        if (driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen) return;
+        if (driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen || driver.VictoryOpen) return;
         if (Input.GetKeyDown(KeyCode.Q)) ClearTarget();
         if (!Input.GetMouseButtonDown(0) || Camera.main == null || PlayerHudPrototype.IsPointerOverInventoryButton()) return;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

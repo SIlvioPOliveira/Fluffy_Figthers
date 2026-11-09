@@ -198,6 +198,8 @@ Elementos decorativos:
 | Inimigo forte | 5.500 HP | 1.300 moedas |
 | Guardião Glacial | 11.000 HP | 4.500 moedas |
 
+Para o protótipo atual, o usuário ajustou o Guardião Glacial para **21.000 HP**, aviso de 1 s, intervalo de 1 s, golpe duplo a cada ataque e especial a cada 5 s. Estes valores de playtest substituem os valores iniciais da tabela e permanecem editáveis no Inspector.
+
 Gacha: 2.500 moedas por Roll.
 
 Ao derrotar o Guardião Glacial pela primeira vez, o jogador recebe uma mensagem de conclusão do protótipo.

@@ -21,10 +21,12 @@ public sealed class PlayerHudPrototype : MonoBehaviour
         driver = GetComponent<PetEquipmentTestDriver>();
         inventoryUI = GetComponent<InventoryTestUI>();
         health = driver.Player != null ? driver.Player.GetComponent<PlayerHealthTest>() : null;
-        machine = FindFirstObjectByType<GachaMachineTest>();
+        foreach (var candidate in FindObjectsByType<GachaMachineTest>(FindObjectsSortMode.None))
+            if (candidate.Region == RegionId.Water) { machine = candidate; break; }
         foreach (var boss in FindObjectsByType<BossControllerTest>(FindObjectsSortMode.None))
             if (boss.IsWaterBoss) { waterBoss = boss; break; }
-        gate = FindFirstObjectByType<ZoneBarrierTest>();
+        foreach (var candidate in FindObjectsByType<ZoneBarrierTest>(FindObjectsSortMode.None))
+            if (candidate.SourceRegion == RegionId.Water) { gate = candidate; break; }
         lastTutorialStage = driver.TutorialStage;
     }
 
@@ -102,7 +104,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
                 label = pet.PetName + "  Nv." + slot.Value.FusionLevel;
             GUI.Label(new Rect(28, Screen.height - 96 + i * 23, 225, 22), (i + 1) + ". " + label, textStyle);
         }
-        if (!driver.PauseOpen && !driver.GachaOpen && !driver.BarrierOpen && GUI.Button(InventoryRect, driver.InventoryOpen ? "FECHAR [I]" : "INVENTÁRIO [I]", buttonStyle))
+        if (!driver.PauseOpen && !driver.VictoryOpen && !driver.GachaOpen && !driver.BarrierOpen && GUI.Button(InventoryRect, driver.InventoryOpen ? "FECHAR [I]" : "INVENTÁRIO [I]", buttonStyle))
             inventoryUI.ToggleFromHud();
     }
 }

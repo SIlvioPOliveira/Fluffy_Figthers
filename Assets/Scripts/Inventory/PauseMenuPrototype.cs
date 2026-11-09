@@ -30,7 +30,7 @@ public sealed class PauseMenuPrototype : MonoBehaviour
 
     public bool TryPause()
     {
-        if (driver == null || driver.PauseOpen || driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen) return false;
+        if (driver == null || driver.PauseOpen || driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.VictoryOpen) return false;
         previousTimeScale = Time.timeScale;
         previousMovement = movement != null && movement.ControlsEnabled;
         previousCamera = driver.CameraController != null && driver.CameraController.ControlsEnabled;

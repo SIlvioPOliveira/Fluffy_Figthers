@@ -17,6 +17,7 @@ public sealed class GachaMachineTest : MonoBehaviour
     private float spinStarted;
     private bool spinning;
     private string message = "";
+    public RegionId Region => pool != null && pool.Region != null ? pool.Region.Region : RegionId.Water;
 
     private void Start()
     {
@@ -34,7 +35,7 @@ public sealed class GachaMachineTest : MonoBehaviour
 
     private void Update()
     {
-        if (driver.PauseOpen) return;
+        if (driver.PauseOpen || driver.VictoryOpen) return;
         if (spinning && Time.time - spinStarted >= Mathf.Max(0.1f, spinDuration)) spinning = false;
         if (open && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
         else if (!open && !driver.InventoryOpen && !driver.BarrierOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
@@ -121,9 +122,9 @@ public sealed class GachaMachineTest : MonoBehaviour
         if (!open)
         {
             if (driver.GetComponent<PlayerHudPrototype>() == null)
-                GUI.Label(new Rect(15, 45, 600, 25), "Moedas: " + driver.Wallet.Balance + (InRange && !driver.InventoryOpen ? "     [E] Abrir Gacha de Água" : ""));
+                GUI.Label(new Rect(15, 45, 600, 25), "Moedas: " + driver.Wallet.Balance + (InRange && !driver.InventoryOpen ? "     [E] Abrir Gacha de " + pool.Region.DisplayName : ""));
             else if (InRange && !driver.InventoryOpen && !driver.BarrierOpen)
-                GUI.Label(new Rect(15, 75, 350, 25), "[E] Abrir Gacha de Água");
+                GUI.Label(new Rect(15, 75, 350, 25), "[E] Abrir Gacha de " + pool.Region.DisplayName);
             return;
         }
         float width = Mathf.Min(580, Screen.width - 30);

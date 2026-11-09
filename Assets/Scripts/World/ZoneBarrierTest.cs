@@ -14,6 +14,8 @@ public sealed class ZoneBarrierTest : MonoBehaviour
     private string message = "";
     public bool IsUnlocked => unlocked;
     public int UnlockCost => region != null ? region.NextRegionCost : 0;
+    public RegionId SourceRegion => region != null ? region.Region : RegionId.Water;
+    private string Destination => SourceRegion == RegionId.Water ? "Fogo" : SourceRegion == RegionId.Fire ? "Lava" : "Gelo";
 
     private void Awake()
     {
@@ -52,7 +54,7 @@ public sealed class ZoneBarrierTest : MonoBehaviour
 
     private void Update()
     {
-        if (driver.PauseOpen) return;
+        if (driver.PauseOpen || driver.VictoryOpen) return;
         if (modalOpen && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
         else if (!modalOpen && !unlocked && !driver.InventoryOpen && !driver.GachaOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
     }
@@ -93,14 +95,14 @@ public sealed class ZoneBarrierTest : MonoBehaviour
         if (!modalOpen)
         {
             if (InRange && !driver.InventoryOpen && !driver.GachaOpen)
-                GUI.Label(new Rect(15, 75, 550, 25), unlocked ? "Passagem para Fogo aberta (região em construção)." : "[E] Desbloquear caminho para Fogo");
+                GUI.Label(new Rect(15, 75, 550, 25), unlocked ? "Passagem para " + Destination + " aberta." : "[E] Desbloquear caminho para " + Destination);
             return;
         }
         float width = Mathf.Min(440f, Screen.width - 30f);
         GUILayout.BeginArea(new Rect((Screen.width - width) / 2f, (Screen.height - 210f) / 2f, width, 210f), GUI.skin.box);
-        GUILayout.Label("DESBLOQUEAR REGIÃO FOGO");
+        GUILayout.Label("DESBLOQUEAR REGIÃO " + Destination.ToUpperInvariant());
         GUILayout.Label("Custo: " + region.NextRegionCost + " moedas | Saldo: " + driver.Wallet.Balance);
-        GUILayout.Label("A próxima região ainda está em construção.");
+        GUILayout.Label("Abrir a passagem permanentemente?");
         if (GUILayout.Button("Confirmar", GUILayout.Height(35))) TryUnlock();
         if (GUILayout.Button("Cancelar / Esc", GUILayout.Height(35))) SetOpen(false);
         GUILayout.Label(message);

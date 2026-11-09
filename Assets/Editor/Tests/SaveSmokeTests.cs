@@ -12,12 +12,57 @@ public static class SaveSmokeTests
         if (!condition) throw new Exception(message);
     }
 
+    private static void CheckWorldGates(GameCatalog catalog, string path)
+    {
+        const System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        var root = new GameObject("WorldGateSmokeTest");
+        var objects = new System.Collections.Generic.List<GameObject>();
+        try
+        {
+            var driver = root.AddComponent<PetEquipmentTestDriver>();
+            var wallet = new CurrencyWallet(10000);
+            typeof(PetEquipmentTestDriver).GetProperty("Inventory").GetSetMethod(true).Invoke(driver, new object[] { new PlayerInventory(catalog) });
+            typeof(PetEquipmentTestDriver).GetProperty("Wallet").GetSetMethod(true).Invoke(driver, new object[] { wallet });
+            typeof(PetEquipmentTestDriver).GetField("persistProgress", flags).SetValue(driver, true);
+            typeof(PetEquipmentTestDriver).GetField("player", flags).SetValue(driver, root.transform);
+            var store = new LocalSaveStore(path, catalog);
+            typeof(PetEquipmentTestDriver).GetField("saveStore", flags).SetValue(driver, store);
+            var onBalance = typeof(PetEquipmentTestDriver).GetMethod("OnBalanceChanged", flags);
+            wallet.BalanceChanged += (Action<int>)Delegate.CreateDelegate(typeof(Action<int>), driver, onBalance);
+            string[] names = { "Water", "Fire", "Lava" };
+            int[] prices = { 400, 1200, 4000 };
+            for (int i = 0; i < names.Length; i++)
+            {
+                var obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                objects.Add(obj);
+                var gate = obj.AddComponent<ZoneBarrierTest>();
+                typeof(ZoneBarrierTest).GetField("driver", flags).SetValue(gate, driver);
+                typeof(ZoneBarrierTest).GetField("region", flags).SetValue(gate, AssetDatabase.LoadAssetAtPath<RegionData>("Assets/Data/Regions/" + names[i] + ".asset"));
+                typeof(ZoneBarrierTest).GetMethod("Awake", flags).Invoke(gate, null);
+                driver.RegisterBarrier(gate);
+                Require(gate.UnlockCost == prices[i] && !gate.IsUnlocked, "Configuração incorreta da barreira " + names[i]);
+                typeof(ZoneBarrierTest).GetField("modalOpen", flags).SetValue(gate, true);
+                Require((bool)typeof(ZoneBarrierTest).GetMethod("TryUnlock", flags).Invoke(gate, null), "Compra falhou em " + names[i]);
+                Require(store.Load(out var saved) == SaveLoadStatus.Loaded && saved.fireUnlocked && saved.lavaUnlocked == (i >= 1) && saved.iceUnlocked == (i >= 2), "Abertura não persistiu em " + names[i]);
+            }
+            Require(wallet.Balance == 4400 && driver.HighestUnlockedRegion == 3, "Saldo ou região desbloqueada incorretos.");
+            driver.RecordFinalBossDefeat();
+            Require(store.Load(out var finalSave) == SaveLoadStatus.Loaded && finalSave.finalBossDefeated, "Vitória final não persistiu.");
+        }
+        finally
+        {
+            foreach (var obj in objects) UnityEngine.Object.DestroyImmediate(obj);
+            UnityEngine.Object.DestroyImmediate(root);
+        }
+    }
+
     public static void Run()
     {
         var catalog = AssetDatabase.LoadAssetAtPath<GameCatalog>("Assets/Data/GameCatalog.asset");
         Require(catalog != null, "Catálogo ausente.");
         string dir = Path.Combine(Directory.GetCurrentDirectory(), "Temp", "SaveSmokeTests", Guid.NewGuid().ToString("N"));
         string path = Path.Combine(dir, "save.json");
+        CheckWorldGates(catalog, Path.Combine(dir, "world.json"));
         var store = new LocalSaveStore(path, catalog);
         Require(store.Load(out _) == SaveLoadStatus.Missing, "Novo arquivo não identificado.");
 
@@ -43,6 +88,10 @@ public static class SaveSmokeTests
         legacy.version = PlayerSaveCodec.CurrentVersion;
         legacy.tutorialStage = 9;
         Require(!PlayerSaveCodec.TryRestore(legacy, catalog, out _, out _), "Etapa inválida foi aceita.");
+        var worldSave = PlayerSaveCodec.Capture(wallet, inventory, true, 8, true, 2, true, true, true, true);
+        Require(store.Save(worldSave, out error) && store.Load(out var worldRead) == SaveLoadStatus.Loaded && worldRead.fireUnlocked && worldRead.lavaUnlocked && worldRead.iceUnlocked && worldRead.finalBossDefeated, "Progresso das regiões não foi salvo.");
+        worldSave.lavaUnlocked = false;
+        Require(!PlayerSaveCodec.TryRestore(worldSave, catalog, out _, out _), "Regiões fora de ordem foram aceitas.");
 
         // Exercise the tutorial without opening or modifying the player's actual save.
         var testObject = new GameObject("TutorialSmokeTest");
@@ -171,6 +220,19 @@ public static class SaveSmokeTests
         var driver = UnityEngine.Object.FindFirstObjectByType<PetEquipmentTestDriver>();
         var gate = UnityEngine.Object.FindFirstObjectByType<ZoneBarrierTest>();
         Require(scene.IsValid() && driver != null && gate != null && new SerializedObject(driver).FindProperty("persistProgress").boolValue, "Cena da Água sem salvamento ou barreira.");
+        var machines = UnityEngine.Object.FindObjectsByType<GachaMachineTest>(FindObjectsSortMode.None);
+        var gates = UnityEngine.Object.FindObjectsByType<ZoneBarrierTest>(FindObjectsSortMode.None);
+        var bosses = UnityEngine.Object.FindObjectsByType<BossControllerTest>(FindObjectsSortMode.None);
+        var enemies = UnityEngine.Object.FindObjectsByType<EnemyHealth>(FindObjectsSortMode.None);
+        Require(machines.Length == 4 && gates.Length == 3 && bosses.Length == 4 && enemies.Length == 28, "Conteúdo das regiões está incompleto.");
+        var regions = new System.Collections.Generic.HashSet<RegionId>();
+        foreach (var machine in machines) regions.Add(machine.Region);
+        Require(regions.Count == 4, "Máquinas não correspondem às quatro regiões.");
+        foreach (var boss in bosses)
+        {
+            var so = new SerializedObject(boss);
+            Require(so.FindProperty("arena").objectReferenceValue != null && so.FindProperty("player").objectReferenceValue != null && new SerializedObject(boss.GetComponent<EnemyHealth>()).FindProperty("driver").objectReferenceValue == driver, "Boss sem referências: " + boss.name);
+        }
         Debug.Log("SAVE_SMOKE_TESTS_PASSED");
     }
 }

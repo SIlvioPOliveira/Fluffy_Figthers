@@ -37,6 +37,7 @@ public sealed class BossControllerTest : MonoBehaviour, IDamageGate
     private bool ultimateActive;
     public bool InCombat { get; private set; }
     public bool IsWaterBoss => pattern == BossPattern.Water;
+    public bool IsIceBoss => pattern == BossPattern.Ice;
     public bool CanReceiveDamage => player != null && arena != null && arena.ContainsPlayer();
 
     private void Awake() => health = GetComponent<EnemyHealth>();

@@ -62,6 +62,7 @@ public sealed class EnemyHealth : MonoBehaviour
             }
             BossControllerTest boss = GetComponent<BossControllerTest>();
             if (driver != null && boss != null && boss.IsWaterBoss) driver.TutorialWaterBossDefeated();
+            if (driver != null && boss != null && boss.IsIceBoss) driver.RecordFinalBossDefeat();
             respawnAt = Time.time + respawnDelay;
         }
         // Feedback is optional and cannot cancel an already-applied hit or defeat.
