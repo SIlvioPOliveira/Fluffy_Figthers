@@ -55,6 +55,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Implementar e testar em memória a validação de saldo e pesos, seleção de um Pet e compra com entrega consistente; pools das quatro regiões configurados.
 - [ ] Impedir Rolls simultâneos; implementar roleta, resultado e feedback sem depender do fim da animação para conceder o Pet.
 - [x] Criar roleta provisória de 4,5 s, com desaceleração e cartões em ambos os lados do prêmio; preservar prêmio ao fechar a janela e bloquear novo Roll até confirmar o resultado. Regras verificadas pelo MCP.
+- [x] Adicionar miniaturas frontais dos modelos à roleta provisória e prévia 3D giratória ao resultado, reutilizando o sistema do inventário.
+- [x] Validar manualmente na Unity a apresentação dos modelos e a roleta (usuário confirmou que funciona).
+- [ ] Validar a retomada da apresentação após fechar e reabrir o Gacha.
 - [ ] Validar manualmente fluidez, enquadramento e resultado da roleta provisória; adicionar ícones, áudio e apresentação final quando disponíveis.
 - [ ] Integrar entrega ao inventário e persistência; testar saldo insuficiente, duplicatas, interrupção e repetição.
 - [x] Confirmar com o usuário a distribuição 68,9% / 25% / 5% / 1% / 0,1% dos GDDs mais recentes.

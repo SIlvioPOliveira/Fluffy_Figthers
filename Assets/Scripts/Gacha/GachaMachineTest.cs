@@ -17,6 +17,7 @@ public sealed class GachaMachineTest : MonoBehaviour
     private float spinStarted;
     private bool spinning;
     private string message = "";
+    private PetInventoryPreview preview;
     public RegionId Region => pool != null && pool.Region != null ? pool.Region.Region : RegionId.Water;
 
     private void Start()
@@ -36,7 +37,12 @@ public sealed class GachaMachineTest : MonoBehaviour
     private void Update()
     {
         if (driver.PauseOpen || driver.VictoryOpen) return;
-        if (spinning && Time.time - spinStarted >= Mathf.Max(0.1f, spinDuration)) spinning = false;
+        if (spinning && Time.time - spinStarted >= Mathf.Max(0.1f, spinDuration))
+        {
+            spinning = false;
+            if (open && preview != null) preview.Select(result);
+        }
+        if (open && preview != null) preview.Tick(Time.unscaledDeltaTime);
         if (open && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
         else if (!open && !driver.InventoryOpen && !driver.BarrierOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
     }
@@ -47,7 +53,18 @@ public sealed class GachaMachineTest : MonoBehaviour
     {
         open = value;
         driver.GachaOpen = value;
-        if (value) driver.TutorialMachineOpened();
+        if (value)
+        {
+            driver.TutorialMachineOpened();
+            if (preview == null) preview = new PetInventoryPreview();
+            foreach (GachaEntry entry in pool.Entries) preview.Thumbnail(entry.Pet);
+            if (result != null && !spinning) preview.Select(result);
+        }
+        else
+        {
+            if (preview != null) preview.Dispose();
+            preview = null;
+        }
         var movement = driver.Player.GetComponent<PlayerMovement>();
         if (movement != null) movement.ControlsEnabled = !value;
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = !value;
@@ -96,7 +113,7 @@ public sealed class GachaMachineTest : MonoBehaviour
 
     private void DrawReel()
     {
-        Rect area = GUILayoutUtility.GetRect(10, 90, GUILayout.ExpandWidth(true));
+        Rect area = GUILayoutUtility.GetRect(10, 135, GUILayout.ExpandWidth(true));
         GUI.Box(area, GUIContent.none);
         float progress = Mathf.Clamp01((Time.time - spinStarted) / Mathf.Max(0.1f, spinDuration));
         float ease = 1f - Mathf.Pow(1f - progress, 3f);
@@ -109,8 +126,12 @@ public sealed class GachaMachineTest : MonoBehaviour
             if (x > area.width || x + cardWidth < 0 || reel[i] == null) continue;
             Color previous = GUI.backgroundColor;
             GUI.backgroundColor = RarityColor(reel[i].Rarity);
-            GUI.Box(new Rect(x + 3, 10, cardWidth - 6, 70), reel[i].PetName + "\n" + reel[i].Rarity);
+            Rect card = new Rect(x + 3, 10, cardWidth - 6, 120);
+            GUI.Box(card, GUIContent.none);
             GUI.backgroundColor = previous;
+            Texture image = preview != null ? preview.Thumbnail(reel[i]) : null;
+            if (image != null) GUI.DrawTexture(new Rect(x + 25, 13, 70, 70), image, ScaleMode.ScaleToFit, true);
+            GUI.Label(new Rect(x + 7, 83, cardWidth - 14, 42), reel[i].PetName + "\n" + reel[i].Rarity, GUI.skin.box);
         }
         GUI.Label(new Rect(area.width * 0.5f - 5, 0, 20, 20), "▼");
         GUI.EndGroup();
@@ -157,10 +178,15 @@ public sealed class GachaMachineTest : MonoBehaviour
             DrawReel();
             Color previous = GUI.backgroundColor;
             GUI.backgroundColor = RarityColor(result.Rarity);
-            GUILayout.Box("VOCÊ RECEBEU\n" + result.PetName + "\n" + result.Rarity, GUILayout.ExpandWidth(true), GUILayout.Height(75));
+            Rect resultRect = GUILayoutUtility.GetRect(10, 130, GUILayout.ExpandWidth(true));
+            GUI.Box(resultRect, GUIContent.none);
             GUI.backgroundColor = previous;
+            if (preview != null && preview.SelectedImage != null)
+                GUI.DrawTexture(new Rect(resultRect.x + 10, resultRect.y + 5, 120, 120), preview.SelectedImage, ScaleMode.ScaleToFit, true);
+            GUI.Label(new Rect(resultRect.x + 140, resultRect.y + 35, Mathf.Max(10, resultRect.width - 150), 75),
+                "VOCÊ RECEBEU\n" + result.PetName + "\n" + result.Rarity);
             message = "Pet recebido! Abra o inventário com I após fechar.";
-            if (GUILayout.Button("Continuar", GUILayout.Height(40))) { result = null; message = ""; }
+            if (GUILayout.Button("Continuar", GUILayout.Height(40))) { result = null; if (preview != null) preview.Select(null); message = ""; }
         }
         GUILayout.Label(message);
         GUILayout.EndArea();

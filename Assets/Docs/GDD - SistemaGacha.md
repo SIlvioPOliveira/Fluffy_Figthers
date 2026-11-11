@@ -54,6 +54,8 @@ A interface do Gacha deverá apresentar:
 
 O sorteio utiliza uma roleta horizontal com ícones de Pets que se deslocam e desaceleram até parar na recompensa previamente selecionada.
 
+Na apresentação provisória, os cartões mostram os modelos dos Pets de frente. Após a parada, o Pet sorteado é mostrado girando na tela de resultado, reutilizando a prévia 3D do inventário. O layout definitivo será definido na etapa de interfaces.
+
 A animação terá duração aproximada de 2,2 segundos e utilizará cores e efeitos sonoros diferentes de acordo com a raridade obtida.
 
 O sorteio matemático ocorrerá antes da animação.
