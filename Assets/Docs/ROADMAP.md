@@ -38,6 +38,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Calcular dano dos níveis 1–3 com multiplicadores 1,00 / 1,50 / 2,25 e arredondamento de 0,5 para cima; calcular DPS da equipe.
 - [x] Fundir atomicamente três cópias disponíveis do mesmo ID e nível; impedir consumo de equipados e fusão acima do nível 3.
 - [x] Criar interface provisória de equipe, lista rolável e detalhes, ordenada por dano, raridade, nome e nível, com equipamento e confirmação de fusão na cena de teste.
+- [x] Adicionar miniaturas frontais dos modelos e prévia giratória do Pet selecionado na interface provisória; clicar novamente desfaz a seleção.
+- [ ] Validar manualmente enquadramento frontal, giro, seleção e retorno à imagem frontal com diferentes Pets; revisar desempenho e visual final.
 - [ ] Criar interface final em Canvas com grade, ícones e cores de raridade; adicionar animação e feedback visual de fusão.
 - [x] Validar manualmente abertura, equipamento, remoção e fusão na interface provisória (usuário confirmou).
 - [ ] Validar manualmente o bloqueio de controles e a aparência da interface provisória.

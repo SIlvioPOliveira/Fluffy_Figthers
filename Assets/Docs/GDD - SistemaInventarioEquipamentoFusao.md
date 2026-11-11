@@ -68,6 +68,8 @@ Cada card apresenta:
 
 A grade pode ser rolada quando houver muitos Pets.
 
+Os Pets aparecem de frente nos cards. Ao selecionar um Pet, sua apresentação gira em 3D; ao desfazer a seleção, o card volta a exibir a vista frontal. A prévia usa os modelos do próprio jogo.
+
 O inventário aceita os 20 tipos de Pets definidos no GDD v0.5, incluindo múltiplas cópias e diferentes níveis de fusão.
 
 ### 3.3. Painel de detalhes

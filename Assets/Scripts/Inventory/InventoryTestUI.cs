@@ -13,6 +13,7 @@ public sealed class InventoryTestUI : MonoBehaviour
     private PetStackKey? selected;
     private Vector2 scroll;
     private string feedback = "";
+    private PetInventoryPreview preview;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public sealed class InventoryTestUI : MonoBehaviour
 
     private void Update()
     {
+        if (open && preview != null) preview.Tick(Time.unscaledDeltaTime);
         if (driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen || driver.VictoryOpen) return;
         if (Input.GetKeyDown(KeyCode.I) || (open && Input.GetKeyDown(KeyCode.Escape))) SetOpen(!open);
     }
@@ -37,6 +39,13 @@ public sealed class InventoryTestUI : MonoBehaviour
     private void SetOpen(bool value)
     {
         open = value;
+        if (value && preview == null) preview = new PetInventoryPreview();
+        if (!value)
+        {
+            if (preview != null) preview.Dispose();
+            preview = null;
+            selected = null;
+        }
         confirmFusion = false;
         driver.InventoryOpen = value;
         if (value) driver.TutorialInventoryOpened();
@@ -75,8 +84,20 @@ public sealed class InventoryTestUI : MonoBehaviour
         foreach (InventoryEntry entry in entries)
         {
             if (!driver.Catalog.TryGetPet(entry.Key.PetId, out PetData pet)) continue;
-            string label = pet.PetName + " | " + pet.Rarity + " | Lv." + entry.Key.FusionLevel + " | DPS " + PetDamage.Calculate(pet.BaseDamage, entry.Key.FusionLevel) + " | x" + entry.Total + " (equipados " + entry.Equipped + ")";
-            if (GUILayout.Button(label, GUILayout.MinHeight(36))) { selected = entry.Key; confirmFusion = false; feedback = ""; }
+            string label = pet.PetName + " | " + pet.Rarity + " | Lv." + entry.Key.FusionLevel + "\nDPS " + PetDamage.Calculate(pet.BaseDamage, entry.Key.FusionLevel) + " | x" + entry.Total + " (equipados " + entry.Equipped + ")";
+            bool isSelected = selected.HasValue && selected.Value.Equals(entry.Key);
+            Rect row = GUILayoutUtility.GetRect(100, 88, GUILayout.ExpandWidth(true));
+            Color oldBackground = GUI.backgroundColor;
+            if (isSelected) GUI.backgroundColor = new Color(.48f, .78f, 1f);
+            GUI.Box(row, GUIContent.none);
+            GUI.backgroundColor = oldBackground;
+            Texture image = isSelected && preview != null ? preview.SelectedImage : preview != null ? preview.Thumbnail(pet) : null;
+            if (image != null) GUI.DrawTexture(new Rect(row.x + 4, row.y + 3, 82, 82), image, ScaleMode.ScaleToFit, true);
+            GUI.Label(new Rect(row.x + 92, row.y + 20, Mathf.Max(10, row.width - 96), 55), label);
+            if (GUI.Button(row, GUIContent.none, GUIStyle.none))
+            {
+                SelectEntry(entry.Key, pet);
+            }
         }
         GUILayout.EndScrollView();
         GUILayout.EndVertical();
@@ -85,6 +106,15 @@ public sealed class InventoryTestUI : MonoBehaviour
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
+    }
+
+    private void SelectEntry(PetStackKey key, PetData pet)
+    {
+        bool alreadySelected = selected.HasValue && selected.Value.Equals(key);
+        selected = alreadySelected ? (PetStackKey?)null : key;
+        if (preview != null) preview.Select(alreadySelected ? null : pet);
+        confirmFusion = false;
+        feedback = "";
     }
 
     private int CompareEntries(InventoryEntry a, InventoryEntry b)
@@ -102,8 +132,10 @@ public sealed class InventoryTestUI : MonoBehaviour
         if (!selected.HasValue || !driver.Catalog.TryGetPet(selected.Value.PetId, out PetData pet)) { GUILayout.Label("Selecione um Pet."); return; }
         PetStackKey key = selected.Value;
         InventoryEntry entry = driver.Inventory.GetEntry(key);
-        if (entry.Total == 0) { selected = null; GUILayout.Label("Selecione um Pet."); return; }
+        if (entry.Total == 0) { selected = null; if (preview != null) preview.Select(null); GUILayout.Label("Selecione um Pet."); return; }
         GUILayout.Label(pet.PetName + " — " + pet.Rarity + " / " + pet.Region);
+        Rect previewRect = GUILayoutUtility.GetRect(10, 190, GUILayout.ExpandWidth(true));
+        if (preview != null && preview.SelectedImage != null) GUI.DrawTexture(previewRect, preview.SelectedImage, ScaleMode.ScaleToFit, true);
         GUILayout.Label("Nível " + key.FusionLevel + " | Dano base " + pet.BaseDamage + " | Dano final " + PetDamage.Calculate(pet.BaseDamage, key.FusionLevel));
         GUILayout.Label("Total: " + entry.Total + " | Equipados: " + entry.Equipped + " | Disponíveis: " + entry.Available);
         GUI.enabled = entry.Available > 0;
