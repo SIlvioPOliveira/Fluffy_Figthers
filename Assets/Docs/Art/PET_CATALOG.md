@@ -137,7 +137,7 @@ Os IDs `fire_raposa` e `ice_lobo` são históricos e foram preservados para mant
 
 ### Arquivos recebidos para os modelos
 
-Origem informada: `C:/Users/sotav/Downloads/Modelos 3D Pts/ModelosProntos`. Os caminhos abaixo são relativos a essa pasta, que está fora do repositório. A correspondência do Gatinho com `fire_raposa.zip` foi confirmada pelo responsável; as demais são identificações pelos nomes dos arquivos. Esses arquivos ainda não estão vinculados aos dados do jogo.
+Origem informada: `C:/Users/sotav/Downloads/Modelos 3D Pts/ModelosProntos`. Os caminhos abaixo são relativos a essa pasta, que está fora do repositório. A correspondência do Gatinho com `fire_raposa.zip` foi confirmada pelo responsável; as demais são identificações pelos nomes dos arquivos. Cópias dos 20 FBX e texturas foram importadas para `Assets/Art/Pets/ModelosProntos` e associadas aos respectivos pets por prefabs em `Assets/Art/Pets/Prefabs` para testes.
 
 | Pet | Arquivo recebido |
 |---|---|
@@ -162,7 +162,7 @@ Origem informada: `C:/Users/sotav/Downloads/Modelos 3D Pts/ModelosProntos`. Os c
 | Urso Glacial | `GELO/ice_urso.zip` |
 | Dragão de Cristal | `GELO/ice_dragon.zip` |
 
-Inspeção técnica inicial: cada FBX contém uma malha com UV e material de textura; não foram encontrados esqueletos ou animações internas. As texturas verificadas têm 4096 × 4096 px. A integração, escala, orientação, materiais na Unity e desempenho em gameplay ainda precisam de validação.
+Inspeção técnica inicial: cada FBX contém uma malha com UV e material de textura; não foram encontrados esqueletos ou animações internas. Os arquivos originais e suas texturas foram preservados; as texturas estão configuradas na Unity com resolução máxima de 4096 para teste. Todos os prefabs possuem textura e foram instanciados pelo equipamento. A cena `TesteModelosPets` permite experimentar os 20 modelos sem usar o salvamento do jogador. Escala, orientação e aparência exigem revisão manual.
 
 ## 7. Regra de uso pelo agente
 

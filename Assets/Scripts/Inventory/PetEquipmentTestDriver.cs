@@ -42,6 +42,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     public bool BarrierOpen { get; set; }
     public bool PauseOpen { get; set; }
     public bool VictoryOpen { get; set; }
+    public bool PersistenceEnabled => persistProgress;
 
     private void Awake()
     {

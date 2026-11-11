@@ -156,6 +156,12 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 10. Arte, áudio, balanceamento e entrega
 
+- [x] Importar os 20 modelos de pets fornecidos, mantendo os FBX originais e texturas em 4K; criar prefabs e associar ao catálogo.
+- [x] Verificar instanciação dos 20 pets, texturas e combate com três dragões; executar medição exploratória no Editor sem alterar o inventário salvo.
+- [x] Afastar a câmera principal do protótipo para manter os pets equipados visíveis; validar enquadramento manualmente no jogo.
+- [ ] Validar manualmente os 20 pets na cena `TesteModelosPets`, incluindo orientação, escala, acompanhamento, ataque e materiais; medir desempenho na build em gameplay real.
+
+  Medição exploratória: Unity 6000.3.11f1, Editor em segundo plano, RTX 4060 Ti; três dragões equipados atacando um alvo isolado, 10 s de amostragem após aquecimento: 4.041 quadros, média 2,48 ms (~404 FPS), percentil 95 de 3,50 ms. O Editor informou ~1.174 MiB de memória total alocada e ~427 MiB somados para as 20 texturas 4K carregadas. Esses números incluem o Editor e não substituem a medição da build em gameplay real ou em outros PCs.
 - [ ] Criar ou integrar modelos, ícones, prefabs e animações simples de idle, acompanhamento e ataque dos Pets.
 - [ ] Criar visuais e animações de inimigos e Bosses, efeitos de combate, Gacha e fusão, interfaces e áudio.
 - [ ] Validar acessibilidade visual e legibilidade de alvo, ataques, objetivos e interfaces.

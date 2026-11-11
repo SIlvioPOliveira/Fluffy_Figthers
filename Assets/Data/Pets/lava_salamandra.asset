@@ -18,4 +18,4 @@ MonoBehaviour:
   region: 2
   baseDamage: 160
   icon: {fileID: 0}
-  prefab: {fileID: 0}
+  prefab: {fileID: 8643593524491325887, guid: 7266db940025c9143a6b6fcc46e42d4a, type: 3}

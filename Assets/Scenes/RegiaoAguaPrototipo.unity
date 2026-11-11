@@ -4810,10 +4810,10 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonCamera
   target: {fileID: 1141616163}
-  distance: 5
+  distance: 7.5
   targetHeight: 1.2
   sensitivity: 3
-  pitch: 20
+  pitch: 25
   minPitch: -20
   maxPitch: 70
 --- !u!81 &619931343
