@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: fire_raposa
   m_EditorClassIdentifier: Assembly-CSharp::PetData
   petId: fire_raposa
-  petName: Raposa Flamejante
+  petName: Lobo de Fogo
   rarity: 1
   region: 1
   baseDamage: 30

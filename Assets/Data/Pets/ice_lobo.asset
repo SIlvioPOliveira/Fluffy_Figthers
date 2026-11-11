@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ice_lobo
   m_EditorClassIdentifier: Assembly-CSharp::PetData
   petId: ice_lobo
-  petName: Lobo de Gelo
+  petName: Yet
   rarity: 2
   region: 3
   baseDamage: 540

@@ -26,7 +26,7 @@ O TCC *Desenvolvimento de um Jogo Digital do Tipo Gacha com Sistema de Recompens
 ### Em aberto (NÃO APROVADO)
 
 - Forma-base predominante: cubo suavizado, cubo arredondado ou formas orgânicas simples. **Default operacional provisório: cubo arredondado para pet compacto**, até decisão final.
-- Valores exatos de proporções, limites de geometria, paletas oficiais, número de pets e identidade individual das espécies.
+- Valores exatos de proporções, limites de geometria, paletas oficiais e detalhes visuais individuais das espécies. A lista de 20 pets e sua distribuição estão registradas em `PET_CATALOG.md`.
 - Escalas relativas definitivas entre pets, jogador, inimigos e bosses.
 
 ## 2. Frase-guia

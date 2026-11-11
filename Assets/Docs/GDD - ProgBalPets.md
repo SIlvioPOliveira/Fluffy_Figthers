@@ -24,7 +24,7 @@ Pets de regiões anteriores continuam utilizáveis e podem receber melhorias por
 | Água | Lendário | Golfinho | 18 |
 | Água | Secreto | Dragão Marinho | 30 |
 | Fogo | Comum | Gatinho de Fogo | 20 |
-| Fogo | Raro | Raposa Flamejante | 30 |
+| Fogo | Raro | Lobo de Fogo | 30 |
 | Fogo | Épico | Fênix Bebê | 45 |
 | Fogo | Lendário | Leão Solar | 65 |
 | Fogo | Secreto | Dragão de Fogo | 100 |
@@ -35,11 +35,13 @@ Pets de regiões anteriores continuam utilizáveis e podem receber melhorias por
 | Lava | Secreto | Dragão de Magma | 350 |
 | Gelo | Comum | Pinguinzinho | 240 |
 | Gelo | Raro | Raposa Polar | 360 |
-| Gelo | Épico | Lobo de Gelo | 540 |
+| Gelo | Épico | Yet | 540 |
 | Gelo | Lendário | Urso Glacial | 800 |
 | Gelo | Secreto | Dragão de Cristal | 1.200 |
 
-Os nomes são provisórios. O dano base, a raridade, os modelos e os ícones deverão ser configuráveis no Inspector da Unity por meio de ScriptableObjects.
+Elenco e distribuição atualizados conforme a lista fornecida pelo responsável. O dano base, a raridade, os modelos e os ícones deverão ser configuráveis no Inspector da Unity por meio de ScriptableObjects.
+
+Para preservar partidas existentes, os identificadores internos `fire_raposa` e `ice_lobo` permanecem associados, respectivamente, a Lobo de Fogo e Yet. Pets já possuídos nesses espaços passam a exibir os novos nomes.
 
 ### 3. Probabilidades do Gacha
 

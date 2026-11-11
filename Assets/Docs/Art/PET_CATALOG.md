@@ -2,7 +2,7 @@
 
 **Versão:** 0.1 — estrutura inicial  
 **Escopo:** pets, inimigos, elites e bosses.  
-**Estado do catálogo:** ainda não foram fornecidas fichas individuais oficiais suficientes para registrar uma lista canônica de personagens. **Não inferir o elenco a partir de exemplos visuais.**
+**Estado do catálogo:** o responsável forneceu os 20 nomes e sua distribuição. As fichas e o estado de aprovação visual de cada modelo ainda precisam ser registrados individualmente. **Não inferir detalhes a partir de exemplos visuais.**
 
 ## 1. Estados válidos
 
@@ -106,13 +106,63 @@ render_three_quarter: TBD
 aprovado_por: TBD
 ```
 
-## 6. Cadastro oficial — aguardando fichas
+## 6. Elenco de pets informado pelo responsável
 
-| ID | Nome | Categoria | Elemento | Estado |
-|---|---|---|---|---|
-| *A preencher* | *A preencher* | *A preencher* | *A preencher* | `FICHA_PENDENTE` |
+Os IDs abaixo são os identificadores usados pelo jogo e pelo salvamento. Nomes e distribuição seguem a lista informada; a inclusão nesta tabela **não atesta aprovação visual, exportação ou integração de um modelo**. As fichas individuais, outros personagens e o estado dos modelos ainda precisam de registro.
 
-> A existência planejada de regiões Água, Fogo, Lava e Gelo **não determina automaticamente** quantos pets, inimigos ou bosses existem ou quais seus nomes.
+| ID no jogo | Região | Raridade | Nome | Dano base |
+|---|---|---|---|---:|
+| `water_peixinho` | Água | Comum | Peixinho | 5 |
+| `water_tartaruga` | Água | Raro | Tartaruga | 8 |
+| `water_polvinho` | Água | Épico | Polvinho | 12 |
+| `water_golfinho` | Água | Lendário | Golfinho | 18 |
+| `water_dragao_marinho` | Água | Secreto | Dragão Marinho | 30 |
+| `fire_gatinho` | Fogo | Comum | Gatinho de Fogo | 20 |
+| `fire_raposa` | Fogo | Raro | Lobo de Fogo | 30 |
+| `fire_fenix` | Fogo | Épico | Fênix Bebê | 45 |
+| `fire_leao` | Fogo | Lendário | Leão Solar | 65 |
+| `fire_dragao` | Fogo | Secreto | Dragão de Fogo | 100 |
+| `lava_pedrinha` | Lava | Comum | Pedrinha Vulcânica | 70 |
+| `lava_caranguejo` | Lava | Raro | Caranguejo Magma | 105 |
+| `lava_salamandra` | Lava | Épico | Salamandra | 160 |
+| `lava_urso` | Lava | Lendário | Urso Vulcânico | 230 |
+| `lava_dragao` | Lava | Secreto | Dragão de Magma | 350 |
+| `ice_pinguinzinho` | Gelo | Comum | Pinguinzinho | 240 |
+| `ice_raposa` | Gelo | Raro | Raposa Polar | 360 |
+| `ice_lobo` | Gelo | Épico | Yet | 540 |
+| `ice_urso` | Gelo | Lendário | Urso Glacial | 800 |
+| `ice_dragao` | Gelo | Secreto | Dragão de Cristal | 1.200 |
+
+Os IDs `fire_raposa` e `ice_lobo` são históricos e foram preservados para manter a compatibilidade com os salvamentos. Veja também [progressão e balanceamento](../GDD%20-%20ProgBalPets.md).
+
+### Arquivos recebidos para os modelos
+
+Origem informada: `C:/Users/sotav/Downloads/Modelos 3D Pts/ModelosProntos`. Os caminhos abaixo são relativos a essa pasta, que está fora do repositório. A correspondência do Gatinho com `fire_raposa.zip` foi confirmada pelo responsável; as demais são identificações pelos nomes dos arquivos. Esses arquivos ainda não estão vinculados aos dados do jogo.
+
+| Pet | Arquivo recebido |
+|---|---|
+| Peixinho | `AGUA/water_peixinho.zip` |
+| Tartaruga | `AGUA/water_tartaruginhal.zip` |
+| Polvinho | `AGUA/water_polvinho/cute_purple_octopus_3d_model.fbx` |
+| Golfinho | `AGUA/water_golfinho.zip` |
+| Dragão Marinho | `AGUA/water_dragaoMarinho.zip` |
+| Gatinho de Fogo | `FOGO/fire_raposa.zip` |
+| Lobo de Fogo | `FOGO/fire_Lobo.zip` |
+| Fênix Bebê | `FOGO/fire_fenix.zip` |
+| Leão Solar | `FOGO/fire_leaoSolar.zip` |
+| Dragão de Fogo | `FOGO/fire_DragaoFogo.zip` |
+| Pedrinha Vulcânica | `LAVA/lava_pedrinha.zip` |
+| Caranguejo Magma | `LAVA/lava_carangueijo.zip` |
+| Salamandra | `LAVA/lava_salamandra.zip` |
+| Urso Vulcânico | `LAVA/lava_urso.zip` |
+| Dragão de Magma | `LAVA/lava_dragao.zip` |
+| Pinguinzinho | `GELO/ice_pinguin.zip` |
+| Raposa Polar | `GELO/ice_fox.zip` |
+| Yet | `GELO/ice_yet.zip` |
+| Urso Glacial | `GELO/ice_urso.zip` |
+| Dragão de Cristal | `GELO/ice_dragon.zip` |
+
+Inspeção técnica inicial: cada FBX contém uma malha com UV e material de textura; não foram encontrados esqueletos ou animações internas. As texturas verificadas têm 4096 × 4096 px. A integração, escala, orientação, materiais na Unity e desempenho em gameplay ainda precisam de validação.
 
 ## 7. Regra de uso pelo agente
 
