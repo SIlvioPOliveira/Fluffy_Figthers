@@ -39,6 +39,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Fundir atomicamente três cópias disponíveis do mesmo ID e nível; impedir consumo de equipados e fusão acima do nível 3.
 - [x] Criar interface provisória de equipe, lista rolável e detalhes, ordenada por dano, raridade, nome e nível, com equipamento e confirmação de fusão na cena de teste.
 - [x] Adicionar miniaturas frontais dos modelos e prévia giratória do Pet selecionado na interface provisória; clicar novamente desfaz a seleção.
+- [ ] Validar o protótipo cartoon do inventário na cena isolada `TesteInterfaceInventario`: seleção, rolagem, equipamentos, fusão, resoluções e aparência; a interface principal permanece provisória.
+- [x] Usuário confirmou a seleção dos Pets equipados e as estrelas de nível no protótipo.
+- [ ] Validar manualmente as novas molduras, cores, botões e painel de prévia do inventário cartoon.
 - [ ] Validar manualmente enquadramento frontal, giro, seleção e retorno à imagem frontal com diferentes Pets; revisar desempenho e visual final.
 - [ ] Criar interface final em Canvas com grade, ícones e cores de raridade; adicionar animação e feedback visual de fusão.
 - [x] Validar manualmente abertura, equipamento, remoção e fusão na interface provisória (usuário confirmou).

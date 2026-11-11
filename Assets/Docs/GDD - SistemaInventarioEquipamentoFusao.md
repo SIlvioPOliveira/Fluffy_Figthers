@@ -51,6 +51,8 @@ Na parte superior, são apresentados três espaços correspondentes aos Pets equ
 
 Cada espaço exibe o ícone, nome abreviado e DPS do Pet.
 
+Selecionar um espaço ocupado abre os detalhes do Pet correspondente; espaços vazios não alteram a seleção.
+
 O dano total da equipe é apresentado acima dos espaços.
 
 ### 3.2. Grade de Pets
@@ -69,6 +71,8 @@ Cada card apresenta:
 A grade pode ser rolada quando houver muitos Pets.
 
 Os Pets aparecem de frente nos cards. Ao selecionar um Pet, sua apresentação gira em 3D; ao desfazer a seleção, o card volta a exibir a vista frontal. A prévia usa os modelos do próprio jogo.
+
+O canto superior do card apresenta uma estrela por nível de fusão: uma no nível 1, duas no nível 2 e três no nível 3.
 
 O inventário aceita os 20 tipos de Pets definidos no GDD v0.5, incluindo múltiplas cópias e diferentes níveis de fusão.
 
