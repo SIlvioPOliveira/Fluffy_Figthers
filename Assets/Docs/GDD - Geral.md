@@ -288,7 +288,7 @@ Durante o acompanhamento:
 
 - Pequenos pulos.
 - Movimento de balanço.
-- Rotação suave na direção do deslocamento.
+- Durante o acompanhamento, o Pet olha na direção em que ele próprio está se deslocando; quando está parado, mantém sua última orientação. Ao selecionar um inimigo, continua orientando-se para o alvo.
 
 ## 6.3. Animação Attack
 

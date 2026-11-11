@@ -157,6 +157,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 ## 10. Arte, áudio, balanceamento e entrega
 
 - [x] Importar os 20 modelos de pets fornecidos, mantendo os FBX originais e texturas em 4K; criar prefabs e associar ao catálogo.
+- [x] Ajustar os pets para olharem na direção do próprio deslocamento ao acompanhar; manter a orientação para o alvo durante o combate.
+- [x] Usuário aprovou o acompanhamento após o ajuste da direção.
+- [ ] Validar manualmente a direção dos diferentes modelos em acompanhamento e durante o combate.
 - [x] Verificar instanciação dos 20 pets, texturas e combate com três dragões; executar medição exploratória no Editor sem alterar o inventário salvo.
 - [x] Afastar a câmera principal do protótipo para manter os pets equipados visíveis; validar enquadramento manualmente no jogo.
 - [ ] Validar manualmente os 20 pets na cena `TesteModelosPets`, incluindo orientação, escala, acompanhamento, ataque e materiais; medir desempenho na build em gameplay real.

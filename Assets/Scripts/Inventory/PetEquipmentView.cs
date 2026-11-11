@@ -92,6 +92,8 @@ public sealed class PetEquipmentView : MonoBehaviour
             models[i] = model.transform;
             modelOrigins[i] = model.transform.localPosition;
             view.transform.position = player.position - player.forward * followDistance;
+            Vector3 playerFacing = Vector3.ProjectOnPlane(player.forward, Vector3.up);
+            if (playerFacing.sqrMagnitude > 0.001f) view.transform.rotation = Quaternion.LookRotation(playerFacing);
             views[i] = view;
             displayed[i] = key;
         }
@@ -124,12 +126,18 @@ public sealed class PetEquipmentView : MonoBehaviour
             else nextAttack[i] = 0f;
             goal.y = player.position.y - 0.7f;
             Transform pet = views[i].transform;
+            Vector3 previousPosition = pet.position;
             if (target == null && Vector3.Distance(pet.position, goal) > teleportDistance) pet.position = goal;
             else pet.position = Vector3.MoveTowards(pet.position, goal, followSpeed * Time.deltaTime);
             if (target != null)
             {
                 Vector3 facing = Vector3.ProjectOnPlane(target.transform.position - pet.position, Vector3.up);
                 if (facing.sqrMagnitude > 0.001f) pet.rotation = Quaternion.LookRotation(facing);
+            }
+            else
+            {
+                Vector3 movement = Vector3.ProjectOnPlane(pet.position - previousPosition, Vector3.up);
+                if (movement.sqrMagnitude > 0.00000001f) pet.rotation = Quaternion.LookRotation(movement);
             }
             UpdateAttack(i, target, goal);
         }
