@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public sealed class InventoryCanvasPrototype : MonoBehaviour
 {
     [SerializeField] private ThemeStyleSheet theme;
+    [SerializeField] private Font displayFont;
     private PetEquipmentTestDriver driver;
     private PlayerMovement movement;
     private PetInventoryPreview preview;
@@ -52,6 +53,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         document = docObject.AddComponent<UIDocument>();
         document.panelSettings = panelSettings;
         root = document.rootVisualElement;
+        if (displayFont != null) root.style.unityFontDefinition = FontDefinition.FromFont(displayFont);
         root.style.display = DisplayStyle.None;
         Build();
     }
@@ -123,6 +125,12 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         Outline(button, new Color(color.r * .65f, color.g * .65f, color.b * .65f), 2);
         button.style.borderBottomWidth = 5;
         Hover(button, color, Color.Lerp(color, Color.white, .18f));
+        if (label == "Equipar" || label == "Fundir")
+        {
+            var icon = new InventoryIcon(label == "Fundir" ? InventoryIcon.Shape.Sparkle : InventoryIcon.Shape.Paw, Color.white, 19);
+            icon.style.position = Position.Absolute; icon.style.left = 10; icon.style.top = 10; button.Add(icon);
+            button.style.paddingLeft = 22;
+        }
         return button;
     }
 
@@ -138,7 +146,9 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         var header = Panel(Blue); Outline(header, Gold, 2); header.style.height = 64; header.style.flexDirection = FlexDirection.Row;
         header.style.justifyContent = Justify.SpaceBetween; header.style.alignItems = Align.Center;
         header.style.paddingLeft = 22; header.style.paddingRight = 14; frame.Add(header);
-        var title = Text("✦  INVENTÁRIO", 31, Color.white, true); header.Add(title);
+        var titleGroup = new VisualElement(); titleGroup.style.flexDirection = FlexDirection.Row; titleGroup.style.alignItems = Align.Center;
+        titleGroup.Add(new InventoryIcon(InventoryIcon.Shape.Paw, Gold, 35));
+        var title = Text("INVENTÁRIO", 31, Color.white, true); title.style.marginLeft = 10; titleGroup.Add(title); header.Add(titleGroup);
         var close = ActionButton("Fechar  ×", new Color(.04f, .33f, .46f), () => SetOpen(false));
         close.style.flexGrow = 0; close.style.width = 145; header.Add(close);
         team = Panel(Cream); Outline(team, new Color(.88f, .78f, .56f), 2); team.style.height = 115; team.style.marginTop = 9;
@@ -149,7 +159,9 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         var left = Panel(Cream); Outline(left, new Color(.88f, .78f, .56f), 2); left.style.flexGrow = 3; left.style.flexBasis = 0; left.style.paddingLeft = 12;
         left.style.paddingRight = 12; left.style.paddingTop = 10; left.style.paddingBottom = 10; body.Add(left);
         var collectionTitle = Panel(new Color(.06f, .49f, .61f), 12); collectionTitle.style.paddingLeft = 12; collectionTitle.style.paddingTop = 3; collectionTitle.style.paddingBottom = 3;
-        collectionTitle.Add(Text("MEUS PETS", 22, Color.white, true)); left.Add(collectionTitle);
+        collectionTitle.style.flexDirection = FlexDirection.Row; collectionTitle.style.alignItems = Align.Center;
+        collectionTitle.Add(new InventoryIcon(InventoryIcon.Shape.Paw, Gold, 23));
+        var collectionLabel = Text("MEUS PETS", 22, Color.white, true); collectionLabel.style.marginLeft = 8; collectionTitle.Add(collectionLabel); left.Add(collectionTitle);
         var scroll = new ScrollView(ScrollViewMode.Vertical); scroll.style.flexGrow = 1; left.Add(scroll);
         grid = scroll.contentContainer; grid.style.flexDirection = FlexDirection.Row; grid.style.flexWrap = Wrap.Wrap;
         details = Panel(Cream); Outline(details, new Color(.88f, .78f, .56f), 2); details.style.flexGrow = 2; details.style.flexBasis = 0;
@@ -175,7 +187,11 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
     private void Refresh()
     {
         team.Clear(); grid.Clear(); details.Clear(); pictures.Clear(); selectedPicture = null;
-        var heading = Text("EQUIPE\nDPS " + driver.Inventory.TeamDamage, 21, Ink, true); heading.style.width = 170; team.Add(heading);
+        var heading = new VisualElement(); heading.style.width = 170;
+        heading.Add(Text("EQUIPE", 21, Ink, true));
+        var dps = new VisualElement(); dps.style.flexDirection = FlexDirection.Row; dps.style.alignItems = Align.Center;
+        dps.Add(new InventoryIcon(InventoryIcon.Shape.Sword, Color.white, 30));
+        dps.Add(Text("DPS " + driver.Inventory.TeamDamage, 20, Ink, true)); heading.Add(dps); team.Add(heading);
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
             var slot = driver.Inventory.GetSlot(i); string name = "Vazio";
@@ -216,6 +232,8 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
             var image = new Image(); image.scaleMode = ScaleMode.ScaleToFit; image.style.height = 108; image.pickingMode = PickingMode.Ignore; card.Add(image);
             pictures.Add(Tuple.Create(image, pet, chosen));
             var stars = Text(new string('★', entry.Key.FusionLevel), 17, new Color(1f, .9f, .25f), true);
+            var symbolFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            if (symbolFont != null) stars.style.unityFontDefinition = FontDefinition.FromFont(symbolFont);
             stars.name = "EstrelasNivel"; stars.tooltip = "Nível " + entry.Key.FusionLevel;
             stars.style.position = Position.Absolute; stars.style.top = 4; stars.style.right = 5;
             stars.pickingMode = PickingMode.Ignore; card.Add(stars);

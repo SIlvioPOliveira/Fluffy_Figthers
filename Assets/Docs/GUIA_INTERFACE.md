@@ -6,7 +6,7 @@
 
 Interface de fantasia cartoon acolhedora, alinhada à identidade cute dos Pets: formas arredondadas, cores alegres, contraste suficiente e poucos detalhes decorativos. Os modelos dos Pets devem ser protagonistas. A cor ajuda a identificar raridade, mas o nome da raridade também deve aparecer.
 
-O protótipo usa painéis em azul e creme com detalhes dourados, molduras coloridas de raridade, realce ao passar o mouse e uma área própria para o modelo. A fonte e o acabamento artístico final seguem em avaliação.
+O protótipo usa painéis em azul e creme com detalhes dourados, molduras coloridas de raridade, realce ao passar o mouse e uma área própria para o modelo. Patinhas, espada e brilho são desenhos vetoriais do projeto. A fonte experimental é Baloo 2, dos autores do projeto Baloo 2, sob SIL Open Font License 1.1; o arquivo completo da licença acompanha a fonte em `Assets/UI/Fonts/Baloo2/OFL.txt`. O acabamento final segue em avaliação.
 
 O conceito visual em `ArtSource/UI/conceito-inventario-v1.png` é uma referência de composição, não uma tela funcional nem uma especificação final de arte. A imagem contém personagens, filtros, atributos e níveis ilustrativos que não representam novas mecânicas; os dados e as regras reais continuam sendo os dos GDDs.
 
@@ -39,4 +39,4 @@ Painel modal, botão principal/secundário, botão de fechar, card de Pet, indic
 
 ## Pendências para definição
 
-Paleta e acabamento final; fonte com suporte a acentos portugueses e licença adequada; ícones de moedas, corações, atributos e comandos; sons e animações de interação; referências e preferência visual do usuário.
+Paleta e acabamento final; validação da fonte no jogo; ícones de moedas, corações e outros comandos; sons e animações de interação; referências e preferência visual do usuário.

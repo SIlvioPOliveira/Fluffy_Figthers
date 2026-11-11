@@ -1347,6 +1347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryCanvasPrototype
   theme: {fileID: -4733365628477956816, guid: ef2e9688025eb5341ba1d0314d13b606, type: 3}
+  displayFont: {fileID: 12800000, guid: 67e4379344560b34d9c32be15ee7cf80, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

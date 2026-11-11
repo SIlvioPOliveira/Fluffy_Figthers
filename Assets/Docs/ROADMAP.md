@@ -42,6 +42,7 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [ ] Validar o protótipo cartoon do inventário na cena isolada `TesteInterfaceInventario`: seleção, rolagem, equipamentos, fusão, resoluções e aparência; a interface principal permanece provisória.
 - [x] Usuário confirmou a seleção dos Pets equipados e as estrelas de nível no protótipo.
 - [ ] Validar manualmente as novas molduras, cores, botões e painel de prévia do inventário cartoon.
+- [ ] Validar a fonte Baloo 2 e os ícones vetoriais de patinha, DPS e fusão no protótipo do inventário.
 - [ ] Validar manualmente enquadramento frontal, giro, seleção e retorno à imagem frontal com diferentes Pets; revisar desempenho e visual final.
 - [ ] Criar interface final em Canvas com grade, ícones e cores de raridade; adicionar animação e feedback visual de fusão.
 - [x] Validar manualmente abertura, equipamento, remoção e fusão na interface provisória (usuário confirmou).
