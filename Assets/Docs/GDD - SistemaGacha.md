@@ -56,7 +56,11 @@ O sorteio utiliza uma roleta horizontal com ícones de Pets que se deslocam e de
 
 Na apresentação provisória, os cartões mostram os modelos dos Pets de frente. Após a parada, o Pet sorteado é mostrado girando na tela de resultado, reutilizando a prévia 3D do inventário. O layout definitivo será definido na etapa de interfaces.
 
+A versão cartoon integrada apresenta as cinco possibilidades e suas probabilidades, a roleta com cartões coloridos e o Pet sorteado girando. A identidade visual acompanha o inventário. A validação manual da nova apresentação ainda está pendente.
+
 A animação terá duração aproximada de 2,2 segundos e utilizará cores e efeitos sonoros diferentes de acordo com a raridade obtida.
+
+O protótipo atualmente usa 4,5 segundos configuráveis, conforme o ritmo de suspense anteriormente validado pelo usuário. Áudio por raridade permanece pendente.
 
 O sorteio matemático ocorrerá antes da animação.
 

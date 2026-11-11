@@ -14155,6 +14155,7 @@ GameObject:
   - component: {fileID: 1688303128}
   - component: {fileID: 1688303129}
   - component: {fileID: 1688303130}
+  - component: {fileID: 1688303131}
   m_Layer: 0
   m_Name: Pet Equipment Test
   m_TagString: Untagged
@@ -14228,7 +14229,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1688303122}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d282e99f2e883284d9f487e557f09363, type: 3}
   m_Name:
@@ -14283,6 +14284,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1057948da56a442aa9c364c3003f85, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::FinalVictoryNotice
+--- !u!114 &1688303131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688303122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3fd02bc1557254bae9e7e1a11ad567, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryCanvasPrototype
+  theme: {fileID: -4733365628477956816, guid: ef2e9688025eb5341ba1d0314d13b606, type: 3}
+  displayFont: {fileID: 12800000, guid: 67e4379344560b34d9c32be15ee7cf80, type: 3}
 --- !u!1 &1702001353
 GameObject:
   m_ObjectHideFlags: 0

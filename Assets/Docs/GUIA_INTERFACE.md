@@ -6,7 +6,7 @@
 
 Interface de fantasia cartoon acolhedora, alinhada à identidade cute dos Pets: formas arredondadas, cores alegres, contraste suficiente e poucos detalhes decorativos. Os modelos dos Pets devem ser protagonistas. A cor ajuda a identificar raridade, mas o nome da raridade também deve aparecer.
 
-O protótipo usa painéis em azul e creme com detalhes dourados, molduras coloridas de raridade, realce ao passar o mouse e uma área própria para o modelo. Patinhas, espada e brilho são desenhos vetoriais do projeto. A fonte experimental é Baloo 2, dos autores do projeto Baloo 2, sob SIL Open Font License 1.1; o arquivo completo da licença acompanha a fonte em `Assets/UI/Fonts/Baloo2/OFL.txt`. O acabamento final segue em avaliação.
+O protótipo usa painéis em azul e creme com detalhes dourados, molduras coloridas de raridade, realce ao passar o mouse e uma área própria para o modelo. Patinhas, espada, brilhos e o pedestal da prévia são desenhos vetoriais do projeto. Os cards destacam a quantidade de cópias em um selo. A fonte experimental é Baloo 2, dos autores do projeto Baloo 2, sob SIL Open Font License 1.1; o arquivo completo da licença acompanha a fonte em `Assets/UI/Fonts/Baloo2/OFL.txt`. O acabamento final segue em avaliação.
 
 O conceito visual em `ArtSource/UI/conceito-inventario-v1.png` é uma referência de composição, não uma tela funcional nem uma especificação final de arte. A imagem contém personagens, filtros, atributos e níveis ilustrativos que não representam novas mecânicas; os dados e as regras reais continuam sendo os dos GDDs.
 
@@ -27,7 +27,7 @@ Painel modal, botão principal/secundário, botão de fechar, card de Pet, indic
 1. Avaliar a proposta visual e definir cores, fontes, formas e referências com o usuário.
 2. Construir a base responsiva e implementar o inventário em uma cena de teste isolada, preservando a interface atual até validação. O primeiro protótipo usa o UI Toolkit nativo da Unity; a HUD continua seguindo sua especificação de Canvas.
 3. Testar seleção, equipamento, fusão, diferentes quantidades de Pets, legibilidade e resoluções; testar fechamento, controles e salvamento.
-4. Integrar o inventário aprovado ao jogo e adaptar os mesmos componentes ao Gacha, incluindo roleta e resultado.
+4. Integrar o inventário aprovado ao jogo e adaptar os mesmos componentes ao Gacha, incluindo roleta e resultado. O usuário testou a integração do inventário; a primeira interface cartoon do Gacha está integrada e aguarda validação manual.
 5. Adaptar HUD, menus, tutorial e demais mensagens, uma tela por vez; revisar sons e animações depois da base visual.
 
 ## Condições de aceitação

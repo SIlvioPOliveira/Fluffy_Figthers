@@ -43,6 +43,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Usuário confirmou a seleção dos Pets equipados e as estrelas de nível no protótipo.
 - [ ] Validar manualmente as novas molduras, cores, botões e painel de prévia do inventário cartoon.
 - [ ] Validar a fonte Baloo 2 e os ícones vetoriais de patinha, DPS e fusão no protótipo do inventário.
+- [ ] Validar o pedestal, os brilhos e os selos de quantidade no protótipo do inventário.
+- [x] Integrar o inventário cartoon à cena principal e ao botão da HUD, mantendo os controles de modal e o salvamento existentes; integração exercitada em memória e testes de salvamento executados.
+- [ ] Validar manualmente na cena principal a abertura pela HUD e tecla I, equipamento, fusão e progresso após reiniciar.
 - [ ] Validar manualmente enquadramento frontal, giro, seleção e retorno à imagem frontal com diferentes Pets; revisar desempenho e visual final.
 - [ ] Criar interface final em Canvas com grade, ícones e cores de raridade; adicionar animação e feedback visual de fusão.
 - [x] Validar manualmente abertura, equipamento, remoção e fusão na interface provisória (usuário confirmou).
@@ -59,6 +62,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [x] Implementar e testar em memória a validação de saldo e pesos, seleção de um Pet e compra com entrega consistente; pools das quatro regiões configurados.
 - [ ] Impedir Rolls simultâneos; implementar roleta, resultado e feedback sem depender do fim da animação para conceder o Pet.
 - [x] Criar roleta provisória de 4,5 s, com desaceleração e cartões em ambos os lados do prêmio; preservar prêmio ao fechar a janela e bloquear novo Roll até confirmar o resultado. Regras verificadas pelo MCP.
+- [x] Integrar apresentação cartoon do Gacha à cena principal, com cards de probabilidades, roleta, recompensa giratória e identidade do inventário; testar as quatro regiões em memória.
+- [ ] Validar manualmente a nova interface do Gacha nas quatro regiões, incluindo fechamento durante o sorteio e retorno ao inventário.
 - [x] Adicionar miniaturas frontais dos modelos à roleta provisória e prévia 3D giratória ao resultado, reutilizando o sistema do inventário.
 - [x] Validar manualmente na Unity a apresentação dos modelos e a roleta (usuário confirmou que funciona).
 - [ ] Validar a retomada da apresentação após fechar e reabrir o Gacha.

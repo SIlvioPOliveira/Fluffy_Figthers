@@ -152,7 +152,7 @@ public sealed class BossControllerTest : MonoBehaviour, IDamageGate
 
     private void OnGUI()
     {
-        if (!InCombat || !health.IsAlive) return;
+        if (!InCombat || !health.IsAlive || InventoryCanvasPrototype.IsVisible || GachaCartoonUI.IsVisible) return;
         float width = Mathf.Min(420f, Screen.width - 40f);
         var rect = new Rect((Screen.width - width) / 2f, 15f, width, 34f);
         Color old = GUI.color;

@@ -6,6 +6,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
 {
     private PetEquipmentTestDriver driver;
     private InventoryTestUI inventoryUI;
+    private InventoryCanvasPrototype cartoonInventory;
     private PlayerHealthTest health;
     private GachaMachineTest machine;
     private BossControllerTest waterBoss;
@@ -20,6 +21,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
     {
         driver = GetComponent<PetEquipmentTestDriver>();
         inventoryUI = GetComponent<InventoryTestUI>();
+        cartoonInventory = GetComponent<InventoryCanvasPrototype>();
         health = driver.Player != null ? driver.Player.GetComponent<PlayerHealthTest>() : null;
         foreach (var candidate in FindObjectsByType<GachaMachineTest>(FindObjectsSortMode.None))
             if (candidate.Region == RegionId.Water) { machine = candidate; break; }
@@ -49,6 +51,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
     private void OnGUI()
     {
         if (driver == null || driver.Wallet == null || driver.Inventory == null) return;
+        if ((driver.InventoryOpen && cartoonInventory != null && cartoonInventory.isActiveAndEnabled) || GachaCartoonUI.IsVisible) return;
         if (panelStyle == null)
         {
             panelStyle = new GUIStyle(GUI.skin.box) { fontSize = 15, alignment = TextAnchor.UpperCenter };
@@ -105,6 +108,9 @@ public sealed class PlayerHudPrototype : MonoBehaviour
             GUI.Label(new Rect(28, Screen.height - 96 + i * 23, 225, 22), (i + 1) + ". " + label, textStyle);
         }
         if (!driver.PauseOpen && !driver.VictoryOpen && !driver.GachaOpen && !driver.BarrierOpen && GUI.Button(InventoryRect, driver.InventoryOpen ? "FECHAR [I]" : "INVENTÁRIO [I]", buttonStyle))
-            inventoryUI.ToggleFromHud();
+        {
+            if (cartoonInventory != null && cartoonInventory.isActiveAndEnabled) cartoonInventory.ToggleFromHud();
+            else if (inventoryUI != null && inventoryUI.isActiveAndEnabled) inventoryUI.ToggleFromHud();
+        }
     }
 }

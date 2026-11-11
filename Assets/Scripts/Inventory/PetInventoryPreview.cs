@@ -151,7 +151,7 @@ public sealed class PetInventoryPreview : IDisposable
 
     public void Dispose()
     {
-        if (selectedModel != null) UnityEngine.Object.Destroy(selectedModel);
+        if (selectedModel != null) { selectedModel.SetActive(false); UnityEngine.Object.Destroy(selectedModel); }
         foreach (var image in thumbnails.Values) if (image != null) UnityEngine.Object.Destroy(image);
         thumbnails.Clear();
         queued.Clear();

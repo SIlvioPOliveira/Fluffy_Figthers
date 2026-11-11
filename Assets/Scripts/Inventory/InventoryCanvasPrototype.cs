@@ -9,6 +9,8 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
 {
     [SerializeField] private ThemeStyleSheet theme;
     [SerializeField] private Font displayFont;
+    public ThemeStyleSheet Theme => theme;
+    public Font DisplayFont => displayFont;
     private PetEquipmentTestDriver driver;
     private PlayerMovement movement;
     private PetInventoryPreview preview;
@@ -19,6 +21,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
     private readonly List<Tuple<Image, PetData, bool>> pictures = new List<Tuple<Image, PetData, bool>>();
     private Image selectedPicture;
     private bool open, confirmFusion;
+    public static bool IsVisible { get; private set; }
     private string feedback = "";
     private static readonly Color Cream = new Color(.98f, .95f, .86f);
     private static readonly Color Ink = new Color(.12f, .23f, .29f);
@@ -71,6 +74,17 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) || (open && Input.GetKeyDown(KeyCode.Escape))) SetOpen(!open);
     }
 
+    public void ToggleFromHud()
+    {
+        if (driver == null || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen || driver.VictoryOpen) return;
+        SetOpen(!open);
+    }
+
+    private void OnDisable()
+    {
+        if (open && driver != null && root != null) SetOpen(false);
+    }
+
     private void OnDestroy()
     {
         if (driver != null && driver.Inventory != null) driver.Inventory.Changed -= InventoryChanged;
@@ -81,6 +95,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
     private void SetOpen(bool value)
     {
         open = value;
+        IsVisible = value;
         driver.InventoryOpen = value;
         if (movement != null) movement.ControlsEnabled = !value;
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = !value;
@@ -148,7 +163,8 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         header.style.paddingLeft = 22; header.style.paddingRight = 14; frame.Add(header);
         var titleGroup = new VisualElement(); titleGroup.style.flexDirection = FlexDirection.Row; titleGroup.style.alignItems = Align.Center;
         titleGroup.Add(new InventoryIcon(InventoryIcon.Shape.Paw, Gold, 35));
-        var title = Text("INVENTÁRIO", 31, Color.white, true); title.style.marginLeft = 10; titleGroup.Add(title); header.Add(titleGroup);
+        var title = Text("INVENTÁRIO", 31, Color.white, true); title.style.marginLeft = 10; titleGroup.Add(title);
+        var titleSparkle = new InventoryIcon(InventoryIcon.Shape.Sparkle, Gold, 14); titleSparkle.style.marginLeft = 10; titleGroup.Add(titleSparkle); header.Add(titleGroup);
         var close = ActionButton("Fechar  ×", new Color(.04f, .33f, .46f), () => SetOpen(false));
         close.style.flexGrow = 0; close.style.width = 145; header.Add(close);
         team = Panel(Cream); Outline(team, new Color(.88f, .78f, .56f), 2); team.style.height = 115; team.style.marginTop = 9;
@@ -214,7 +230,11 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
                 PetData equippedPet = pet;
                 box.RegisterCallback<ClickEvent>(_ => SelectPet(key, equippedPet, false));
             }
-            else box.Add(Text(name, 18, Ink, true));
+            else
+            {
+                var emptyPaw = new InventoryIcon(InventoryIcon.Shape.Paw, new Color(.53f, .70f, .67f), 25);
+                emptyPaw.style.marginRight = 8; box.Add(emptyPaw); box.Add(Text(name, 18, Ink, true));
+            }
             team.Add(box);
         }
         var entries = driver.Inventory.GetEntries(); entries.Sort(Compare);
@@ -237,6 +257,12 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
             stars.name = "EstrelasNivel"; stars.tooltip = "Nível " + entry.Key.FusionLevel;
             stars.style.position = Position.Absolute; stars.style.top = 4; stars.style.right = 5;
             stars.pickingMode = PickingMode.Ignore; card.Add(stars);
+            var quantity = Text("×" + entry.Total, 14, Color.white, true);
+            quantity.style.position = Position.Absolute; quantity.style.top = 6; quantity.style.left = 6;
+            quantity.style.backgroundColor = new Color(.08f, .20f, .25f, .72f);
+            quantity.style.borderTopLeftRadius = 8; quantity.style.borderTopRightRadius = 8;
+            quantity.style.borderBottomLeftRadius = 8; quantity.style.borderBottomRightRadius = 8;
+            quantity.style.paddingLeft = 6; quantity.style.paddingRight = 6; quantity.pickingMode = PickingMode.Ignore; card.Add(quantity);
             var name = Text(pet.PetName, 16, Color.white, true); name.pickingMode = PickingMode.Ignore; card.Add(name);
             var info = Text(RarityName(pet.Rarity) + " | Nv. " + entry.Key.FusionLevel + "\nDPS " + PetDamage.Calculate(pet.BaseDamage, entry.Key.FusionLevel) + " | x" + entry.Total + " (eq. " + entry.Equipped + ")", 13, Color.white); info.pickingMode = PickingMode.Ignore; card.Add(info);
             PetStackKey key = entry.Key;
@@ -276,6 +302,11 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         var rarityLabel = Text(RarityName(pet.Rarity) + "  •  " + RegionName(pet.Region), 19, Rarity(pet.Rarity), true); rarityLabel.style.marginTop = 5; details.Add(rarityLabel);
         var stage = Panel(new Color(.80f, .93f, .93f), 24); stage.style.flexGrow = 1; stage.style.minHeight = 100; stage.style.marginTop = 5; stage.style.marginBottom = 7;
         Outline(stage, new Color(.65f, .83f, .82f), 2); details.Add(stage);
+        stage.Add(new InventoryPedestal());
+        var sparkleLeft = new InventoryIcon(InventoryIcon.Shape.Sparkle, new Color(.98f, .99f, .93f, .8f), 16);
+        sparkleLeft.style.position = Position.Absolute; sparkleLeft.style.left = Length.Percent(15); sparkleLeft.style.top = Length.Percent(25); stage.Add(sparkleLeft);
+        var sparkleRight = new InventoryIcon(InventoryIcon.Shape.Sparkle, new Color(.98f, .99f, .93f, .8f), 12);
+        sparkleRight.style.position = Position.Absolute; sparkleRight.style.right = Length.Percent(15); sparkleRight.style.top = Length.Percent(36); stage.Add(sparkleRight);
         selectedPicture = new Image(); selectedPicture.scaleMode = ScaleMode.ScaleToFit; selectedPicture.style.flexGrow = 1; stage.Add(selectedPicture);
         var stats = Panel(new Color(.94f, .88f, .74f), 10); stats.style.paddingLeft = 8; stats.style.paddingTop = 5; stats.style.paddingBottom = 5;
         stats.Add(Text("Nível " + key.FusionLevel + "   |   Dano base " + pet.BaseDamage + "   |   DPS " + PetDamage.Calculate(pet.BaseDamage, key.FusionLevel), 17, Ink, true));

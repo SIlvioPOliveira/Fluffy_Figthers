@@ -101,6 +101,7 @@ public sealed class CombatFeedback : MonoBehaviour
 
     private void OnGUI()
     {
+        if (InventoryCanvasPrototype.IsVisible || GachaCartoonUI.IsVisible) return;
         Camera camera = Camera.main;
         if (camera == null || (numbers.Count == 0 && rewards.Count == 0)) return;
         if (numberStyle == null)

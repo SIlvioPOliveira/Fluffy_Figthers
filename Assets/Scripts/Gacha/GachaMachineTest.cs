@@ -18,7 +18,19 @@ public sealed class GachaMachineTest : MonoBehaviour
     private bool spinning;
     private string message = "";
     private PetInventoryPreview preview;
+    private GachaCartoonUI cartoonUI;
     public RegionId Region => pool != null && pool.Region != null ? pool.Region.Region : RegionId.Water;
+    internal GachaPool Pool => pool;
+    internal PetInventoryPreview Preview => preview;
+    internal PetData Reward => result;
+    internal bool IsSpinning => spinning;
+    internal string Feedback => message;
+    internal int Balance => driver.Wallet.Balance;
+    internal PetData[] Reel => reel;
+    internal float ReelPosition
+    {
+        get { float progress = Mathf.Clamp01((Time.time - spinStarted) / Mathf.Max(.1f, spinDuration)); return Mathf.Lerp(ReelStart, WinningIndex, 1f - Mathf.Pow(1f - progress, 3f)); }
+    }
 
     private void Start()
     {
@@ -43,8 +55,9 @@ public sealed class GachaMachineTest : MonoBehaviour
             if (open && preview != null) preview.Select(result);
         }
         if (open && preview != null) preview.Tick(Time.unscaledDeltaTime);
+        if (open && cartoonUI != null) cartoonUI.Tick();
         if (open && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
-        else if (!open && !driver.InventoryOpen && !driver.BarrierOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
+        else if (!open && !driver.GachaOpen && !driver.InventoryOpen && !driver.BarrierOpen && InRange && Input.GetKeyDown(KeyCode.E)) SetOpen(true);
     }
 
     private void OnDisable() { if (driver != null && open) SetOpen(false); }
@@ -59,9 +72,14 @@ public sealed class GachaMachineTest : MonoBehaviour
             if (preview == null) preview = new PetInventoryPreview();
             foreach (GachaEntry entry in pool.Entries) preview.Thumbnail(entry.Pet);
             if (result != null && !spinning) preview.Select(result);
+            var inventoryUI = driver.GetComponent<InventoryCanvasPrototype>();
+            if (inventoryUI != null && inventoryUI.isActiveAndEnabled && inventoryUI.Theme != null)
+                cartoonUI = new GachaCartoonUI(this, inventoryUI.Theme, inventoryUI.DisplayFont);
         }
         else
         {
+            if (cartoonUI != null) cartoonUI.Dispose();
+            cartoonUI = null;
             if (preview != null) preview.Dispose();
             preview = null;
         }
@@ -70,6 +88,20 @@ public sealed class GachaMachineTest : MonoBehaviour
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = !value;
         // A closed window does not cancel an already-delivered reward or unlock a second roll.
         if (!value && result == null) message = "";
+    }
+
+    internal void CloseFromUI() => SetOpen(false);
+    internal void RollFromUI()
+    {
+        var status = BeginRoll(Random.Range(0, GachaPool.TotalWeight));
+        message = status == GachaResult.Success ? "Sorteando..." :
+            status == GachaResult.InsufficientFunds ? "Moedas insuficientes." : "Não foi possível realizar o Roll: " + status;
+    }
+    internal void ContinueFromUI()
+    {
+        if (result == null || spinning) return;
+        result = null; message = "";
+        if (preview != null) preview.Select(null);
     }
 
     private GachaResult BeginRoll(int ticket)
@@ -142,12 +174,14 @@ public sealed class GachaMachineTest : MonoBehaviour
         if (driver == null || driver.Inventory == null || pool == null || system == null) return;
         if (!open)
         {
+            if (driver.GachaOpen) return;
             if (driver.GetComponent<PlayerHudPrototype>() == null)
                 GUI.Label(new Rect(15, 45, 600, 25), "Moedas: " + driver.Wallet.Balance + (InRange && !driver.InventoryOpen ? "     [E] Abrir Gacha de " + pool.Region.DisplayName : ""));
             else if (InRange && !driver.InventoryOpen && !driver.BarrierOpen)
                 GUI.Label(new Rect(15, 75, 350, 25), "[E] Abrir Gacha de " + pool.Region.DisplayName);
             return;
         }
+        if (cartoonUI != null) return;
         float width = Mathf.Min(580, Screen.width - 30);
         float height = Mathf.Min(550, Screen.height - 30);
         GUILayout.BeginArea(new Rect((Screen.width - width) / 2, (Screen.height - height) / 2, width, height), GUI.skin.box);
