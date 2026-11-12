@@ -60,7 +60,7 @@ A versão cartoon integrada apresenta as cinco possibilidades e suas probabilida
 
 A animação terá duração aproximada de 2,2 segundos e utilizará cores e efeitos sonoros diferentes de acordo com a raridade obtida.
 
-O protótipo atualmente usa 4,5 segundos configuráveis, conforme o ritmo de suspense anteriormente validado pelo usuário. Áudio por raridade permanece pendente.
+O protótipo atualmente usa 4,5 segundos configuráveis, conforme o ritmo de suspense anteriormente validado pelo usuário. A primeira versão de áudio inclui início, marcação da roleta, erro e revelações por raridade; os sons e seus volumes podem ser ajustados no Inspector e aguardam validação auditiva do jogador. O som secreto reutiliza provisoriamente o lendário com tom diferente.
 
 O sorteio matemático ocorrerá antes da animação.
 

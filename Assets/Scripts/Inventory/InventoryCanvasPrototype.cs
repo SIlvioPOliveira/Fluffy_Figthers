@@ -13,6 +13,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
     public Font DisplayFont => displayFont;
     private PetEquipmentTestDriver driver;
     private PlayerMovement movement;
+    private InventoryAudio inventoryAudio;
     private PetInventoryPreview preview;
     private PetStackKey? selected;
     private UIDocument document;
@@ -45,6 +46,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
     private void Start()
     {
         driver = GetComponent<PetEquipmentTestDriver>();
+        inventoryAudio = GetComponent<InventoryAudio>();
         movement = driver.Player != null ? driver.Player.GetComponent<PlayerMovement>() : null;
         driver.Inventory.Changed += InventoryChanged;
         panelSettings = ScriptableObject.CreateInstance<PanelSettings>();
@@ -95,6 +97,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
 
     private void SetOpen(bool value)
     {
+        if (open != value && inventoryAudio != null && isActiveAndEnabled) inventoryAudio.Pop(value ? 1.05f : .86f);
         open = value;
         IsVisible = value;
         driver.InventoryOpen = value;
@@ -276,6 +279,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
     private void SelectPet(PetStackKey key, PetData pet, bool toggle)
     {
         bool deselect = toggle && selected.HasValue && selected.Value.Equals(key);
+        if (inventoryAudio != null) inventoryAudio.Pop(deselect ? .9f : 1.12f, .8f);
         selected = deselect ? (PetStackKey?)null : key;
         preview.Select(deselect ? null : pet);
         confirmFusion = false;
@@ -313,15 +317,15 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
         stats.Add(Text("Nível " + key.FusionLevel + "   |   Dano base " + pet.BaseDamage + "   |   DPS " + PetDamage.Calculate(pet.BaseDamage, key.FusionLevel), 17, Ink, true));
         stats.Add(Text("Total " + entry.Total + "   •   Equipados " + entry.Equipped + "   •   Disponíveis " + entry.Available, 16, Ink)); details.Add(stats);
         var actions = new VisualElement(); actions.style.flexDirection = FlexDirection.Row; actions.style.marginTop = 10; details.Add(actions);
-        var equip = ActionButton("Equipar", new Color(.22f,.65f,.27f), () => { bool ok = false; for (int i = 0; i < PlayerInventory.MaxEquipment; i++) if (driver.Inventory.TryEquip(key.PetId, key.FusionLevel, i)) { ok = true; break; } feedback = ok ? "Pet equipado!" : "Equipe cheia."; Refresh(); }); equip.SetEnabled(entry.Available > 0); actions.Add(equip);
-        var unequip = ActionButton("Desequipar", Blue, () => { for (int i = 0; i < PlayerInventory.MaxEquipment; i++) { var slot = driver.Inventory.GetSlot(i); if (slot.HasValue && slot.Value.Equals(key)) { driver.Inventory.TryUnequip(i); feedback = "Pet desequipado."; break; } } Refresh(); }); unequip.SetEnabled(entry.Equipped > 0); actions.Add(unequip);
-        var fuse = ActionButton("Fundir", new Color(.58f,.32f,.70f), () => { confirmFusion = true; Refresh(); }); fuse.SetEnabled(entry.Available >= 3 && key.FusionLevel < PlayerInventory.MaxFusionLevel); actions.Add(fuse);
+        var equip = ActionButton("Equipar", new Color(.22f,.65f,.27f), () => { bool ok = false; for (int i = 0; i < PlayerInventory.MaxEquipment; i++) if (driver.Inventory.TryEquip(key.PetId, key.FusionLevel, i)) { ok = true; break; } if (inventoryAudio != null) inventoryAudio.Pop(ok ? 1.2f : .75f); feedback = ok ? "Pet equipado!" : "Equipe cheia."; Refresh(); }); equip.SetEnabled(entry.Available > 0); actions.Add(equip);
+        var unequip = ActionButton("Desequipar", Blue, () => { for (int i = 0; i < PlayerInventory.MaxEquipment; i++) { var slot = driver.Inventory.GetSlot(i); if (slot.HasValue && slot.Value.Equals(key)) { if (driver.Inventory.TryUnequip(i) && inventoryAudio != null) inventoryAudio.Pop(.9f); feedback = "Pet desequipado."; break; } } Refresh(); }); unequip.SetEnabled(entry.Equipped > 0); actions.Add(unequip);
+        var fuse = ActionButton("Fundir", new Color(.58f,.32f,.70f), () => { if (inventoryAudio != null) inventoryAudio.Pop(1.08f, .8f); confirmFusion = true; Refresh(); }); fuse.SetEnabled(entry.Available >= 3 && key.FusionLevel < PlayerInventory.MaxFusionLevel); actions.Add(fuse);
         if (confirmFusion)
         {
             details.Add(Text("Usar 3 cópias para criar nível " + (key.FusionLevel + 1) + "?", 17, Ink, true));
             var confirm = new VisualElement(); confirm.style.flexDirection = FlexDirection.Row; details.Add(confirm);
-            confirm.Add(ActionButton("Confirmar", new Color(.22f,.65f,.27f), () => { bool ok = driver.Inventory.TryFuse(key.PetId, key.FusionLevel); confirmFusion = false; feedback = ok ? "Fusão concluída!" : "Fusão indisponível."; if (ok) { selected = new PetStackKey(key.PetId, key.FusionLevel + 1); preview.Select(pet); } Refresh(); }));
-            confirm.Add(ActionButton("Cancelar", Blue, () => { confirmFusion = false; Refresh(); }));
+            confirm.Add(ActionButton("Confirmar", new Color(.22f,.65f,.27f), () => { bool ok = driver.Inventory.TryFuse(key.PetId, key.FusionLevel); if (inventoryAudio != null) inventoryAudio.Pop(ok ? 1.3f : .75f); confirmFusion = false; feedback = ok ? "Fusão concluída!" : "Fusão indisponível."; if (ok) { selected = new PetStackKey(key.PetId, key.FusionLevel + 1); preview.Select(pet); } Refresh(); }));
+            confirm.Add(ActionButton("Cancelar", Blue, () => { if (inventoryAudio != null) inventoryAudio.Pop(.86f, .8f); confirmFusion = false; Refresh(); }));
         }
         details.Add(Text(feedback, 16, Ink));
     }

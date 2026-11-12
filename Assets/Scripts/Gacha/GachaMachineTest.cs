@@ -19,6 +19,8 @@ public sealed class GachaMachineTest : MonoBehaviour
     private string message = "";
     private PetInventoryPreview preview;
     private GachaCartoonUI cartoonUI;
+    private GachaAudio gachaAudio;
+    private int lastSoundCard;
     public RegionId Region => pool != null && pool.Region != null ? pool.Region.Region : RegionId.Water;
     internal GachaPool Pool => pool;
     internal PetInventoryPreview Preview => preview;
@@ -34,6 +36,7 @@ public sealed class GachaMachineTest : MonoBehaviour
 
     private void Start()
     {
+        gachaAudio = GetComponent<GachaAudio>();
         if (driver == null || pool == null || driver.Inventory == null || driver.Wallet == null)
         {
             Debug.LogError("Gacha test scene is missing initialized references.", this);
@@ -54,6 +57,12 @@ public sealed class GachaMachineTest : MonoBehaviour
         {
             spinning = false;
             if (open && preview != null) preview.Select(result);
+            if (open && gachaAudio != null && result != null) gachaAudio.Reveal(result.Rarity);
+        }
+        else if (spinning && open && gachaAudio != null)
+        {
+            int card = Mathf.FloorToInt(ReelPosition);
+            if (card > lastSoundCard) { lastSoundCard = card; gachaAudio.Tick(); }
         }
         if (open && preview != null) preview.Tick(Time.unscaledDeltaTime);
         if (open && cartoonUI != null) cartoonUI.Tick();
@@ -65,10 +74,16 @@ public sealed class GachaMachineTest : MonoBehaviour
 
     private void SetOpen(bool value)
     {
+        if (value && !open && driver != null)
+        {
+            var inventoryAudio = driver.GetComponent<InventoryAudio>();
+            if (inventoryAudio != null) inventoryAudio.Pop(1.05f);
+        }
         open = value;
         driver.GachaOpen = value;
         if (value)
         {
+            if (spinning) lastSoundCard = Mathf.FloorToInt(ReelPosition);
             driver.TutorialMachineOpened();
             if (preview == null) preview = new PetInventoryPreview();
             foreach (GachaEntry entry in pool.Entries) preview.Thumbnail(entry.Pet);
@@ -79,6 +94,7 @@ public sealed class GachaMachineTest : MonoBehaviour
         }
         else
         {
+            if (gachaAudio != null) gachaAudio.Stop();
             if (cartoonUI != null) cartoonUI.Dispose();
             cartoonUI = null;
             if (preview != null) preview.Dispose();
@@ -95,6 +111,7 @@ public sealed class GachaMachineTest : MonoBehaviour
     internal void RollFromUI()
     {
         var status = BeginRoll(Random.Range(0, GachaPool.TotalWeight));
+        if (status != GachaResult.Success && gachaAudio != null) gachaAudio.Error();
         message = status == GachaResult.Success ? "Sorteando..." :
             status == GachaResult.InsufficientFunds ? "Moedas insuficientes." : "Não foi possível realizar o Roll: " + status;
     }
@@ -118,6 +135,8 @@ public sealed class GachaMachineTest : MonoBehaviour
         reel[WinningIndex + 1] = OtherPet(reward);
         spinStarted = Time.time;
         spinning = true;
+        lastSoundCard = ReelStart;
+        if (open && gachaAudio != null) gachaAudio.StartRoll();
         return status;
     }
 
@@ -200,6 +219,7 @@ public sealed class GachaMachineTest : MonoBehaviour
             if (GUILayout.Button("Roll ×1", GUILayout.Height(45)))
             {
                 var status = BeginRoll(Random.Range(0, GachaPool.TotalWeight));
+                if (status != GachaResult.Success && gachaAudio != null) gachaAudio.Error();
                 message = status == GachaResult.Success ? "Sorteando..." :
                     status == GachaResult.InsufficientFunds ? "Moedas insuficientes." : "Não foi possível realizar o Roll: " + status;
             }

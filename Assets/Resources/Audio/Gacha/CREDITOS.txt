@@ -1,0 +1,9 @@
+Interface Sounds — Kenney (https://kenney.nl/assets/interface-sounds)
+Licença: CC0 1.0 (domínio público), https://creativecommons.org/publicdomain/zero/1.0/
+
+Arquivos originais: click_001, bong_001, error_001 e confirmation_001 a 004.
+Os nomes no projeto foram adaptados para indicar seu uso no gacha.
+
+"Rising Whoosh Modal Dialog Open 33" — SFXMint (gerado por IA)
+https://sfxmint.com/sounds/ui-modal-33
+Licença CC0 1.0: https://creativecommons.org/publicdomain/zero/1.0/

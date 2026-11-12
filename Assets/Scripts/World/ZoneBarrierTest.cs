@@ -6,8 +6,12 @@ public sealed class ZoneBarrierTest : MonoBehaviour
     [SerializeField] private PetEquipmentTestDriver driver;
     [SerializeField] private RegionData region;
     [SerializeField, Min(0.1f)] private float interactionDistance = 4f;
+    [SerializeField] private AudioClip purchaseSound;
+    [SerializeField, Range(0f, 1f)] private float purchaseVolume = .65f;
     private Collider barrierCollider;
     private Renderer barrierRenderer;
+    private TextMesh priceLabel;
+    private AudioSource audioSource;
     private PlayerHealthTest playerHealth;
     private bool modalOpen;
     private bool unlocked;
@@ -24,6 +28,9 @@ public sealed class ZoneBarrierTest : MonoBehaviour
     {
         barrierCollider = GetComponent<Collider>();
         barrierRenderer = GetComponent<Renderer>();
+        audioSource = GetComponent<AudioSource>();
+        Transform label = transform.Find("Valor da passagem");
+        if (label != null) priceLabel = label.GetComponent<TextMesh>();
     }
 
     private void Start()
@@ -35,6 +42,7 @@ public sealed class ZoneBarrierTest : MonoBehaviour
             return;
         }
         playerHealth = driver.Player.GetComponent<PlayerHealthTest>();
+        if (priceLabel != null) priceLabel.text = UnlockCost.ToString("N0");
         if (playerHealth != null) playerHealth.Died += CloseOnDeath;
         driver.RegisterBarrier(this);
     }
@@ -44,6 +52,7 @@ public sealed class ZoneBarrierTest : MonoBehaviour
         unlocked = value;
         if (barrierCollider != null) barrierCollider.enabled = !value;
         if (barrierRenderer != null) barrierRenderer.enabled = !value;
+        if (priceLabel != null) priceLabel.gameObject.SetActive(!value);
     }
 
     private void OnDestroy()
@@ -99,10 +108,10 @@ public sealed class ZoneBarrierTest : MonoBehaviour
             message = "Moedas insuficientes.";
             return false;
         }
-        unlocked = true;
-        barrierCollider.enabled = false;
-        barrierRenderer.enabled = false;
+        RestoreUnlocked(true);
         SetOpen(false);
+        if (audioSource != null && purchaseSound != null)
+            audioSource.PlayOneShot(purchaseSound, purchaseVolume * GameAudioSettings.MasterVolume * GameAudioSettings.EffectsVolume);
         // Notify observers only after the payment and gate state are both updated.
         try { driver.Wallet.NotifyChanged(); }
         catch (System.Exception exception) { Debug.LogException(exception, this); }

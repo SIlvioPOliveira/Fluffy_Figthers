@@ -16,6 +16,8 @@ public sealed class ThirdPersonCamera : MonoBehaviour
     [SerializeField, Min(0.01f)] private float followSmoothTime = 0.08f;
     [SerializeField, Min(0.01f)] private float collisionRecoveryTime = 0.16f;
     [SerializeField, Min(0.1f)] private float teleportResetDistance = 4f;
+    [SerializeField, Min(0f)] private float damageShakeDuration = .22f;
+    [SerializeField, Min(0f)] private float damageShakeDegrees = 1f;
     private readonly RaycastHit[] collisionHits = new RaycastHit[32];
     private Camera controlledCamera;
     private float yaw;
@@ -27,7 +29,14 @@ public sealed class ThirdPersonCamera : MonoBehaviour
     private Vector3 pivotVelocity;
     private float currentDistance;
     private float distanceVelocity;
+    private float damageShakeRemaining;
     public bool ControlsEnabled { get; set; } = true;
+
+    public void ShakeOnDamage()
+    {
+        if (damageShakeDuration > 0f && damageShakeDegrees > 0f)
+            damageShakeRemaining = damageShakeDuration;
+    }
 
     private void Start()
     {
@@ -82,6 +91,15 @@ public sealed class ThirdPersonCamera : MonoBehaviour
             distanceVelocity = 0f;
         }
         else currentDistance = Mathf.SmoothDamp(currentDistance, safeDistance, ref distanceVelocity, collisionRecoveryTime);
+        if (damageShakeRemaining > 0f)
+        {
+            float strength = damageShakeDegrees * Mathf.Clamp01(damageShakeRemaining / Mathf.Max(.001f, damageShakeDuration));
+            float time = Time.time * 28f;
+            float horizontal = (Mathf.PerlinNoise(time, 0f) * 2f - 1f) * strength;
+            float vertical = (Mathf.PerlinNoise(0f, time + 37f) * 2f - 1f) * strength;
+            rotation *= Quaternion.Euler(vertical, horizontal, 0f);
+            damageShakeRemaining = Mathf.Max(0f, damageShakeRemaining - Time.deltaTime);
+        }
         transform.SetPositionAndRotation(pivot + direction * currentDistance, rotation);
     }
 }

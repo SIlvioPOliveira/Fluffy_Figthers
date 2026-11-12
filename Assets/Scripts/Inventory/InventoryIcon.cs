@@ -7,13 +7,20 @@ public sealed class InventoryIcon : VisualElement
     public enum Shape { Paw, Sparkle, Sword, Coin, Heart }
     private readonly Shape shape;
     private readonly Color tint;
+    private static Texture2D coinTexture;
+    public static Texture2D CoinTexture => coinTexture != null ? coinTexture : (coinTexture = Resources.Load<Texture2D>("UI/CoinIcon"));
 
     public InventoryIcon(Shape shape, Color tint, float size)
     {
         this.shape = shape; this.tint = tint;
         style.width = size; style.height = size; style.flexShrink = 0;
         pickingMode = PickingMode.Ignore;
-        generateVisualContent += Draw;
+        if (shape == Shape.Coin && CoinTexture != null)
+        {
+            style.backgroundImage = new StyleBackground(CoinTexture);
+            style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
+        }
+        else generateVisualContent += Draw;
     }
 
     private static void Circle(Painter2D p, float x, float y, float radius)

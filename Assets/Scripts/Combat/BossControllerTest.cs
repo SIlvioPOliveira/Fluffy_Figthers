@@ -29,6 +29,7 @@ public sealed class BossControllerTest : MonoBehaviour, IDamageGate
 
     private readonly List<Warning> warnings = new List<Warning>();
     private EnemyHealth health;
+    private BossImpactAudio impactAudio;
     private float nextAction;
     private float nextUltimate;
     private float nextUltimateArea;
@@ -40,7 +41,11 @@ public sealed class BossControllerTest : MonoBehaviour, IDamageGate
     public bool IsIceBoss => pattern == BossPattern.Ice;
     public bool CanReceiveDamage => player != null && arena != null && arena.ContainsPlayer();
 
-    private void Awake() => health = GetComponent<EnemyHealth>();
+    private void Awake()
+    {
+        health = GetComponent<EnemyHealth>();
+        impactAudio = GetComponent<BossImpactAudio>();
+    }
     private void OnEnable()
     {
         health.Damaged += OnDamaged;
@@ -73,14 +78,17 @@ public sealed class BossControllerTest : MonoBehaviour, IDamageGate
 
         // A simultaneous pair is one attack, so overlapping circles cannot remove two hearts at once.
         bool hit = false;
+        bool impacted = false;
         for (int i = warnings.Count - 1; i >= 0; i--)
         {
             if (Time.time < warnings[i].ImpactAt) continue;
+            impacted = true;
             Vector3 delta = Vector3.ProjectOnPlane(player.transform.position - warnings[i].Position, Vector3.up);
             hit |= delta.sqrMagnitude <= attackRadius * attackRadius;
             if (warnings[i].Visual != null) Destroy(warnings[i].Visual);
             warnings.RemoveAt(i);
         }
+        if (impacted && impactAudio != null) impactAudio.PlayImpact();
         if (hit) player.TakeDamage(1);
         if (!InCombat) return;
 

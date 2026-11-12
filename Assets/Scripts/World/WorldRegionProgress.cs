@@ -24,7 +24,7 @@ public sealed class WorldRegionProgress : MonoBehaviour
     private void Update()
     {
         float z = health.transform.position.z;
-        int index = z >= 180f ? 3 : z >= 110f ? 2 : z >= 40f ? 1 : 0;
+        int index = z >= 170f ? 3 : z >= 100f ? 2 : z >= 30f ? 1 : 0;
         if (index != activeRegion) SetRegion(index);
     }
 

@@ -64,8 +64,10 @@ public sealed class BarrierCartoonUI : IDisposable
         var cost = new VisualElement(); cost.style.flexDirection = FlexDirection.Row; cost.style.justifyContent = Justify.Center;
         cost.style.alignItems = Align.Center; cost.style.marginTop = 12; body.Add(cost);
         cost.Add(new InventoryIcon(InventoryIcon.Shape.Coin, new Color(.93f,.66f,.17f), 36));
-        var price = Text("  Custo: " + barrier.UnlockCost + " moedas", 24, Ink, true); cost.Add(price);
-        balance = Text("", 19, Ink); balance.style.marginTop = 5; body.Add(balance);
+        var price = Text("  Custo: " + barrier.UnlockCost.ToString("N0"), 24, Ink, true); cost.Add(price);
+        var balanceRow = new VisualElement(); balanceRow.style.flexDirection = FlexDirection.Row; balanceRow.style.justifyContent = Justify.Center; balanceRow.style.alignItems = Align.Center; balanceRow.style.marginTop = 5; body.Add(balanceRow);
+        balance = Text("", 19, Ink); balanceRow.Add(balance);
+        balanceRow.Add(new InventoryIcon(InventoryIcon.Shape.Coin, Color.white, 27));
         feedback = Text("", 18, new Color(.70f,.16f,.18f), true); feedback.style.minHeight = 28; feedback.style.marginTop = 4; body.Add(feedback);
         var buttons = new VisualElement(); buttons.style.flexDirection = FlexDirection.Row; buttons.style.marginTop = 5; body.Add(buttons);
         buttons.Add(MakeButton("CONFIRMAR", new Color(.22f,.65f,.27f), barrier.ConfirmFromUI));
@@ -74,7 +76,7 @@ public sealed class BarrierCartoonUI : IDisposable
     }
     public void Tick()
     {
-        balance.text = "Saldo: " + barrier.Balance + " moedas";
+        balance.text = "Saldo: " + barrier.Balance.ToString("N0");
         feedback.text = barrier.Feedback;
     }
     public void Dispose()

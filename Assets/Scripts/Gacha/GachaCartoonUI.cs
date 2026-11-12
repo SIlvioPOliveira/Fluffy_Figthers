@@ -11,9 +11,10 @@ public sealed class GachaCartoonUI : IDisposable
     private readonly PanelSettings settings;
     private readonly List<Tuple<Image, PetData>> poolImages = new List<Tuple<Image, PetData>>();
     private readonly List<Tuple<VisualElement, Image, PetData>> reelCards = new List<Tuple<VisualElement, Image, PetData>>();
-    private readonly Label balance, feedback, resultName, resultRarity, status;
+    private readonly Label balance, cost, feedback, resultName, resultRarity, status;
     private readonly VisualElement viewport, reelTrack, resultPanel, idleHint;
     private readonly Image resultImage;
+    private readonly RarityRays resultRays;
     private readonly Button roll, continueButton;
     private PetData lastReward;
     private const float CardWidth = 152f;
@@ -22,6 +23,44 @@ public sealed class GachaCartoonUI : IDisposable
     private static readonly Color Blue = new Color(.04f, .46f, .61f);
     private static readonly Color Gold = new Color(1f, .78f, .30f);
     public static bool IsVisible { get; private set; }
+
+    // Drawn behind the pet in the result panel; it never affects the roll itself.
+    private sealed class RarityRays : VisualElement
+    {
+        public Color RayColor;
+
+        public RarityRays()
+        {
+            pickingMode = PickingMode.Ignore;
+            generateVisualContent += Draw;
+        }
+
+        private void Draw(MeshGenerationContext context)
+        {
+            float width = contentRect.width, height = contentRect.height;
+            if (width <= 0 || height <= 0) return;
+            var center = new Vector2(width * .5f, height * .5f);
+            float radius = Mathf.Sqrt(width * width + height * height);
+            float rotation = Time.unscaledTime * .32f;
+            var painter = context.painter2D;
+            Color color = RayColor;
+            color.a = .35f + .06f * Mathf.Sin(Time.unscaledTime * 2f);
+            painter.fillColor = color;
+            const int rayCount = 12;
+            float step = Mathf.PI * 2f / rayCount;
+            for (int i = 0; i < rayCount; i++)
+            {
+                float angle = rotation + i * step;
+                float edge = angle + step * .42f;
+                painter.BeginPath();
+                painter.MoveTo(center);
+                painter.LineTo(center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius);
+                painter.LineTo(center + new Vector2(Mathf.Cos(edge), Mathf.Sin(edge)) * radius);
+                painter.ClosePath();
+                painter.Fill();
+            }
+        }
+    }
 
     private static VisualElement Panel(Color color, float radius = 14)
     {
@@ -79,7 +118,9 @@ public sealed class GachaCartoonUI : IDisposable
         var close = MakeButton("Fechar  ×", new Color(.04f,.33f,.46f), machine.CloseFromUI); close.style.width = 145; header.Add(close);
         var body = Panel(Cream, 18); Border(body, new Color(.88f,.78f,.56f), 2); body.style.flexGrow = 1; body.style.minHeight = 0;
         body.style.marginTop = 9; body.style.paddingLeft = 14; body.style.paddingRight = 14; body.style.paddingTop = 8; body.style.paddingBottom = 8; frame.Add(body);
-        balance = Text("", 20, Ink, true); body.Add(balance);
+        var currencyRow = new VisualElement(); currencyRow.style.flexDirection = FlexDirection.Row; currencyRow.style.alignItems = Align.Center; body.Add(currencyRow);
+        balance = Text("", 20, Ink, true); currencyRow.Add(balance);
+        currencyRow.Add(new InventoryIcon(InventoryIcon.Shape.Coin, Color.white, 29));
         var heading = Text("PETS DISPONÍVEIS", 20, Ink, true); body.Add(heading);
         var poolRow = new VisualElement(); poolRow.style.height = 140; poolRow.style.flexDirection = FlexDirection.Row; body.Add(poolRow);
         foreach (GachaEntry entry in machine.Pool.Entries)
@@ -104,12 +145,21 @@ public sealed class GachaCartoonUI : IDisposable
         marker.style.position = Position.Absolute; marker.style.left = Length.Percent(50); marker.style.marginLeft = -10; marker.style.top = -4; viewport.Add(marker);
         resultPanel = Panel(new Color(.80f,.93f,.93f), 15); Border(resultPanel, new Color(.65f,.83f,.82f), 2);
         resultPanel.style.flexGrow = 1; resultPanel.style.minHeight = 90; resultPanel.style.marginTop = 8; resultPanel.style.flexDirection = FlexDirection.Row; resultPanel.style.alignItems = Align.Center; body.Add(resultPanel);
-        resultImage = new Image(); resultImage.scaleMode = ScaleMode.ScaleToFit; resultImage.style.width = 175; resultImage.style.height = Length.Percent(100); resultPanel.Add(resultImage);
+        var resultVisual = new VisualElement(); resultVisual.style.width = 175; resultVisual.style.height = Length.Percent(100);
+        resultVisual.style.flexShrink = 0; resultVisual.style.overflow = Overflow.Hidden; resultPanel.Add(resultVisual);
+        resultRays = new RarityRays(); resultRays.style.position = Position.Absolute;
+        resultRays.style.left = 0; resultRays.style.right = 0; resultRays.style.top = 0; resultRays.style.bottom = 0; resultVisual.Add(resultRays);
+        resultImage = new Image(); resultImage.scaleMode = ScaleMode.ScaleToFit; resultImage.style.width = Length.Percent(100); resultImage.style.height = Length.Percent(100);
+        resultImage.pickingMode = PickingMode.Ignore; resultVisual.Add(resultImage);
         var resultText = new VisualElement(); resultText.style.flexGrow = 1; resultPanel.Add(resultText);
         resultText.Add(Text("VOCÊ RECEBEU", 20, Ink, true)); resultName = Text("", 27, Ink, true); resultText.Add(resultName);
         resultRarity = Text("", 20, Ink, true); resultText.Add(resultRarity);
         feedback = Text("", 16, Ink); feedback.style.unityTextAlign = TextAnchor.MiddleCenter; body.Add(feedback);
-        roll = MakeButton("SORTEAR ×1", new Color(.22f,.65f,.27f), machine.RollFromUI); body.Add(roll);
+        roll = MakeButton("", new Color(.22f,.65f,.27f), machine.RollFromUI);
+        roll.style.flexDirection = FlexDirection.Row; roll.style.alignItems = Align.Center; roll.style.justifyContent = Justify.Center;
+        cost = Text(machine.Pool.Region.RollCost.ToString("N0"), 21, Color.white, true); roll.Add(cost);
+        roll.Add(new InventoryIcon(InventoryIcon.Shape.Coin, Color.white, 32));
+        body.Add(roll);
         continueButton = MakeButton("CONTINUAR", Blue, machine.ContinueFromUI); body.Add(continueButton);
         Tick();
     }
@@ -133,7 +183,8 @@ public sealed class GachaCartoonUI : IDisposable
     {
         if (machine.Preview == null) return;
         foreach (var pair in poolImages) pair.Item1.image = machine.Preview.Thumbnail(pair.Item2);
-        balance.text = "SALDO: " + machine.Balance + " moedas     •     CUSTO: " + machine.Pool.Region.RollCost + " moedas";
+        balance.text = "SALDO: " + machine.Balance.ToString("N0");
+        cost.text = machine.Pool.Region.RollCost.ToString("N0");
         var reward = machine.Reward;
         if (lastReward != reward) { lastReward = reward; if (reward != null) RebuildReel(); else { reelTrack.Clear(); reelCards.Clear(); } }
         foreach (var card in reelCards) card.Item2.image = machine.Preview.Thumbnail(card.Item3);
@@ -147,7 +198,13 @@ public sealed class GachaCartoonUI : IDisposable
         continueButton.style.display = finished ? DisplayStyle.Flex : DisplayStyle.None;
         status.text = reward == null ? "Pronto para sortear!" : machine.IsSpinning ? "Sorteando..." : "Resultado do sorteio";
         feedback.text = finished ? "Pet recebido! Abra o inventário com I após fechar." : machine.Feedback;
-        if (finished) { resultImage.image = machine.Preview.SelectedImage; resultName.text = reward.PetName; resultRarity.text = RarityName(reward.Rarity); resultRarity.style.color = Rarity(reward.Rarity); }
+        if (finished)
+        {
+            Color rarityColor = Rarity(reward.Rarity);
+            resultImage.image = machine.Preview.SelectedImage; resultName.text = reward.PetName;
+            resultRarity.text = RarityName(reward.Rarity); resultRarity.style.color = rarityColor;
+            resultRays.RayColor = rarityColor; resultRays.MarkDirtyRepaint();
+        }
     }
 
     public void Dispose()

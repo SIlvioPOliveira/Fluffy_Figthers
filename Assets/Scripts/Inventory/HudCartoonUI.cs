@@ -93,7 +93,7 @@ public sealed class HudCartoonUI : IDisposable
             if (show) { preview = new PetInventoryPreview(); teamDirty = true; }
         }
         if (!visible) return;
-        coins.text = driver.Wallet.Balance + " moedas";
+        coins.text = driver.Wallet.Balance.ToString("N0");
         objective.text = objectiveText ?? ""; objective.parent.style.display = string.IsNullOrEmpty(objectiveText) ? DisplayStyle.None : DisplayStyle.Flex;
         int current = health != null ? health.Health : 0, maximum = health != null ? health.MaxHealth : 0;
         if (current != lastHealth || maximum != lastMaxHealth)

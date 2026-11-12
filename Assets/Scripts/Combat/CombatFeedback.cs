@@ -61,11 +61,13 @@ public sealed class CombatFeedback : MonoBehaviour
 
     private void OnRewardGranted(int amount)
     {
+        if (CoinRewardAudio.Instance != null) CoinRewardAudio.Instance.PlayReward();
         rewards.Add(new FloatingReward { Amount = amount, Origin = transform.position + Vector3.up * 2.1f, Started = Time.time });
     }
 
     private void OnDamaged(int damage, PetRarity? rarity)
     {
+        if (rarity.HasValue && CombatHitAudio.Instance != null) CombatHitAudio.Instance.PlayHit();
         numbers.Add(new FloatingNumber
         {
             Damage = damage,
@@ -136,9 +138,16 @@ public sealed class CombatFeedback : MonoBehaviour
             var rect = new Rect(screen.x - 100, Screen.height - screen.y - 28, 200, 40);
             float alpha = Mathf.Clamp01((1f - progress) * 2f);
             GUI.color = new Color(0f, 0f, 0f, alpha);
-            GUI.Label(new Rect(rect.x + 2, rect.y + 2, rect.width, rect.height), "+" + reward.Amount + " moedas", rewardStyle);
+            GUI.Label(new Rect(rect.x + 2, rect.y + 2, rect.width, rect.height), "+" + reward.Amount, rewardStyle);
             GUI.color = new Color(1f, 0.82f, 0.2f, alpha);
-            GUI.Label(rect, "+" + reward.Amount + " moedas", rewardStyle);
+            GUI.Label(rect, "+" + reward.Amount, rewardStyle);
+            var coin = InventoryIcon.CoinTexture;
+            if (coin != null)
+            {
+                float textWidth = rewardStyle.CalcSize(new GUIContent("+" + reward.Amount)).x;
+                GUI.color = new Color(1f, 1f, 1f, alpha);
+                GUI.DrawTexture(new Rect(rect.center.x + textWidth * .5f, rect.y + 3, 34, 34), coin, ScaleMode.ScaleToFit, true);
+            }
         }
         GUI.color = previous;
     }
