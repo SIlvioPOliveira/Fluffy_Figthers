@@ -22,6 +22,7 @@ public sealed class PetEquipmentView : MonoBehaviour
     private readonly PetStackKey?[] displayed = new PetStackKey?[PlayerInventory.MaxEquipment];
     private readonly float[] nextAttack = new float[PlayerInventory.MaxEquipment];
     private readonly Transform[] models = new Transform[PlayerInventory.MaxEquipment];
+    private readonly float[] modelRadii = new float[PlayerInventory.MaxEquipment];
     private readonly Vector3[] modelOrigins = new Vector3[PlayerInventory.MaxEquipment];
     private readonly EnemyHealth[] attackTargets = new EnemyHealth[PlayerInventory.MaxEquipment];
     private readonly float[] attackStarted = new float[PlayerInventory.MaxEquipment];
@@ -91,6 +92,7 @@ public sealed class PetEquipmentView : MonoBehaviour
             foreach (Collider collider in view.GetComponentsInChildren<Collider>()) collider.enabled = false;
             models[i] = model.transform;
             modelOrigins[i] = model.transform.localPosition;
+            modelRadii[i] = VisualRadius(view.transform);
             view.transform.position = player.position - player.forward * followDistance;
             Vector3 playerFacing = Vector3.ProjectOnPlane(player.forward, Vector3.up);
             if (playerFacing.sqrMagnitude > 0.001f) view.transform.rotation = Quaternion.LookRotation(playerFacing);
@@ -101,6 +103,30 @@ public sealed class PetEquipmentView : MonoBehaviour
 
     private static bool NullableEquals(PetStackKey? a, PetStackKey? b)
         => a.HasValue == b.HasValue && (!a.HasValue || a.Value.Equals(b.Value));
+
+    private static float VisualRadius(Transform root)
+    {
+        float radius = 0f;
+        foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>())
+        {
+            Bounds bounds = renderer.bounds;
+            Vector3 offset = bounds.center - root.position;
+            float centerDistance = new Vector2(offset.x, offset.z).magnitude;
+            float extent = new Vector2(bounds.extents.x, bounds.extents.z).magnitude;
+            radius = Mathf.Max(radius, centerDistance + extent);
+        }
+        return radius;
+    }
+
+    private float AttackDistanceFor(EnemyHealth target, int slot)
+    {
+        Collider hitbox = target.GetComponent<Collider>();
+        if (hitbox == null) return attackDistance;
+        Vector3 extents = hitbox.bounds.extents;
+        float targetRadius = Mathf.Max(extents.x, extents.z);
+        // Include the pet's size and forward lunge so its model stays outside.
+        return Mathf.Max(attackDistance, targetRadius + modelRadii[slot] + attackLunge + 0.25f);
+    }
 
     private void LateUpdate()
     {
@@ -121,7 +147,7 @@ public sealed class PetEquipmentView : MonoBehaviour
                 Vector3 towardPlayer = Vector3.ProjectOnPlane(player.position - target.transform.position, Vector3.up).normalized;
                 if (towardPlayer.sqrMagnitude < 0.01f) towardPlayer = -player.forward;
                 float angle = (index - 1 - (count - 1) * 0.5f) * 45f;
-                goal = target.transform.position + Quaternion.Euler(0, angle, 0) * towardPlayer * attackDistance;
+                goal = target.transform.position + Quaternion.Euler(0, angle, 0) * towardPlayer * AttackDistanceFor(target, i);
             }
             else nextAttack[i] = 0f;
             goal.y = player.position.y - 0.7f;
@@ -149,7 +175,7 @@ public sealed class PetEquipmentView : MonoBehaviour
         if (model == null) return;
         Transform pet = views[slot].transform;
         bool withinReach = target != null && target.IsAlive &&
-            Vector3.ProjectOnPlane(target.transform.position - pet.position, Vector3.up).magnitude <= attackDistance + 0.15f;
+            Vector3.ProjectOnPlane(target.transform.position - pet.position, Vector3.up).magnitude <= AttackDistanceFor(target, slot) + 0.15f;
 
         if (attackTargets[slot] != null && (attackTargets[slot] != target || !withinReach))
             attackTargets[slot] = null;

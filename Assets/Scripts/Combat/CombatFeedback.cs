@@ -79,6 +79,10 @@ public sealed class CombatFeedback : MonoBehaviour
         flashRenderer.GetPropertyBlock(flashBlock);
         flashBlock.SetColor("_Color", Color.white);
         flashBlock.SetColor("_BaseColor", Color.white);
+        // Tinting a white, textured material white has no visible effect. Replace
+        // its color texture briefly as well, then restore the original block.
+        flashBlock.SetTexture("_MainTex", Texture2D.whiteTexture);
+        flashBlock.SetTexture("_BaseMap", Texture2D.whiteTexture);
         flashRenderer.SetPropertyBlock(flashBlock);
         flashing = true;
         flashUntil = Time.time + flashDuration;
