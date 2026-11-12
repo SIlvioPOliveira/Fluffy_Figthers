@@ -11,6 +11,7 @@ Este arquivo é um ponto de entrada curto para conversas e tarefas futuras. Ele 
 - Os 20 modelos de Pets estão importados. Há inventário, equipe de até três, fusão, combate, recompensas e Gachas nas regiões Água, Fogo, Lava e Gelo.
 - Há três barreiras, quatro Bosses com padrões progressivos, tutorial, menus, HUD e salvamento local. A tela de vitória permite continuar jogando.
 - O usuário relatou teste satisfatório do ciclo completo até o Boss final. Isso não substitui testes específicos de desempenho, reinício e recuperação de salvamento.
+- Os 24 inimigos comuns usam quatro modelos regionais fornecidos pelo usuário; os fortes são 30% maiores que os fracos. Seleção, dano e reaparecimento foram verificados programaticamente; aparência e desempenho aguardam teste manual. Bosses continuam provisórios.
 - Inventário, Gacha, HUD, menus, barreiras e vitória têm apresentação cartoon. Há uma build de demonstração anterior em `Builds/`; ela precede a integração do jogador animado e não representa necessariamente o estado mais recente.
 
 ## Decisões e cuidados
@@ -43,6 +44,6 @@ O `ROADMAP.md` contém itens gerais antigos ainda desmarcados ao lado de impleme
 
 ## Próxima etapa sugerida
 
-Começar a arte dos inimigos pela região Água, com **um inimigo comum** como piloto. Antes de criar ou integrar um modelo, conferir os GDDs, os arquivos existentes e a direção artística; validar aparência, escala, colisão, seleção e feedback de dano. A espécie e o modelo não foram definidos nesta conversa.
+Validar manualmente os inimigos comuns nas quatro regiões e, depois, planejar a integração dos modelos de Boss fornecidos pelo usuário.
 
 Ao concluir uma etapa relevante, atualizar este resumo de forma concisa junto do `ROADMAP.md`, registrando o que foi confirmado e o que ainda precisa de validação.
