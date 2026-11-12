@@ -183,6 +183,10 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 10. Arte, áudio, balanceamento e entrega
 
+- [x] Integrar à cena principal o modelo animado do jogador existente em `PlayerAnimadoTeste`, preservando o controlador de movimento e a câmera; verificar materiais, animações de parado/caminhada e acompanhamento de Pet em teste isolado.
+- [x] Usuário testou a integração do jogador e informou que está tudo bem.
+- [ ] Validar manualmente o tamanho, contato com o chão, direções e transição das animações do jogador durante exploração e combate; avaliar depois a suavização do movimento e da câmera.
+
 - [x] Importar os 20 modelos de pets fornecidos, mantendo os FBX originais e texturas em 4K; criar prefabs e associar ao catálogo.
 - [x] Ajustar os pets para olharem na direção do próprio deslocamento ao acompanhar; manter a orientação para o alvo durante o combate.
 - [x] Usuário aprovou o acompanhamento após o ajuste da direção.
