@@ -350,12 +350,11 @@ Todos os inimigos possuem uma barra de vida acima da cabeça.
 
 A barra apresenta:
 
-- Nome do inimigo.
 - Vida atual.
 - Vida máxima.
 - Preenchimento proporcional à quantidade de HP.
 
-A redução visual da barra pode acontecer de forma suavizada.
+A barra dos inimigos comuns não exibe o nome; os Bosses mantêm sua identificação. A redução visual da barra pode acontecer de forma suavizada.
 
 Bosses terão uma barra maior na parte superior da interface.
 

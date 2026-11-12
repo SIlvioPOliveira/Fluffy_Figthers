@@ -12,14 +12,30 @@ public sealed class ThirdPersonCamera : MonoBehaviour
     [SerializeField, Min(0.01f)] private float collisionRadius = 0.35f;
     [SerializeField, Min(0f)] private float collisionPadding = 0.05f;
     [SerializeField] private LayerMask collisionLayers = Physics.DefaultRaycastLayers;
+    [SerializeField, Min(0.01f)] private float rotationSmoothTime = 0.07f;
+    [SerializeField, Min(0.01f)] private float followSmoothTime = 0.08f;
+    [SerializeField, Min(0.01f)] private float collisionRecoveryTime = 0.16f;
+    [SerializeField, Min(0.1f)] private float teleportResetDistance = 4f;
     private readonly RaycastHit[] collisionHits = new RaycastHit[32];
     private Camera controlledCamera;
     private float yaw;
+    private float smoothYaw;
+    private float smoothPitch;
+    private float yawVelocity;
+    private float pitchVelocity;
+    private Vector3 smoothPivot;
+    private Vector3 pivotVelocity;
+    private float currentDistance;
+    private float distanceVelocity;
     public bool ControlsEnabled { get; set; } = true;
 
     private void Start()
     {
         yaw = transform.eulerAngles.y;
+        smoothYaw = yaw;
+        smoothPitch = pitch;
+        if (target != null) smoothPivot = target.position + Vector3.up * targetHeight;
+        currentDistance = Mathf.Max(0f, distance);
         controlledCamera = GetComponent<Camera>();
     }
 
@@ -31,8 +47,17 @@ public sealed class ThirdPersonCamera : MonoBehaviour
             yaw += Input.GetAxis("Mouse X") * sensitivity;
             pitch = Mathf.Clamp(pitch - Input.GetAxis("Mouse Y") * sensitivity, minPitch, maxPitch);
         }
-        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
-        Vector3 pivot = target.position + Vector3.up * targetHeight;
+        smoothYaw = Mathf.SmoothDampAngle(smoothYaw, yaw, ref yawVelocity, rotationSmoothTime);
+        smoothPitch = Mathf.SmoothDampAngle(smoothPitch, pitch, ref pitchVelocity, rotationSmoothTime);
+        Quaternion rotation = Quaternion.Euler(smoothPitch, smoothYaw, 0f);
+        Vector3 desiredPivot = target.position + Vector3.up * targetHeight;
+        if ((desiredPivot - smoothPivot).sqrMagnitude > teleportResetDistance * teleportResetDistance)
+        {
+            smoothPivot = desiredPivot;
+            pivotVelocity = Vector3.zero;
+        }
+        else smoothPivot = Vector3.SmoothDamp(smoothPivot, desiredPivot, ref pivotVelocity, followSmoothTime);
+        Vector3 pivot = smoothPivot;
         Vector3 direction = -(rotation * Vector3.forward);
         float radius = collisionRadius;
         if (controlledCamera != null && !controlledCamera.orthographic)
@@ -50,6 +75,13 @@ public sealed class ThirdPersonCamera : MonoBehaviour
             if (hit.collider == null || hit.transform == target || hit.transform.IsChildOf(target)) continue;
             safeDistance = Mathf.Min(safeDistance, Mathf.Max(0f, hit.distance - collisionPadding));
         }
-        transform.SetPositionAndRotation(pivot + direction * safeDistance, rotation);
+        // Approach obstacles immediately; only the return to the normal distance is smoothed.
+        if (safeDistance < currentDistance)
+        {
+            currentDistance = safeDistance;
+            distanceVelocity = 0f;
+        }
+        else currentDistance = Mathf.SmoothDamp(currentDistance, safeDistance, ref distanceVelocity, collisionRecoveryTime);
+        transform.SetPositionAndRotation(pivot + direction * currentDistance, rotation);
     }
 }

@@ -5061,6 +5061,10 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 4294967291
+  rotationSmoothTime: 0.07
+  followSmoothTime: 0.08
+  collisionRecoveryTime: 0.16
+  teleportResetDistance: 4
 --- !u!81 &619931343
 AudioListener:
   m_ObjectHideFlags: 0
@@ -9827,6 +9831,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 12
   gravity: -20
+  acceleration: 32
+  deceleration: 40
 --- !u!143 &1141616165
 CharacterController:
   m_ObjectHideFlags: 0

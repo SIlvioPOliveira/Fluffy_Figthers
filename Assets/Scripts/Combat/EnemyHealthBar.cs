@@ -8,11 +8,16 @@ public sealed class EnemyHealthBar : MonoBehaviour
     [SerializeField] private float heightOffset = 1.7f;
     [SerializeField, Min(0.1f)] private float fillSpeed = 2f;
     private EnemyHealth health;
+    private bool isBoss;
     private float displayedFraction = 1f;
     private GUIStyle titleStyle;
     private GUIStyle valueStyle;
 
-    private void Awake() => health = GetComponent<EnemyHealth>();
+    private void Awake()
+    {
+        health = GetComponent<EnemyHealth>();
+        isBoss = GetComponent<BossControllerTest>() != null;
+    }
 
     private void Update()
     {
@@ -28,7 +33,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
         if (!health.IsAlive || !health.IsSelected || Camera.main == null || InventoryCanvasPrototype.IsVisible || GachaCartoonUI.IsVisible || BarrierCartoonUI.IsVisible || VictoryCartoonUI.IsVisible) return;
         Vector3 point = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * heightOffset);
         if (point.z <= 0f) return;
-        if (titleStyle == null)
+        if (isBoss && titleStyle == null)
             titleStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 14 };
         if (valueStyle == null)
             valueStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 12 };
@@ -38,7 +43,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
         float y = Screen.height - point.y - 48f;
         Color previous = GUI.color;
         GUI.color = Color.white;
-        GUI.Label(new Rect(x, y, width, 22f), displayName, titleStyle);
+        if (isBoss) GUI.Label(new Rect(x, y, width, 22f), displayName, titleStyle);
         var outer = new Rect(x, y + 23f, width, 20f);
         GUI.color = new Color(0.06f, 0.07f, 0.09f, 0.95f);
         GUI.DrawTexture(outer, Texture2D.whiteTexture);

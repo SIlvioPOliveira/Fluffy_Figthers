@@ -7,7 +7,7 @@ Este arquivo é um ponto de entrada curto para conversas e tarefas futuras. Ele 
 
 - Jogo 3D para PC/Windows, single-player, feito na Unity `6000.3.11f1`.
 - Cenas da build: `Assets/Scenes/MenuInicial.unity` e `Assets/Scenes/RegiaoAguaPrototipo.unity` (as quatro regiões estão na segunda cena).
-- O jogador usa `CharacterController`, WASD relativo à câmera e câmera de terceira pessoa. O modelo animado foi integrado; o usuário testou e aprovou. A animação atual usa parado e caminhada para a frente; suavizar câmera e movimento foi mencionado como trabalho futuro, ainda sem definição.
+- O jogador usa `CharacterController`, WASD relativo à câmera e câmera de terceira pessoa. O modelo animado foi integrado; o usuário testou e aprovou. A animação atual usa parado e caminhada para a frente. Movimento e câmera receberam suavização configurável; a sensação dos controles aguarda teste manual.
 - Os 20 modelos de Pets estão importados. Há inventário, equipe de até três, fusão, combate, recompensas e Gachas nas regiões Água, Fogo, Lava e Gelo.
 - Há três barreiras, quatro Bosses com padrões progressivos, tutorial, menus, HUD e salvamento local. A tela de vitória permite continuar jogando.
 - O usuário relatou teste satisfatório do ciclo completo até o Boss final. Isso não substitui testes específicos de desempenho, reinício e recuperação de salvamento.
