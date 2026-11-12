@@ -108,7 +108,7 @@ A segunda região introduz inimigos mais resistentes e Pets mais poderosos.
 Ambiente quente e colorido, com tons de laranja, vermelho e amarelo.
 
 Elementos decorativos:
-- Árvores estilizadas com folhas alaranjadas.
+- Árvores estilizadas queimadas e chão de cinzas, conforme direção aprovada pelo usuário.
 - Pequenas chamas decorativas.
 - Pedras quentes.
 - Cristais luminosos.
