@@ -200,7 +200,9 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
   Medição exploratória: Unity 6000.3.11f1, Editor em segundo plano, RTX 4060 Ti; três dragões equipados atacando um alvo isolado, 10 s de amostragem após aquecimento: 4.041 quadros, média 2,48 ms (~404 FPS), percentil 95 de 3,50 ms. O Editor informou ~1.174 MiB de memória total alocada e ~427 MiB somados para as 20 texturas 4K carregadas. Esses números incluem o Editor e não substituem a medição da build em gameplay real ou em outros PCs.
 - [ ] Criar ou integrar modelos, ícones, prefabs e animações simples de idle, acompanhamento e ataque dos Pets.
 - [ ] Criar visuais e animações de inimigos e Bosses, efeitos de combate, Gacha e fusão, interfaces e áudio.
-- [x] Integrar os quatro modelos fornecidos para inimigos comuns nas respectivas regiões; reutilizar cada modelo para fracos e fortes, com os fortes 30% maiores. Preservar os Bosses provisórios.
+- [x] Integrar os quatro modelos fornecidos para inimigos comuns nas respectivas regiões; reutilizar cada modelo para fracos e fortes, com os fortes 30% maiores.
+- [x] Integrar os quatro modelos de Boss fornecidos pelo usuário às respectivas regiões, preservando seus controladores, ataques e valores de combate. Seleção, dano, derrota e reaparecimento verificados programaticamente com persistência desligada.
+- [ ] Validar manualmente aparência, orientação, seleção, ataques, barras, derrota, reaparecimento e desempenho dos Bosses em gameplay.
 - [ ] Validar manualmente aparência, orientação, seleção, barras, combate e desempenho dos inimigos comuns nas quatro regiões. Os modelos têm aproximadamente 7,4 a 8,1 mil triângulos cada; testar desempenho em jogo.
 - [ ] Validar acessibilidade visual e legibilidade de alvo, ataques, objetivos e interfaces.
 - [ ] Ajustar economia, dano, HP e recompensas por playtest; verificar progressão com Pets comuns e tempos dos Bosses.
