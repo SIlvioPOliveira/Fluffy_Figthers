@@ -10,6 +10,10 @@ O protótipo usa painéis em azul e creme com detalhes dourados, molduras colori
 
 O conceito visual em `ArtSource/UI/conceito-inventario-v1.png` é uma referência de composição, não uma tela funcional nem uma especificação final de arte. A imagem contém personagens, filtros, atributos e níveis ilustrativos que não representam novas mecânicas; os dados e as regras reais continuam sendo os dos GDDs.
 
+O logo cartoon `ArtSource/UI/logo-fluffy-fighters-cartoon-v2.png` aparece ampliado acima dos botões do menu inicial, sobre fundo preto. A versão usada em jogo está em `Assets/UI/Art/FluffyFightersLogo.png`. O menu de pausa apresenta apenas o título de pausa e as opções, sem o logo, conforme pedido do usuário. A avaliação visual e o teste manual dos botões permanecem pendentes.
+
+As três barreiras usam uma confirmação cartoon com destino, custo, saldo, mensagem de saldo insuficiente e botões de confirmar ou cancelar; os valores e as regras continuam no sistema de progressão.
+
 ## Primeira tela: inventário
 
 - Cabeçalho: título, botão de fechar, DPS total e três espaços da equipe. Clicar em um espaço ocupado seleciona o Pet e abre seus detalhes; espaços vazios não alteram a seleção.
@@ -25,10 +29,10 @@ Painel modal, botão principal/secundário, botão de fechar, card de Pet, indic
 ## Ordem de produção
 
 1. Avaliar a proposta visual e definir cores, fontes, formas e referências com o usuário.
-2. Construir a base responsiva e implementar o inventário em uma cena de teste isolada, preservando a interface atual até validação. O primeiro protótipo usa o UI Toolkit nativo da Unity; a HUD continua seguindo sua especificação de Canvas.
+2. Construir a base responsiva e implementar o inventário em uma cena de teste isolada, preservando a interface atual até validação. O protótipo usa o UI Toolkit nativo da Unity, também adotado na HUD integrada para manter a identidade visual.
 3. Testar seleção, equipamento, fusão, diferentes quantidades de Pets, legibilidade e resoluções; testar fechamento, controles e salvamento.
 4. Integrar o inventário aprovado ao jogo e adaptar os mesmos componentes ao Gacha, incluindo roleta e resultado. O usuário testou a integração do inventário; a primeira interface cartoon do Gacha está integrada e aguarda validação manual.
-5. Adaptar HUD, menus, tutorial e demais mensagens, uma tela por vez; revisar sons e animações depois da base visual.
+5. Adaptar HUD, menus, tutorial e demais mensagens, uma tela por vez; revisar sons e animações depois da base visual. A HUD e os menus inicial e de pausa estão integrados e aguardam validação manual.
 
 ## Condições de aceitação
 

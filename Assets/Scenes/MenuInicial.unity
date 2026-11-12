@@ -148,6 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15994c1ee22a7d34c9780462def2ecf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuPrototype
+  theme: {fileID: -4733365628477956816, guid: ef2e9688025eb5341ba1d0314d13b606, type: 3}
+  displayFont: {fileID: 12800000, guid: 67e4379344560b34d9c32be15ee7cf80, type: 3}
+  logo: {fileID: 2800000, guid: 73c66b9db696b3e4b90f7db772958b62, type: 3}
 --- !u!4 &1282308795
 Transform:
   m_ObjectHideFlags: 0

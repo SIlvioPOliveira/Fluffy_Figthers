@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ThemeStyleSheet = UnityEngine.UIElements.ThemeStyleSheet;
 
 // Temporary pause menu for the Water prototype.
 [DefaultExecutionOrder(-100)]
 [RequireComponent(typeof(PetEquipmentTestDriver))]
 public sealed class PauseMenuPrototype : MonoBehaviour
 {
+    [SerializeField] private ThemeStyleSheet theme;
+    [SerializeField] private Font displayFont;
+    [SerializeField] private Texture2D logo;
+    private MenuCartoonView cartoon;
     private PetEquipmentTestDriver driver;
     private PlayerMovement movement;
     private float previousTimeScale;
@@ -23,6 +28,7 @@ public sealed class PauseMenuPrototype : MonoBehaviour
 
     private void Update()
     {
+        if (cartoon != null) cartoon.SetMessage(message);
         if (driver == null || !Input.GetKeyDown(KeyCode.Escape)) return;
         if (driver.PauseOpen) Resume();
         else TryPause();
@@ -43,6 +49,8 @@ public sealed class PauseMenuPrototype : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         message = "";
+        if (theme != null && logo != null)
+            cartoon = new MenuCartoonView(transform, theme, displayFont, logo, true, Resume, () => ReturnToMainMenu(), ExitGame);
         return true;
     }
 
@@ -50,6 +58,8 @@ public sealed class PauseMenuPrototype : MonoBehaviour
     {
         if (driver == null || !driver.PauseOpen) return;
         driver.PauseOpen = false;
+        if (cartoon != null) cartoon.Dispose();
+        cartoon = null;
         Time.timeScale = previousTimeScale;
         if (movement != null) movement.ControlsEnabled = previousMovement;
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = previousCamera;
@@ -95,6 +105,7 @@ public sealed class PauseMenuPrototype : MonoBehaviour
     private void OnGUI()
     {
         if (driver == null || !driver.PauseOpen) return;
+        if (cartoon != null) return;
         int oldDepth = GUI.depth;
         Color oldColor = GUI.color;
         GUI.depth = -1000;

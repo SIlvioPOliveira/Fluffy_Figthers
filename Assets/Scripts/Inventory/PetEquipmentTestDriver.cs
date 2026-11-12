@@ -13,6 +13,10 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
     [SerializeField, Tooltip("Somente no Editor: usa um salvamento separado para testar o começo do tutorial.")]
     private bool editorTutorialTestSave;
     [SerializeField, Min(1f)] private float autosaveInterval = 30f;
+#if UNITY_EDITOR
+    [SerializeField, Min(1), Tooltip("Somente no Editor: moedas adicionadas ao pressionar M durante o teste.")]
+    private int editorMoneyAmount = 1000;
+#endif
     private LocalSaveStore saveStore;
     private ZoneBarrierTest barrier;
     private ZoneBarrierTest lavaBarrier;
@@ -213,6 +217,11 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
             SaveProgress();
             nextSave = Time.unscaledTime + Mathf.Max(1f, autosaveInterval);
         }
+#if UNITY_EDITOR
+        // The regular wallet event refreshes the HUD and saves when persistence is enabled.
+        if (Wallet != null && !PauseOpen && !VictoryOpen && Input.GetKeyDown(KeyCode.M))
+            GrantEditorMoney();
+#endif
         if (InventoryOpen || GachaOpen || BarrierOpen || PauseOpen || VictoryOpen) return;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
@@ -226,6 +235,10 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR
+    private void GrantEditorMoney() => Wallet.TryAdd(Mathf.Max(1, editorMoneyAmount));
+#endif
 
     private void OnGUI()
     {

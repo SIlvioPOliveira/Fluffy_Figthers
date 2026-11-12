@@ -131,6 +131,17 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 
 ## 8. HUD, menus e tutorial
 
+- [ ] Validar manualmente no Editor o atalho M para adicionar moedas de teste e a atualização da HUD/saldo.
+
+- [x] Criar confirmação cartoon para as barreiras e verificar em memória custos, saldo insuficiente, compra e fechamento ao morrer.
+- [ ] Validar manualmente a nova apresentação das barreiras e a persistência após reiniciar.
+
+- [x] Integrar logo cartoon e estilo compartilhado aos menus inicial e de pausa; testar pausa, retomada e retorno ao menu usando progresso temporário.
+- [ ] Validar manualmente o visual dos menus, Jogar, Continuar, salvar e voltar, e sair na Unity.
+
+- [x] Integrar HUD cartoon responsiva com moedas, corações, objetivo, equipe, DPS e botão de inventário; testar dados e modais em memória.
+- [ ] Validar manualmente a HUD cartoon na cena principal, incluindo clique no botão, progresso, indicadores de combate e diferentes resoluções.
+
 - [x] Remover a identificação fixa da região da HUD para liberar espaço à barra do Boss, conforme pedido do usuário.
 - [x] Criar pausa provisória na região Água com Esc, tempo congelado, bloqueio dos controles, retomada e salvamento antes de sair; verificar pelo MCP.
 - [x] Usuário aprovou o menu de pausa em teste manual.
@@ -154,6 +165,8 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [ ] Implementar oito objetivos sequenciais: máquina, primeiro Roll, inventário, equipar, inimigo, segundo Pet, Boss e barreira.
 - [ ] Adicionar marcadores e tutorial contextual opcional de fusão; resolver ações concluídas antes da etapa correspondente.
 - [ ] Exibir conclusão na primeira vitória contra o Boss final e permitir continuar jogando.
+- [x] Integrar apresentação cartoon da primeira vitória; verificar espera por outro modal, retomada dos controles e registro único com progresso temporário.
+- [x] Usuário aprovou visualmente a celebração e relatou que o ciclo completo até o Boss final funcionou; Console verificado sem erros após reabrir o editor.
 
 ## 9. Salvamento
 
@@ -184,6 +197,7 @@ Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do proje
 - [ ] Validar acessibilidade visual e legibilidade de alvo, ataques, objetivos e interfaces.
 - [ ] Ajustar economia, dano, HP e recompensas por playtest; verificar progressão com Pets comuns e tempos dos Bosses.
 - [ ] Testar o ciclo completo: primeira partida → Roll → equipar → combate → Boss → quatro regiões → Boss final → continuar jogando.
+- [x] Usuário relatou teste satisfatório do ciclo completo até o Boss final; detalhes de reinício, desempenho e outras condições seguem para validação específica.
 - [ ] Fazer testes de regressão, compilação, Console, desempenho e build Windows; registrar problemas e limitações.
 
 ## Decisões de design pendentes

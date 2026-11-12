@@ -7,6 +7,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
     private PetEquipmentTestDriver driver;
     private InventoryTestUI inventoryUI;
     private InventoryCanvasPrototype cartoonInventory;
+    private HudCartoonUI cartoonHud;
     private PlayerHealthTest health;
     private GachaMachineTest machine;
     private BossControllerTest waterBoss;
@@ -30,12 +31,43 @@ public sealed class PlayerHudPrototype : MonoBehaviour
         foreach (var candidate in FindObjectsByType<ZoneBarrierTest>(FindObjectsSortMode.None))
             if (candidate.SourceRegion == RegionId.Water) { gate = candidate; break; }
         lastTutorialStage = driver.TutorialStage;
+        if (cartoonInventory != null && cartoonInventory.isActiveAndEnabled && cartoonInventory.Theme != null)
+            cartoonHud = new HudCartoonUI(driver, health, cartoonInventory, cartoonInventory.Theme, cartoonInventory.DisplayFont);
     }
 
     private void Update()
     {
         if (driver != null && lastTutorialStage < 8 && driver.TutorialStage == 8) completedUntil = Time.unscaledTime + 5f;
         if (driver != null) lastTutorialStage = driver.TutorialStage;
+        if (cartoonHud != null) cartoonHud.Tick(GetObjective());
+    }
+
+    private void OnDestroy() { if (cartoonHud != null) cartoonHud.Dispose(); }
+
+    private string GetObjective()
+    {
+        string objective = driver.TutorialStage == 0 ? "Vá até a máquina de Gacha e pressione E" :
+            driver.TutorialStage == 1 ? "Realize seu primeiro Roll" :
+            driver.TutorialStage == 2 ? "Abra o inventário [I]" :
+            driver.TutorialStage == 3 ? "Equipe seu primeiro Pet" :
+            driver.TutorialStage == 4 ? "Clique em um inimigo e derrote-o" :
+            driver.TutorialStage == 5 ? "Consiga moedas e obtenha outro Pet" :
+            driver.TutorialStage == 6 ? "Derrote o Guardião das Marés" :
+            driver.TutorialStage == 7 ? "Desbloqueie a região Fogo" + (gate != null ? " (" + gate.UnlockCost + " moedas)" : "") : null;
+        return objective ?? (Time.unscaledTime < completedUntil ? "Tutorial concluído!" : null);
+    }
+
+    private void DrawTutorialMarker()
+    {
+        if (driver.GachaOpen || driver.InventoryOpen || driver.BarrierOpen || driver.PauseOpen || driver.VictoryOpen || Camera.main == null) return;
+        Transform destination = driver.TutorialStage == 0 && machine != null ? machine.transform :
+            driver.TutorialStage == 6 && waterBoss != null ? waterBoss.transform :
+            driver.TutorialStage == 7 && gate != null ? gate.transform : null;
+        if (destination == null) return;
+        Vector3 point = Camera.main.WorldToScreenPoint(destination.position + Vector3.up * 3);
+        if (point.z <= 0 || point.x < 0 || point.x > Screen.width || point.y < 0 || point.y > Screen.height) return;
+        string label = driver.TutorialStage == 0 ? "GACHA ↓" : driver.TutorialStage == 6 ? "BOSS ↓" : "BARREIRA ↓";
+        GUI.Box(new Rect(Mathf.Clamp(point.x - 70, 0, Screen.width - 140), Mathf.Clamp(Screen.height - point.y - 30, 120, Screen.height - 55), 140, 28), label, panelStyle);
     }
 
     private static Rect InventoryRect => new Rect(Screen.width - 165, Screen.height - 60, 150, 45);
@@ -44,6 +76,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
     {
         var hud = FindFirstObjectByType<PlayerHudPrototype>();
         if (hud == null || !hud.isActiveAndEnabled || hud.driver == null || hud.driver.GachaOpen || hud.driver.BarrierOpen) return false;
+        if (hud.cartoonHud != null) return hud.cartoonHud.IsPointerOverInventoryButton();
         Vector3 p = Input.mousePosition;
         return InventoryRect.Contains(new Vector2(p.x, Screen.height - p.y));
     }
@@ -58,6 +91,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
             textStyle = new GUIStyle(GUI.skin.label) { fontSize = 14 };
             buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 14 };
         }
+        if (cartoonHud != null) { DrawTutorialMarker(); return; }
         GUI.Box(new Rect(15, 15, 180, 48), "MOEDAS\n" + driver.Wallet.Balance, panelStyle);
         string objective = driver.TutorialStage == 0 ? "Vá até a máquina de Gacha e pressione E" :
             driver.TutorialStage == 1 ? "Realize seu primeiro Roll" :

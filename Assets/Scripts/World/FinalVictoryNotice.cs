@@ -7,6 +7,7 @@ public sealed class FinalVictoryNotice : MonoBehaviour
     private bool pending;
     private bool oldMovement;
     private bool oldCamera;
+    private VictoryCartoonUI cartoonUI;
 
     private void Start()
     {
@@ -16,8 +17,17 @@ public sealed class FinalVictoryNotice : MonoBehaviour
 
     private void OnVictory() => pending = true;
 
+#if UNITY_EDITOR
+    [ContextMenu("Teste: mostrar tela de vitória")]
+    private void PreviewVictoryInEditor()
+    {
+        if (Application.isPlaying && driver != null && !driver.VictoryOpen) pending = true;
+    }
+#endif
+
     private void Update()
     {
+        if (cartoonUI != null) cartoonUI.Tick();
         if (!pending || driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen) return;
         pending = false;
         driver.VictoryOpen = true;
@@ -26,16 +36,23 @@ public sealed class FinalVictoryNotice : MonoBehaviour
         oldCamera = driver.CameraController != null && driver.CameraController.ControlsEnabled;
         if (movement != null) movement.ControlsEnabled = false;
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = false;
+        var inventory = driver.GetComponent<InventoryCanvasPrototype>();
+        if (inventory != null && inventory.isActiveAndEnabled && inventory.Theme != null)
+            cartoonUI = new VictoryCartoonUI(transform, inventory.Theme, inventory.DisplayFont, Close);
     }
 
     private void Close()
     {
         if (driver == null || !driver.VictoryOpen) return;
         driver.VictoryOpen = false;
+        if (cartoonUI != null) cartoonUI.Dispose();
+        cartoonUI = null;
         var movement = driver.Player.GetComponent<PlayerMovement>();
         if (movement != null) movement.ControlsEnabled = oldMovement;
         if (driver.CameraController != null) driver.CameraController.ControlsEnabled = oldCamera;
     }
+
+    private void OnDisable() => Close();
 
     private void OnDestroy()
     {
@@ -46,6 +63,7 @@ public sealed class FinalVictoryNotice : MonoBehaviour
     private void OnGUI()
     {
         if (driver == null || !driver.VictoryOpen) return;
+        if (cartoonUI != null) return;
         int oldDepth = GUI.depth;
         GUI.depth = -1000;
         float width = Mathf.Min(520f, Screen.width - 30f);

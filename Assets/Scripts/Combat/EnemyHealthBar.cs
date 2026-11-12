@@ -25,7 +25,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!health.IsAlive || !health.IsSelected || Camera.main == null || InventoryCanvasPrototype.IsVisible || GachaCartoonUI.IsVisible) return;
+        if (!health.IsAlive || !health.IsSelected || Camera.main == null || InventoryCanvasPrototype.IsVisible || GachaCartoonUI.IsVisible || BarrierCartoonUI.IsVisible || VictoryCartoonUI.IsVisible) return;
         Vector3 point = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * heightOffset);
         if (point.z <= 0f) return;
         if (titleStyle == null)

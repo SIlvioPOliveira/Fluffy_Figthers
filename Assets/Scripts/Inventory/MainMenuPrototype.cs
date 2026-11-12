@@ -1,13 +1,26 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 // Temporary front end; the final visual identity will replace this presentation.
 public sealed class MainMenuPrototype : MonoBehaviour
 {
+    [SerializeField] private ThemeStyleSheet theme;
+    [SerializeField] private Font displayFont;
+    [SerializeField] private Texture2D logo;
+    private MenuCartoonView cartoon;
     private string message;
     private GUIStyle titleStyle;
     private GUIStyle subtitleStyle;
     private GUIStyle buttonStyle;
+
+    private void Start()
+    {
+        if (theme != null && logo != null)
+            cartoon = new MenuCartoonView(transform, theme, displayFont, logo, false, () => Play(), Quit);
+    }
+    private void Update() { if (cartoon != null) cartoon.SetMessage(message); }
+    private void OnDestroy() { if (cartoon != null) cartoon.Dispose(); }
 
     public bool Play()
     {
@@ -32,6 +45,7 @@ public sealed class MainMenuPrototype : MonoBehaviour
 
     private void OnGUI()
     {
+        if (cartoon != null) return;
         if (titleStyle == null)
         {
             titleStyle = new GUIStyle(GUI.skin.label) { fontSize = 42, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = true };

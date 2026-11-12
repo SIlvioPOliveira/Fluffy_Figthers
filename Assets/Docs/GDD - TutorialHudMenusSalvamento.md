@@ -127,7 +127,7 @@ Esse aviso não fará parte dos objetivos principais e poderá ser ignorado.
 
 ## 5. HUD principal
 
-A HUD utilizará Canvas com elementos responsivos.
+A HUD utilizará elementos responsivos. A versão integrada usa UI Toolkit da Unity para acompanhar o inventário e o Gacha; a distribuição dos elementos abaixo permanece a mesma.
 
 ### Canto superior esquerdo
 
@@ -214,6 +214,8 @@ Ao derrotar o Guardião Glacial pela primeira vez, será exibida uma tela:
 O jogador poderá fechar a mensagem e continuar explorando, obtendo Pets, realizando fusões e enfrentando Bosses.
 
 A primeira vitória contra o Boss final deverá ser registrada no salvamento.
+
+A apresentação cartoon utiliza a identidade visual das interfaces e um botão para continuar jogando. Se outro menu estiver aberto quando a vitória acontecer, a mensagem aguarda o fechamento desse menu.
 
 Não haverá créditos cinematográficos ou uma cena final separada no MVP.
 

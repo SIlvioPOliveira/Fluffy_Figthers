@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 // Small vector decorations stay sharp at different interface scales.
 public sealed class InventoryIcon : VisualElement
 {
-    public enum Shape { Paw, Sparkle, Sword }
+    public enum Shape { Paw, Sparkle, Sword, Coin, Heart }
     private readonly Shape shape;
     private readonly Color tint;
 
@@ -45,6 +45,21 @@ public sealed class InventoryIcon : VisualElement
             p.LineTo(new Vector2(size, size * .5f)); p.LineTo(new Vector2(size * .62f, size * .63f));
             p.LineTo(new Vector2(size * .5f, size)); p.LineTo(new Vector2(size * .38f, size * .63f));
             p.LineTo(new Vector2(0, size * .5f)); p.LineTo(new Vector2(size * .38f, size * .37f)); p.ClosePath(); p.Fill();
+        }
+        else if (shape == Shape.Coin)
+        {
+            Circle(p, size * .5f, size * .5f, size * .46f);
+            p.fillColor = new Color(1f, .90f, .47f); Circle(p, size * .5f, size * .5f, size * .34f);
+            p.fillColor = new Color(.90f, .61f, .14f); Circle(p, size * .5f, size * .5f, size * .21f);
+        }
+        else if (shape == Shape.Heart)
+        {
+            p.BeginPath(); p.MoveTo(new Vector2(size * .5f, size * .90f));
+            p.BezierCurveTo(new Vector2(size * .38f, size * .79f), new Vector2(size * .05f, size * .57f), new Vector2(size * .05f, size * .32f));
+            p.BezierCurveTo(new Vector2(size * .05f, size * .05f), new Vector2(size * .37f, size * .01f), new Vector2(size * .5f, size * .24f));
+            p.BezierCurveTo(new Vector2(size * .63f, size * .01f), new Vector2(size * .95f, size * .05f), new Vector2(size * .95f, size * .32f));
+            p.BezierCurveTo(new Vector2(size * .95f, size * .57f), new Vector2(size * .62f, size * .79f), new Vector2(size * .5f, size * .90f));
+            p.ClosePath(); p.Fill();
         }
         else
         {
