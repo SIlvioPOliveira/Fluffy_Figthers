@@ -14,9 +14,10 @@ Este arquivo é um ponto de entrada curto para conversas e tarefas futuras. Ele 
 - Os 24 inimigos comuns usam quatro modelos regionais fornecidos pelo usuário; os fortes são 30% maiores que os fracos. Os quatro Bosses também usam os modelos fornecidos. Seleção, dano e reaparecimento foram verificados programaticamente; aparência, ataques e desempenho aguardam teste manual.
 - Inventário, Gacha, HUD, menus, barreiras e vitória têm apresentação cartoon. Há uma build de demonstração anterior em `Builds/`; ela precede a integração do jogador animado e não representa necessariamente o estado mais recente.
 - Jogar e voltar ao menu usam transição em forma de patinha e carregamento de pelo menos quatro segundos. Na morte, uma versão rápida fecha, reposiciona o jogador e abre sem carregamento. O usuário aprovou a entrada; retorno ao menu e morte aguardam teste manual.
-- A região Água recebeu corais, plantas e rochas CC0 de 3DAssets.dev, além de poças, caminho e chão de areia; o usuário aprovou o cenário e prefere criar o Gacha no Tripo. O Gacha provisório foi mantido. Modelos e licença: `Assets/Art/Environment/WaterReef/ORIGEM_E_LICENCA.md`.
-- A região Fogo recebeu uma primeira composição com cinzas, árvores queimadas e rochas; detalhes e licenças em `Assets/Art/Environment/Fire/ORIGEM_E_LICENCA.md`. A aparência e o combate aguardam teste manual.
-- A região Lava recebeu basalto, rochas, lava decorativa e cristais; detalhes em `Assets/Art/Environment/Lava/ORIGEM_E_LICENCA.md`. Aparência e combate aguardam teste manual; a lava não causa dano.
+- A região Água recebeu corais, coqueiros, plantas e rochas CC0 de 3DAssets.dev, além de poças, caminho e chão de areia; o usuário aprovou o cenário e prefere criar o Gacha no Tripo. O Gacha provisório foi mantido. Modelos e licença: `Assets/Art/Environment/WaterReef/ORIGEM_E_LICENCA.md`.
+- A região Fogo recebeu cinzas, árvores queimadas, rochas e uma casa queimada decorativa; detalhes e licenças em `Assets/Art/Environment/Fire/ORIGEM_E_LICENCA.md`.
+- A região Lava recebeu basalto, rochas, lava decorativa, cristais e pequenos vulcões; detalhes em `Assets/Art/Environment/Lava/ORIGEM_E_LICENCA.md`. A lava não causa dano.
+- A região Gelo recebeu neve, pinheiros, rochas, cristais, lagos congelados e montanhas ao fundo; detalhes em `Assets/Art/Environment/Ice/ORIGEM_E_LICENCA.md`. A composição e o combate aguardam teste manual.
 
 ## Decisões e cuidados
 
