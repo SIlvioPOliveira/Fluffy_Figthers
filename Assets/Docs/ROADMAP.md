@@ -1,5 +1,7 @@
 # Fluffy Fighters — checklist do MVP
 
+Para uma visão rápida do estado atual e um índice dos GDDs, consulte [ESTADO_ATUAL.md](ESTADO_ATUAL.md).
+
 Atualizado em 06/11/2026. Baseado nos GDDs em `Assets/Docs` e no estado do projeto na branch `fase-2-dados-economia`. O [plano de implementação](../../IMPLEMENTATION_PLAN.md) contém a ordem técnica e os critérios gerais de cada fase.
 
 **Legenda:** `[x]` concluído no escopo descrito; `[ ]` pendente. Quando algo estiver parcial, as partes prontas e pendentes aparecem em itens separados. Marcar um item somente após implementar e verificar o comportamento indicado. Os GDDs continuam sendo a referência de detalhes e regras.
