@@ -27,6 +27,7 @@ public sealed class FinalVictoryNotice : MonoBehaviour
 
     private void Update()
     {
+        if (PawSceneTransition.IsActive) return;
         if (cartoonUI != null) cartoonUI.Tick();
         if (!pending || driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen) return;
         pending = false;
@@ -62,6 +63,7 @@ public sealed class FinalVictoryNotice : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (driver == null || !driver.VictoryOpen) return;
         if (cartoonUI != null) return;
         int oldDepth = GUI.depth;

@@ -152,6 +152,7 @@ public sealed class BossControllerTest : MonoBehaviour, IDamageGate
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (!InCombat || !health.IsAlive || InventoryCanvasPrototype.IsVisible || GachaCartoonUI.IsVisible || BarrierCartoonUI.IsVisible || VictoryCartoonUI.IsVisible) return;
         float width = Mathf.Min(420f, Screen.width - 40f);
         var rect = new Rect((Screen.width - width) / 2f, 15f, width, 34f);

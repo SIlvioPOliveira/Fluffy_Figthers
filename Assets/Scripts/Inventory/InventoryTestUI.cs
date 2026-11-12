@@ -55,6 +55,7 @@ public sealed class InventoryTestUI : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (!open || driver == null || driver.Inventory == null) return;
         float width = Mathf.Min(900, Screen.width - 30);
         float height = Mathf.Min(620, Screen.height - 30);

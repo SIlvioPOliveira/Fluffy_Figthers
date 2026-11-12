@@ -38,6 +38,7 @@ public sealed class PetVisualTestController : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (driver == null || driver.Catalog == null || driver.Catalog.Pets.Count == 0 || driver.PauseOpen || driver.InventoryOpen) return;
         GUILayout.BeginArea(Panel, GUI.skin.box);
         GUILayout.Label("TESTE DE MODELOS — NÃO ALTERA SEU SAVE");

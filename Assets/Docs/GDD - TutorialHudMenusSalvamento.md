@@ -193,6 +193,8 @@ O menu inicial conterá:
 
 Não haverá sistema de contas, seleção de personagens ou multiplayer.
 
+Ao selecionar Jogar ou voltar ao menu, uma transição em formato de patinha fecha a tela e mostra uma animação de carregamento de pelo menos quatro segundos, com quatro patinhas em trilha ao redor do texto. A abertura aguarda também o carregamento real da cena. Na morte, a patinha fecha e abre rapidamente, sem tela de carregamento; o jogador reaparece quando a tela está preta.
+
 ## 8. Menu de pausa
 
 O menu de pausa será aberto utilizando Esc quando não houver outra interface modal.

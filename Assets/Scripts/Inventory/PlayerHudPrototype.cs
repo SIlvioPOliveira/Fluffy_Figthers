@@ -83,6 +83,7 @@ public sealed class PlayerHudPrototype : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (driver == null || driver.Wallet == null || driver.Inventory == null) return;
         if ((driver.InventoryOpen && cartoonInventory != null && cartoonInventory.isActiveAndEnabled) || GachaCartoonUI.IsVisible) return;
         if (panelStyle == null)

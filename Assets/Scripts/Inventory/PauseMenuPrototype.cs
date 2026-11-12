@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using ThemeStyleSheet = UnityEngine.UIElements.ThemeStyleSheet;
 
 // Temporary pause menu for the Water prototype.
@@ -19,6 +18,8 @@ public sealed class PauseMenuPrototype : MonoBehaviour
     private bool previousCursorVisible;
     private CursorLockMode previousCursorLock;
     private string message;
+    public ThemeStyleSheet TransitionTheme => theme;
+    public Font TransitionFont => displayFont;
 
     private void Start()
     {
@@ -29,14 +30,14 @@ public sealed class PauseMenuPrototype : MonoBehaviour
     private void Update()
     {
         if (cartoon != null) cartoon.SetMessage(message);
-        if (driver == null || !Input.GetKeyDown(KeyCode.Escape)) return;
+        if (driver == null || PawSceneTransition.IsActive || !Input.GetKeyDown(KeyCode.Escape)) return;
         if (driver.PauseOpen) Resume();
         else TryPause();
     }
 
     public bool TryPause()
     {
-        if (driver == null || driver.PauseOpen || driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.VictoryOpen) return false;
+        if (PawSceneTransition.IsActive || driver == null || driver.PauseOpen || driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.VictoryOpen) return false;
         previousTimeScale = Time.timeScale;
         previousMovement = movement != null && movement.ControlsEnabled;
         previousCamera = driver.CameraController != null && driver.CameraController.ControlsEnabled;
@@ -97,14 +98,14 @@ public sealed class PauseMenuPrototype : MonoBehaviour
             message = "Não foi possível salvar. Continue no jogo e tente novamente.";
             return false;
         }
+        if (PawSceneTransition.IsActive) return false;
         Resume();
-        SceneManager.LoadScene("MenuInicial");
-        return true;
+        return PawSceneTransition.Begin("MenuInicial", theme, displayFont);
     }
 
     private void OnGUI()
     {
-        if (driver == null || !driver.PauseOpen) return;
+        if (PawSceneTransition.IsActive || driver == null || !driver.PauseOpen) return;
         if (cartoon != null) return;
         int oldDepth = GUI.depth;
         Color oldColor = GUI.color;

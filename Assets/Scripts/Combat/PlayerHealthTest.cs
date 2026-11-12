@@ -22,16 +22,25 @@ public sealed class PlayerHealthTest : MonoBehaviour
         if (Health > 0) return true;
         Died?.Invoke();
         if (targetManager != null) targetManager.ClearTarget();
+        var pause = FindFirstObjectByType<PauseMenuPrototype>();
+        if (pause == null || !PawSceneTransition.BeginRespawn(Respawn, pause.TransitionTheme, pause.TransitionFont))
+            Respawn();
+        return true;
+    }
+
+    private void Respawn()
+    {
+        if (this == null) return;
         CharacterController controller = GetComponent<CharacterController>();
         controller.enabled = false;
         if (respawnPoint != null) transform.SetPositionAndRotation(respawnPoint.position, respawnPoint.rotation);
         controller.enabled = true;
         Health = maxHealth;
-        return true;
     }
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (GetComponentInParent<PlayerHudPrototype>() == null && FindFirstObjectByType<PlayerHudPrototype>() == null)
             GUI.Box(new Rect(Screen.width - 175, 15, 160, 30), "Vida: " + Health + " / " + maxHealth);
     }

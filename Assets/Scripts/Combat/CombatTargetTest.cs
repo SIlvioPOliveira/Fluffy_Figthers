@@ -10,6 +10,7 @@ public sealed class CombatTargetTest : MonoBehaviour
 
     private void Update()
     {
+        if (PawSceneTransition.IsActive) return;
         if (Target != null && (!Target.IsAlive || !Target.gameObject.activeInHierarchy || Vector3.Distance(driver.Player.position, Target.transform.position) > maxDistance)) ClearTarget();
         if (driver.InventoryOpen || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen || driver.VictoryOpen) return;
         if (Input.GetKeyDown(KeyCode.Q)) ClearTarget();
@@ -46,6 +47,7 @@ public sealed class CombatTargetTest : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (Time.time < messageUntil && !driver.InventoryOpen && !driver.GachaOpen) GUI.Label(new Rect(15, 75, 400, 25), message);
     }
 }

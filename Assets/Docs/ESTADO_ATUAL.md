@@ -13,6 +13,7 @@ Este arquivo é um ponto de entrada curto para conversas e tarefas futuras. Ele 
 - O usuário relatou teste satisfatório do ciclo completo até o Boss final. Isso não substitui testes específicos de desempenho, reinício e recuperação de salvamento.
 - Os 24 inimigos comuns usam quatro modelos regionais fornecidos pelo usuário; os fortes são 30% maiores que os fracos. Os quatro Bosses também usam os modelos fornecidos. Seleção, dano e reaparecimento foram verificados programaticamente; aparência, ataques e desempenho aguardam teste manual.
 - Inventário, Gacha, HUD, menus, barreiras e vitória têm apresentação cartoon. Há uma build de demonstração anterior em `Builds/`; ela precede a integração do jogador animado e não representa necessariamente o estado mais recente.
+- Jogar e voltar ao menu usam transição em forma de patinha e carregamento de pelo menos quatro segundos. Na morte, uma versão rápida fecha, reposiciona o jogador e abre sem carregamento. O usuário aprovou a entrada; retorno ao menu e morte aguardam teste manual.
 
 ## Decisões e cuidados
 

@@ -42,7 +42,7 @@ public sealed class ThirdPersonCamera : MonoBehaviour
     private void LateUpdate()
     {
         if (target == null) return;
-        if (ControlsEnabled && Input.GetMouseButton(1))
+        if (ControlsEnabled && !PawSceneTransition.IsActive && Input.GetMouseButton(1))
         {
             yaw += Input.GetAxis("Mouse X") * sensitivity;
             pitch = Mathf.Clamp(pitch - Input.GetAxis("Mouse Y") * sensitivity, minPitch, maxPitch);

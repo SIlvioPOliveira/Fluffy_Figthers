@@ -58,6 +58,7 @@ public sealed class ZoneBarrierTest : MonoBehaviour
 
     private void Update()
     {
+        if (PawSceneTransition.IsActive) return;
         if (driver.PauseOpen || driver.VictoryOpen) return;
         if (modalOpen && cartoonUI != null) cartoonUI.Tick();
         if (modalOpen && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
@@ -110,6 +111,7 @@ public sealed class ZoneBarrierTest : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (driver == null || region == null) return;
         if (!modalOpen)
         {

@@ -63,6 +63,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
 
     private void Update()
     {
+        if (PawSceneTransition.IsActive) return;
         if (open && preview != null)
         {
             preview.Tick(Time.unscaledDeltaTime);
@@ -76,7 +77,7 @@ public sealed class InventoryCanvasPrototype : MonoBehaviour
 
     public void ToggleFromHud()
     {
-        if (driver == null || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen || driver.VictoryOpen) return;
+        if (PawSceneTransition.IsActive || driver == null || driver.GachaOpen || driver.BarrierOpen || driver.PauseOpen || driver.VictoryOpen) return;
         SetOpen(!open);
     }
 

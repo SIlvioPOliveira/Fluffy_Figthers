@@ -219,10 +219,10 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
         }
 #if UNITY_EDITOR
         // The regular wallet event refreshes the HUD and saves when persistence is enabled.
-        if (Wallet != null && !PauseOpen && !VictoryOpen && Input.GetKeyDown(KeyCode.M))
+        if (!PawSceneTransition.IsActive && Wallet != null && !PauseOpen && !VictoryOpen && Input.GetKeyDown(KeyCode.M))
             GrantEditorMoney();
 #endif
-        if (InventoryOpen || GachaOpen || BarrierOpen || PauseOpen || VictoryOpen) return;
+        if (PawSceneTransition.IsActive || InventoryOpen || GachaOpen || BarrierOpen || PauseOpen || VictoryOpen) return;
         for (int i = 0; i < PlayerInventory.MaxEquipment; i++)
         {
             if (!Input.GetKeyDown(KeyCode.Alpha1 + i)) continue;
@@ -242,6 +242,7 @@ public sealed class PetEquipmentTestDriver : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (GetComponent<PlayerHudPrototype>() == null && !InventoryOpen && !GachaOpen && !BarrierOpen) GUI.Label(new Rect(15, 15, 900, 30), "Teste: I abre inventário; 1–3 alternam Pets; WASD movimenta.");
         if (!string.IsNullOrEmpty(saveMessage)) GUI.Box(new Rect(15, 105, 650, 35), saveMessage);
     }

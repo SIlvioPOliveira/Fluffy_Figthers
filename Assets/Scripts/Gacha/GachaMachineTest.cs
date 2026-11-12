@@ -48,6 +48,7 @@ public sealed class GachaMachineTest : MonoBehaviour
 
     private void Update()
     {
+        if (PawSceneTransition.IsActive) return;
         if (driver.PauseOpen || driver.VictoryOpen) return;
         if (spinning && Time.time - spinStarted >= Mathf.Max(0.1f, spinDuration))
         {
@@ -171,6 +172,7 @@ public sealed class GachaMachineTest : MonoBehaviour
 
     private void OnGUI()
     {
+        if (PawSceneTransition.IsActive) return;
         if (driver == null || driver.Inventory == null || pool == null || system == null) return;
         if (!open)
         {

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 // Temporary front end; the final visual identity will replace this presentation.
@@ -29,9 +28,7 @@ public sealed class MainMenuPrototype : MonoBehaviour
             message = "Cena da região Água indisponível.";
             return false;
         }
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("RegiaoAguaPrototipo");
-        return true;
+        return PawSceneTransition.Begin("RegiaoAguaPrototipo", theme, displayFont);
     }
 
     public void Quit()
@@ -45,7 +42,7 @@ public sealed class MainMenuPrototype : MonoBehaviour
 
     private void OnGUI()
     {
-        if (cartoon != null) return;
+        if (cartoon != null || PawSceneTransition.IsActive) return;
         if (titleStyle == null)
         {
             titleStyle = new GUIStyle(GUI.skin.label) { fontSize = 42, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = true };
